@@ -1,0 +1,61 @@
+" This sets up the bundles that are used. See the settings I wrote below this
+
+" ------------------------------------------------------------
+"  ---------------------- Vundle Setup ---------------------
+" -----------------------------------------------------------
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin("$HOME/.vim/VundlePlugins")
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+" This is plugin for managing git stuff that I just can't figure out
+" how to use...
+Bundle 'tpope/vim-fugitive'
+" This is the file manager that is pretty helpful :NERDTree
+Bundle 'scrooloose/nerdtree'
+" This is the theme that everyone seems to like
+Bundle 'vim-scripts/Solarized'
+" This is for a thesaurus
+Bundle 'beloglazov/vim-online-thesaurus'
+
+" Also add a few language syntaxes that are bundled in
+Bundle 'hdima/python-syntax'
+Bundle 'derekwyatt/vim-scala'
+
+" This adds real time syntax errors to a few of the languages.
+" Bundle 'scrooloose/syntastic'
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+" Brief help
+" Put your non-Plugin stuff after this line
+
+"  ------------------------------------------------------------------
+" ------------------ END OF VUNDLE SETTINGS ---------------------------
+"  ------------------------------------------------------------------
+
+" -----------------------------------------------------------
+" ------------------------- Latex Suite settings -----------
+" -----------------------------------------------------------
+filetype plugin on			  " required by Latex suite
+filetype indent on
+set shellslash
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor='latex'
+let g:Tex_DefaultTargetFormat='pdf'
+
+
+
