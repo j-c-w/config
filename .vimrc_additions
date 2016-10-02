@@ -32,6 +32,8 @@ Bundle 'beloglazov/vim-online-thesaurus'
 " Also add a few language syntaxes that are bundled in
 Bundle 'hdima/python-syntax'
 Bundle 'derekwyatt/vim-scala'
+" Adds a plugin for using the undo tree
+Bundle 'sjl/gundo.vim'
 
 " This adds real time syntax errors to a few of the languages.
 " Bundle 'scrooloose/syntastic'

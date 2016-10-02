@@ -77,6 +77,17 @@ nmap \Y "+Y
 nmap \p "+gp
 nmap \P "+gP
 
+" Map E and B to start and end of line for ease of access
+nmap E $
+nmap B ^
+
+" Map gV to select the text inserted in the last insert
+nmap gV `[V`]
+
+" Map j and k to go down a visual line rather than an actual line
+nmap j gj
+nmap k gk
+
 " This is for slightly slower reset if I hesitate by accident
 " when writing or something
 set timeoutlen=1000
