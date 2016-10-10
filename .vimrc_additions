@@ -34,6 +34,8 @@ Bundle 'hdima/python-syntax'
 Bundle 'derekwyatt/vim-scala'
 " Adds a plugin for using the undo tree
 Bundle 'sjl/gundo.vim'
+Bundle 'vim-airline/vim-airline'
+Bundle 'vim-airline/vim-airline-themes'
 
 " This adds real time syntax errors to a few of the languages.
 " Bundle 'scrooloose/syntastic'
@@ -49,6 +51,11 @@ filetype plugin indent on    " required
 " ------------------ END OF VUNDLE SETTINGS ---------------------------
 "  ------------------------------------------------------------------
 
+" Set the statusline theme:
+" Need the laststatus to make the thing work. 
+let g:airline_theme='tomorrow'
+set laststatus=2
+
 " -----------------------------------------------------------
 " ------------------------- Latex Suite settings -----------
 " -----------------------------------------------------------
@@ -58,6 +65,5 @@ set shellslash
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor='latex'
 let g:Tex_DefaultTargetFormat='pdf'
-
 
 
