@@ -53,20 +53,18 @@ filetype plugin indent on    " required
 
 " Set the statusline theme:
 " Need the laststatus to make the thing work. 
-let g:airline_theme='wombat'
+let g:airline_theme='light'
 set laststatus=2
 set t_Co=256
 let g:airline_powerline_fonts = 1
+" This sets the buffer tabline
+let g:airline#extensions#tabline#enabled = 1
 
 " Add the symbols for the powerliine stuff
 
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
-
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-  endif
 
   " unicode symbols
   let g:airline_left_sep = '»'
@@ -108,6 +106,7 @@ if !exists('g:airline_symbols')
 
 " Needed for airline to work preperly:
 set encoding=utf-8
+let g:airline_powerline_fonts = 1
 
 " -----------------------------------------------------------
 " ------------------------- Latex Suite settings -----------
