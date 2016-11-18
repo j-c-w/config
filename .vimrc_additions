@@ -33,10 +33,10 @@ Bundle 'beloglazov/vim-online-thesaurus'
 Bundle 'hdima/python-syntax'
 Bundle 'derekwyatt/vim-scala'
 " Adds a plugin for using the undo tree
-Bundle 'sjl/gundo.vim'
+Bundle 'mbbill/undotree'
 Bundle 'vim-airline/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
-
+Bundle 'tpope/vim-surround'
 " This adds real time syntax errors to a few of the languages.
 " Bundle 'scrooloose/syntastic'
 " All of your Plugins must be added before the following line
@@ -51,9 +51,19 @@ filetype plugin indent on    " required
 " ------------------ END OF VUNDLE SETTINGS ---------------------------
 "  ------------------------------------------------------------------
 
+" Adds a persistent undo file to the system:
+if has("persistent_undo")
+	call system('mkdir ' . ' ~/.undodir/')
+	set undodir=~/.undodir/
+	set undofile
+endif
+
+" And map the undo thing to \u
+map \u :UndotreeToggle<CR>
+
 " Set the statusline theme:
 " Need the laststatus to make the thing work. 
-let g:airline_theme='light'
+let g:airline_theme='wombat'
 set laststatus=2
 set t_Co=256
 let g:airline_powerline_fonts = 1
