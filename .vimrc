@@ -78,8 +78,6 @@ nmap \p "+gp
 nmap \P "+gP
 
 " Map E and B to start and end of line for ease of access
-nmap E $
-nmap B ^
 
 " Map gV to select the text inserted in the last insert
 nmap gV `[V`]
@@ -120,3 +118,5 @@ set number
 " the spell command
 set spelllang=en_gb
 set spellfile=$HOME/Dropbox/VIM/vim/vimfiles/spell/en.utf-8.add
+" And set an alias for the spellang comment
+command Spell set spell spelllang=en_gb
