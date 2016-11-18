@@ -10,7 +10,7 @@
 ZSH_THEME="agnoster"
 
 # Set vi to be the default editor here
-bindkey -v
+bindkey -e
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
