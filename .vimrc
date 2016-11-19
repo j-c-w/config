@@ -86,6 +86,8 @@ nmap gV `[V`]
 nmap j gj
 nmap k gk
 
+nmap z, zt5<C-y>
+
 " This is for slightly slower reset if I hesitate by accident
 " when writing or something
 set timeoutlen=1000
