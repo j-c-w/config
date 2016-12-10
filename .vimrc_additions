@@ -38,7 +38,7 @@ Bundle 'vim-airline/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
 Bundle 'tpope/vim-surround'
 " This adds real time syntax errors to a few of the languages.
-" Bundle 'scrooloose/syntastic'
+Bundle 'scrooloose/syntastic'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -127,5 +127,7 @@ set shellslash
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor='latex'
 let g:Tex_DefaultTargetFormat='pdf'
+" Sets the spelling on by default in latex files
+" autocmd FileType latex BufOpen Spell
 
 
