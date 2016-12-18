@@ -49,6 +49,7 @@ command Scala !(scalac % && echo Compile Successful && scala %:r)
 command Verilog !(iverilog % -o %:r && echo Compile Successful && vvp %:r)
 command Ruby !ruby %
 command Xetex !xelatex %
+command Prolog !prolog %
 
 " There are also a few key mappings I use a lot
 " nmap oo o<Esc>j " These two are for inserting lines without entering
