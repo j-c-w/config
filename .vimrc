@@ -41,7 +41,8 @@ set guifont=Monospace\ 14
 command SML !sml %
 command PSML !PolyML % 
 command Python !python %
-command CPP !(g++ % && ./a.out)
+command CPP !(clang++ % && ./a.out)
+command C !(clang % && ./a.out)
 " Note that for these two commands to work, there can't be a package
 " name, and also, autochdir needs to be set.
 command Java !(javac % && echo Compile Successful && java %:r)
@@ -50,6 +51,12 @@ command Verilog !(iverilog % -o %:r && echo Compile Successful && vvp %:r)
 command Ruby !ruby %
 command Xetex !xelatex %
 command Prolog !prolog %
+
+" These add commands to bring up the interactive shells for a 
+" few languages
+command PythonShell !python
+command ScalaREPL !scala
+command SMLREPL !sml
 
 " There are also a few key mappings I use a lot
 " nmap oo o<Esc>j " These two are for inserting lines without entering
@@ -71,12 +78,12 @@ imap KJ <Esc>
 
 " Idea is to map a key to the write command so that we can write
 " nice and quick
-nmap \w :w<CR>
+nmap <localleader>w :w<CR>
 " These are for quick copy/past to system clipboard
-nmap \y "+y
-nmap \Y "+Y
-nmap \p "+gp
-nmap \P "+gP
+nmap <localleader>y "+y
+nmap <localleader>Y "+Y
+nmap <localleader>p "+gp
+nmap <localleader>P "+gP
 
 " Map E and B to start and end of line for ease of access
 
