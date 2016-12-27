@@ -67,38 +67,38 @@ command SMLREPL !sml
 " All the different combinations are so that I can
 " just hit j and k at the same time and it'll
 " sort the rest out for me.
-imap jk <Esc>
-imap JK <Esc>
-imap Jk <Esc>
-imap jK <Esc>
-imap kj <Esc>
-imap Kj <Esc>
-imap kJ <Esc>
-imap KJ <Esc>
+inoremap jk <Esc>
+inoremap JK <Esc>
+inoremap Jk <Esc>
+inoremap jK <Esc>
+inoremap kj <Esc>
+inoremap Kj <Esc>
+inoremap kJ <Esc>
+inoremap KJ <Esc>
 
 " Idea is to map a key to the write command so that we can write
 " nice and quick
-nmap <localleader>w :w<CR>
+nnoremap <localleader>w :w<CR>
 " These are for quick copy/past to system clipboard
-nmap <localleader>y "+y
-nmap <localleader>Y "+Y
-nmap <localleader>p "+gp
-nmap <localleader>P "+gP
+nnoremap <localleader>y "+y
+nnoremap <localleader>Y "+Y
+nnoremap <localleader>p "+gp
+nnoremap <localleader>P "+gP
 
 " Add some mappings to move between tabs
-nmap <localleader>s :tabn<CR>
-nmap <localleader>a :tabp<CR>
+nnoremap <localleader>s :tabn<CR>
+nnoremap <localleader>a :tabp<CR>
 
 " Map E and B to start and end of line for ease of access
 
 " Map gV to select the text inserted in the last insert
-nmap gV `[V`]
+nnoremap gV `[V`]
 
 " Map j and k to go down a visual line rather than an actual line
-nmap j gj
-nmap k gk
+nnoremap j gj
+nnoremap k gk
 
-nmap z, zt5<C-y>
+nnoremap z, zt5<C-y>
 
 " This is for slightly slower reset if I hesitate by accident
 " when writing or something
