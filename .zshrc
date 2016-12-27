@@ -53,7 +53,8 @@ bindkey -e
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting take h z zsh-autosuggestions)
+plugins=(git zsh-syntax-highlighting history z zsh-autosuggestions
+ colored-man-pages extract web-search)
 
 source $ZSH/oh-my-zsh.sh
 
