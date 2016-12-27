@@ -85,6 +85,10 @@ nmap <localleader>Y "+Y
 nmap <localleader>p "+gp
 nmap <localleader>P "+gP
 
+" Add some mappings to move between tabs
+nmap <localleader>s :tabn<CR>
+nmap <localleader>a :tabp<CR>
+
 " Map E and B to start and end of line for ease of access
 
 " Map gV to select the text inserted in the last insert
