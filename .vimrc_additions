@@ -39,6 +39,9 @@ Bundle 'vim-airline/vim-airline-themes'
 Bundle 'tpope/vim-surround'
 " This adds real time syntax errors to a few of the languages.
 Bundle 'scrooloose/syntastic'
+Bundle 'mhinz/vim-startify'
+" Add some rainbow parens
+Bundle 'junegunn/rainbow_parentheses.vim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -65,9 +68,18 @@ noremap <localleader>u :UndotreeToggle<CR>
 " For nerd tree, map localleaer n to toggle it
 noremap <localleader>n :NERDTreeToggle<CR>
 
+" Some stuff to set up the rainbow parens:
+let g:rainbow#max_level = 16
+let g:rainbow#pairs = [['(', ')'], ['{', '}'], ['[', ']']]
+
+augroup parens
+	autocmd! 
+	autocmd FileType python,scala,html,java,c,cpp,sml,prolog :RainbowParentheses
+augroup END
+
 " Set the statusline theme:
 " Need the laststatus to make the thing work. 
-let g:airline_theme='wombat'
+let g:airline_theme='cool'
 set laststatus=2
 set t_Co=256
 let g:airline_powerline_fonts = 1
@@ -75,7 +87,6 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
 " Add the symbols for the powerliine stuff
-
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
