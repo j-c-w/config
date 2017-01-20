@@ -1,3 +1,4 @@
+let mapleader=" "
 " This is in a serparate file from my advanced settings so that this
 " can easily be transported without the rest of the build (i.e.
 "  the installations of Vundle and LatexSuite)
@@ -10,7 +11,7 @@ colorscheme desert
 if 1 
 	so ~/.vimrc_additions
 	" To alternate between solarized dark and light, use 
-	set background=dark " or light 
+	set background=light " or light 
 
 	" If the additions are installed, I am going to assume you
 	" want solarized.
@@ -27,7 +28,6 @@ else
 	" avaliable
 	colorscheme desert
 endif
-
 
 
 " This sets the font to a readable size when 
@@ -78,16 +78,16 @@ inoremap KJ <Esc>
 
 " Idea is to map a key to the write command so that we can write
 " nice and quick
-nnoremap <localleader>w :w<CR>
+nnoremap <leader>w :w<CR>
 " These are for quick copy/past to system clipboard
-nnoremap <localleader>y "+y
-nnoremap <localleader>Y "+Y
-nnoremap <localleader>p "+gp
-nnoremap <localleader>P "+gP
+nnoremap <leader>y "+y
+nnoremap <leader>Y "+Y
+nnoremap <leader>p "+gp
+nnoremap <leader>P "+gP
 
 " Add some mappings to move between tabs
-nnoremap <localleader>s :tabn<CR>
-nnoremap <localleader>a :tabp<CR>
+nnoremap <leader>s :tabn<CR>
+nnoremap <leader>a :tabp<CR>
 
 " Map E and B to start and end of line for ease of access
 
@@ -98,7 +98,7 @@ nnoremap gV `[V`]
 nnoremap j gj
 nnoremap k gk
 
-nnoremap z, zt5<C-y>
+nnoremap z, zt10<C-y>
 
 " This is for slightly slower reset if I hesitate by accident
 " when writing or something

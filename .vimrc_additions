@@ -63,11 +63,11 @@ if has("persistent_undo")
 endif
 
 " And map the undo thing to \u
-noremap <localleader>u :UndotreeToggle<CR>
+noremap <leader>u :UndotreeToggle<CR>
 
 
 " For nerd tree, map localleaer n to toggle it
-noremap <localleader>n :NERDTreeToggle<CR>
+noremap <leader>n :NERDTreeToggle<CR>
 
 " Some stuff to set up the rainbow parens:
 let g:rainbow#max_level = 16
