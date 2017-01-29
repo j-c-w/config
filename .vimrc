@@ -100,6 +100,13 @@ nnoremap k gk
 
 nnoremap z, zt10<C-y>
 
+" This is a function you can run when editing a mathematical document for
+" my math shortcuts.
+function MathAbbrev() 
+	iabbrev mmm \begin{align*}<CR><CR>\end{align*} <Esc>==kS
+endfunction
+
+
 " This is for slightly slower reset if I hesitate by accident
 " when writing or something
 set timeoutlen=1000
