@@ -103,7 +103,12 @@ nnoremap z, zt10<C-y>
 " This is a function you can run when editing a mathematical document for
 " my math shortcuts.
 function MathAbbrev() 
-	iabbrev mmm \begin{align*}<CR><CR>\end{align*} <Esc>==kS
+	iabbrev mms \begin{align*}<CR><CR>\end{align*}<++><Esc>==kS
+	iabbrev mma \begin{align}<CR><CR>\end{align}<++><Esc>==kS
+	iabbrev mmi \begin{itemize}<CR><CR>\end{itemize}<++><Esc>==kS\item
+	iabbrev mme \begin{enumerate}<CR><CR>\end{enumerate}<++><Esc>==kS\item
+	iabbrev mmd \begin{description}<CR><CR>\end{description}<++><Esc>==kS\item[]<++><Esc>F]i
+	iabbrev mml \begin{lstlisting}[language=]<CR><++><CR>\end{lstlisting}<++><Esc>==kkf=a
 endfunction
 
 
