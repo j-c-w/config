@@ -111,6 +111,10 @@ function MathAbbrev()
 	iabbrev mml \begin{lstlisting}[language=]<CR><++><CR>\end{lstlisting}<++><Esc>==kkf=a
 endfunction
 
+function Markdown()
+	nnoremap <leader>ll :!pandoc -V geometry:margin=1in -o %:r.pdf %<CR>
+	nnoremap <leader>lv :!evince %:r.pdf &<CR>
+endfunction
 
 " This is for slightly slower reset if I hesitate by accident
 " when writing or something
