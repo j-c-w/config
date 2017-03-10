@@ -58,6 +58,9 @@ command PythonShell !python
 command ScalaREPL !scala
 command SMLREPL !sml
 
+" And set an alias for the spellang comment
+command Spell set spell spelllang=en_gb
+
 " There are also a few key mappings I use a lot
 " nmap oo o<Esc>j " These two are for inserting lines without entering
 " nmap OO O<Esc>k " insert mode.
@@ -116,6 +119,11 @@ function Markdown()
 	nnoremap <leader>lv :!evince %:r.pdf &<CR>
 endfunction
 
+" These call the above functions that set up some
+" default comands for that particular type of file
+au FileType markdown :call Markdown()
+au FileType tex :call MathAbbrev()
+
 " This is for slightly slower reset if I hesitate by accident
 " when writing or something
 set timeoutlen=1000
@@ -148,5 +156,3 @@ set number
 " the spell command
 set spelllang=en_gb
 set spellfile=$HOME/Dropbox/VIM/vim/vimfiles/spell/en.utf-8.add
-" And set an alias for the spellang comment
-command Spell set spell spelllang=en_gb
