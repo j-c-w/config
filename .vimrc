@@ -112,6 +112,7 @@ function MathAbbrev()
 	iabbrev mme \begin{enumerate}<CR><CR>\end{enumerate}<++><Esc>==kS\item
 	iabbrev mmd \begin{description}<CR><CR>\end{description}<++><Esc>==kS\item[]<++><Esc>F]i
 	iabbrev mml \begin{lstlisting}[language=]<CR><++><CR>\end{lstlisting}<++><Esc>==kkf=a
+	iabbrev mmt \begin{tabular}{<++>}<CR><++><CR>\end{tabular}<++><Esc>2k3==0
 endfunction
 
 function Markdown()
