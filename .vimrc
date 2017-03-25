@@ -136,6 +136,10 @@ set autochdir
 " This is for solarized in particular, which requests it.
 syntax enable
 
+" This is for keeping track of the cursor
+se cursorline
+" se cursorcolumn
+
 " This sets up tabs as I want
 set autoindent
 set noexpandtab
