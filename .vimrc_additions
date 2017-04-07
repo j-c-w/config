@@ -42,7 +42,13 @@ Bundle 'scrooloose/syntastic'
 Bundle 'mhinz/vim-startify'
 " Add some rainbow parens
 Bundle 'junegunn/rainbow_parentheses.vim'
+" Adds some commands for ease of motion
 Bundle 'easymotion/vim-easymotion'
+" This is for running unit tests
+" And measuring code coverage
+Bundle 'junegunn/vader.vim'
+" This is my plugin for pinning stuff
+Bundle 'j-c-w/vimpin'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -65,9 +71,11 @@ endif
 " And map the undo thing to \u
 noremap <leader>u :UndotreeToggle<CR>
 
-
 " For nerd tree, map localleaer n to toggle it
 noremap <leader>n :NERDTreeToggle<CR>
+
+" Maps for vimpin
+nnoremap <leader>o :<C-U>PinToggle(v:count)<CR>
 
 " Some stuff to set up the rainbow parens:
 let g:rainbow#max_level = 16
