@@ -47,7 +47,7 @@ command C !(clang % && ./a.out)
 " name, and also, autochdir needs to be set.
 command Java !(javac % && echo Compile Successful && java %:r)
 command Scala !(scalac % && echo Compile Successful && scala %:r)
-command Verilog !(iverilog % -o %:r && echo Compile Successful && vvp %:r)
+command Verilog !(iverilog -g2012 % -o %:r && echo Compile Successful && vvp %:r)
 command Ruby !ruby %
 command Xetex !xelatex %
 command Prolog !prolog %
