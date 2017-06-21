@@ -47,6 +47,7 @@ Bundle 'easymotion/vim-easymotion'
 " This is for running unit tests
 " And measuring code coverage
 Bundle 'junegunn/vader.vim'
+Bundle 'junegunn/fzf'
 " This is my plugin for pinning stuff
 Bundle 'j-c-w/vimpin'
 " All of your Plugins must be added before the following line
