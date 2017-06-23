@@ -120,6 +120,9 @@ function Markdown()
 	nnoremap <leader>lv :!evince %:r.pdf &<CR>
 endfunction
 
+" This checks for a take file all the way up to the root.
+set tags=tags;/
+
 " These call the above functions that set up some
 " default comands for that particular type of file
 au FileType markdown :call Markdown()
