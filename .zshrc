@@ -14,6 +14,10 @@ bindkey -e
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
+# This sets the default editor as vim
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
 # Uncomment the following line to use hyphen-insensitive completion. Case
 # sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
