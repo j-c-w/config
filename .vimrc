@@ -45,6 +45,7 @@ command CPP !(clang++ % && ./a.out)
 command C !(clang % && ./a.out)
 " Note that for these two commands to work, there can't be a package
 " name, and also, autochdir needs to be set.
+command Haskell !(ghc % && echo Compile Successful && ./%:r )
 command Java !(javac % && echo Compile Successful && java %:r)
 command Scala !(scalac % && echo Compile Successful && scala %:r)
 command Verilog !(iverilog -g2012 % -o %:r && echo Compile Successful && vvp %:r)
