@@ -48,6 +48,7 @@ Bundle 'easymotion/vim-easymotion'
 " And measuring code coverage
 Bundle 'junegunn/vader.vim'
 Bundle 'junegunn/fzf'
+Bundle 'airblade/vim-gitgutter'
 " This is my plugin for pinning stuff
 Bundle 'j-c-w/vimpin'
 " All of your Plugins must be added before the following line
@@ -89,7 +90,7 @@ augroup END
 
 " Set the statusline theme:
 " Need the laststatus to make the thing work. 
-let g:airline_theme='cool'
+let g:airline_theme='base16'
 set laststatus=2
 set t_Co=256
 let g:airline_powerline_fonts = 1

@@ -121,6 +121,15 @@ function Markdown()
 	nnoremap <leader>lv :!evince %:r.pdf &<CR>
 endfunction
 
+" Set the GNUIndent 
+function! GNUIndent() 
+	setlocal cinoptions=>4,n-2,{2,^-2,:2,=2,g0,h2,p5,t0,+2,(0,u0,w1,m1 
+	setlocal shiftwidth=2 
+	setlocal tabstop=8 
+endfunction 
+
+au FileType c,cpp call GNUIndent()
+
 " This checks for a take file all the way up to the root.
 set tags=tags;/
 
