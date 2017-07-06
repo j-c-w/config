@@ -48,6 +48,7 @@ Bundle 'easymotion/vim-easymotion'
 " And measuring code coverage
 Bundle 'junegunn/vader.vim'
 Bundle 'junegunn/fzf'
+Bundle 'junegunn/fzf.vim'
 Bundle 'airblade/vim-gitgutter'
 " This is my plugin for pinning stuff
 Bundle 'j-c-w/vimpin'
