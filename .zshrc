@@ -58,7 +58,9 @@ export EDITOR="$VISUAL"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git zsh-syntax-highlighting history z zsh-autosuggestions
- colored-man-pages extract web-search)
+ colored-man-pages extract web-search ssh-agent)
+
+zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 source $ZSH/oh-my-zsh.sh
 
