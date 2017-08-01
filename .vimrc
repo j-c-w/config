@@ -150,8 +150,11 @@ set autochdir
 syntax enable
 
 " This is for keeping track of the cursor
-se cursorline
-" se cursorcolumn
+set cursorline
+" set cursorcolumn
+
+" And this is for making the above a little bit faster
+set lazyredraw
 
 " This sets up tabs as I want
 set autoindent
