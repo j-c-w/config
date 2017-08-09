@@ -21,7 +21,7 @@ export EDITOR="$VISUAL"
 # This is for aliases, themes, environment variables, etc.
 # that should only be set on a particular machine.
 if [ -f ~/.zshrc_local ]; then
-	source .zshrc_local
+	source ~/.zshrc_local
 fi
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
