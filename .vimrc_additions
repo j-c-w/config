@@ -23,8 +23,6 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'vim-scripts/Solarized'
 " This is for vim latex
 Bundle 'vim-latex/vim-latex'
-" This is for an interactive shell
-Bundle 'vim-scripts/Conque-Shell'
 
 " Also add a few language syntaxes that are bundled in
 Bundle 'hdima/python-syntax'
