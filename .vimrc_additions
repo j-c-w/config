@@ -23,7 +23,10 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'vim-scripts/Solarized'
 " This is for vim latex
 Bundle 'vim-latex/vim-latex'
-
+" This is for multiple cursor support
+Bundle 'terryma/vim-multiple-cursors'
+" This is an asychronous linter
+Bundle 'w0rp/ale'
 " Also add a few language syntaxes that are bundled in
 Bundle 'hdima/python-syntax'
 Bundle 'derekwyatt/vim-scala'
@@ -34,8 +37,6 @@ Bundle 'vim-airline/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
 " Add commands like 'ys' to add surrounding characters
 Bundle 'tpope/vim-surround'
-" This adds real time syntax errors to a few of the languages.
-Bundle 'scrooloose/syntastic'
 " Add some rainbow parens
 Bundle 'junegunn/rainbow_parentheses.vim'
 " Adds some commands for ease of motion
@@ -49,6 +50,8 @@ Bundle 'junegunn/fzf'
 Bundle 'junegunn/fzf.vim'
 " This provides git status on lines changed
 Bundle 'airblade/vim-gitgutter'
+" An alternative to FZF for fuzzy finding
+Bundle 'ctrlpvim/ctrlp.vim'
 " This is my plugin for pinning stuff
 Bundle 'j-c-w/vimpin'
 " All of your Plugins must be added before the following line
