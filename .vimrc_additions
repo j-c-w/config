@@ -27,6 +27,8 @@ Bundle 'vim-latex/vim-latex'
 Bundle 'terryma/vim-multiple-cursors'
 " This is an asychronous linter
 Bundle 'w0rp/ale'
+" Adds commenting out
+Bundle 'tpope/vim-commentary'
 " Also add a few language syntaxes that are bundled in
 Bundle 'hdima/python-syntax'
 Bundle 'derekwyatt/vim-scala'
@@ -37,6 +39,8 @@ Bundle 'vim-airline/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
 " Add commands like 'ys' to add surrounding characters
 Bundle 'tpope/vim-surround'
+" This adds a tag window to look at the ctags
+Bundle 'majutsushi/tagbar'
 " Add some rainbow parens
 Bundle 'junegunn/rainbow_parentheses.vim'
 " Adds some commands for ease of motion
@@ -82,9 +86,20 @@ noremap <leader>n :NERDTreeToggle<CR>
 " Maps for vimpin
 nnoremap <leader>o :<C-U>PinToggle(v:count)<CR>
 
+" Maps for tagbar
+nnoremap <leader>t :TagbarToggle<CR>
+
+" Maps for multiple cursors. Avoid the default mapping
+" because <C-p> is already used by ctrl-p
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-c>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
 " Some stuff to set up the rainbow parens:
 let g:rainbow#max_level = 16
-let g:rainbow#pairs = [['(', ')'], ['{', '}'], ['[', ']']]
+let g:rainbow#pairs = [['<', '>'], ['(', ')'], ['{', '}'], ['[', ']']]
 
 augroup parens
     autocmd!
