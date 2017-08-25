@@ -89,6 +89,9 @@ nnoremap <leader>o :<C-U>PinToggle(v:count)<CR>
 " Maps for tagbar
 nnoremap <leader>t :TagbarToggle<CR>
 
+" For CtrlP, map <C-O> to search all lines
+noremap <C-O> :CtrlPLine<CR>
+
 " Maps for multiple cursors. Avoid the default mapping
 " because <C-p> is already used by ctrl-p
 let g:multi_cursor_use_default_mapping=0
