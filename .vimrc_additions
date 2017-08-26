@@ -34,6 +34,8 @@ Bundle 'hdima/python-syntax'
 Bundle 'derekwyatt/vim-scala'
 " Adds a plugin for using the undo tree
 Bundle 'mbbill/undotree'
+" Adds auto completion
+Bundle 'Valloric/YouCompleteMe'
 " Add airline for the status bar
 Bundle 'vim-airline/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'

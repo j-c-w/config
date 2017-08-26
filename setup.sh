@@ -19,6 +19,7 @@ OH_MY_ZSH=0
 OH_MY_ZSH_PLUGINS=0
 RC_LINK=0
 POWERLINE=0
+YOU_COMPLETE_ME=0
 
 
 usage() {
@@ -42,7 +43,10 @@ help() {
 	echo ""
 	echo "	--rc-link: Link .vimrc to ~/.vimrc, .zshrc to ~/.zshrc,"
 	echo "				.vimrc_additions to ~/.vimrc_additions"
+	echo ""
 	echo "	--powerline: Install powerline font"
+	echo ""
+	echo "	--you-complete-me: Install you complete me."
 	echo ""
 	echo "Each option comes with a disable mode to selectively disable."
 	echo "These should not be used in conjunction with the enable mode!"
@@ -55,19 +59,25 @@ help() {
 	echo "(and any others specified) not installed."
 }
 
+# Exit prematurely if pip is not installed.
 check_pip() {
-	# Need pip and git installed:
 	if [ command -v pip > /dev/null 2>&1 ]; then
 		echo "pip not installed. Run 'sudo apt-get install pip' "
 		exit 1
 	fi
 }
 
+# Exit prematurely if git is not installed.
 check_git() {
 	if [command -v git > /dev/null 2>&1 ]; then
 		echo "git not installed. Run 'sudo apt-get install git' "
 		exit 1
 	fi
+}
+
+# Return true if we have sudo, false otherwise
+has_sudo() {
+	return "$EUID" -eq 0
 }
 
 oh_my_zsh_install() {
@@ -119,6 +129,22 @@ rc_link() {
 	echo "-------------------------------"
 	echo "Config files linked"
 	echo "-------------------------------"
+}
+
+you_complete_me_install() {
+	# Note that this must be run _after_ installing
+	# Vundle and running the vim install phase.
+
+	cd ~/.vim/VundlePlugins/YouCompleteMe || (echo "Error -- install vim plugins first"; exit 1)
+	./install.py --clang-completer
+
+	if [ has_sudo -eq 1 ]; then
+		./install.py --tern-completer
+	else
+		echo "Rerun with 'sudo' to install javascript semantic support"
+	fi
+
+	cd -
 }
 
 powerline_install() {
@@ -221,6 +247,14 @@ do
 			NONE=1
 			POWERLINE=0
 			;;
+		--you-complete-me)
+			ALL=0
+			YOU_COMPLETE_ME=1
+			;;
+		--no-you-complete-me)
+			NONE=1
+			YOU_COMPLETE_ME=0
+			;;
 		-h|--help)
 			help()
 			exit 0
@@ -246,5 +280,6 @@ fi
 ( should_install $OH_MY_ZSH_PLUGINS ) && oh_my_zsh_plugins_install
 ( should_install $POWERLINE ) && powerline_install
 ( should_install $RC_LINK ) && rc_link
+( should_install $YOU_COMPLETE_ME ) && you_complete_me_install
 
 echo "Done!"
