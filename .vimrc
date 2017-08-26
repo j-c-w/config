@@ -103,6 +103,16 @@ function Markdown()
     nnoremap <leader>lv :!evince %:r.pdf &<CR>
 endfunction
 
+" This toggles between using relative numbers and
+" absolute numbering systems
+function ToggleRelativeNumbers()
+	if (&relativenumber == 1)
+		set norelativenumber
+	else
+		set relativenumber
+	endif
+endfunction
+
 " Set the indent style to be GNU style compliant.
 function! GNUIndent()
     setlocal cinoptions=>4,n-2,{2,^-2,:2,=2,g0,h2,p5,t0,+2,(0,u0,w1,m1
@@ -120,6 +130,10 @@ set tags=tags;/
 " default comands for that particular type of file
 au FileType markdown :call Markdown()
 au FileType tex :call MathAbbrev()
+
+" This maps gl to toggle the line numberings from relative to
+" Absolute
+nnoremap gl :call ToggleRelativeNumbers()<CR>
 
 " This is for slightly slower reset if I hesitate by accident
 " when writing or something
@@ -150,8 +164,10 @@ set shiftwidth=4
 set incsearch
 set hlsearch
 
-" And this sets there to be line numbers
+" Set number means that the focused line has the actual line number
 set number
+" And this sets there to be line numbers
+set relativenumber
 
 " This sets up the spelling file that lets me use
 " the spell command
