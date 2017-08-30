@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Run this from within the config directory
 # The default is to install /all/ things. If an argument is specified,
 # only that is installed. Multiple arguements may be specified and 
@@ -12,7 +12,9 @@
 #	4. At the very bottom, add a '( should_install $VAR_NAME ) && function_name
 
 ALL=1
-NONE=0
+
+ENABLE_MODE=0
+DISABLE_MODE=0
 VUNDLE=0
 VIM_PLUGINS=0
 OH_MY_ZSH=0
@@ -77,15 +79,20 @@ check_git() {
 
 # Return true if we have sudo, false otherwise
 has_sudo() {
-	return "$EUID" -eq 0
+	if [[ $(id -u) > 0 ]]; then
+		return 0
+	else
+		return 1
+	fi
 }
 
 oh_my_zsh_install() {
 	check_git
-	cd $1
+	cd $home_directory
 	sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 	cd .oh-my-zsh/plugins
 	echo $(pwd)
+	cd ~
 
 	echo "------------------------------"
 	echo "ohmyzsh installed"
@@ -108,7 +115,6 @@ oh_my_zsh_plugins_install() {
 vundle_install() {
 	# Now, insatll Vundle:
 	check_git
-	cd ../..
 	git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 
@@ -138,7 +144,7 @@ you_complete_me_install() {
 	cd ~/.vim/VundlePlugins/YouCompleteMe || (echo "Error -- install vim plugins first"; exit 1)
 	./install.py --clang-completer
 
-	if [ has_sudo -eq 1 ]; then
+	if has_sudo; then
 		./install.py --tern-completer
 	else
 		echo "Rerun with 'sudo' to install javascript semantic support"
@@ -174,9 +180,10 @@ vim_plugins_install() {
 should_install() {
 	plugin_enabled=$1
 
-	[ $ALL -eq 1 ] && [ $plugin_enabled -ne 0 ] && return 1
-	[ $NONE -eq 1 ] && [ $plugin_enabled -eq 0 ] && return 1
-	return 0
+	[ $ENABLE_MODE -eq 1 ] && [ $plugin_enabled -eq 1 ] && return 1
+	[ $DISABLE_MODE -eq 1 ] && [ $plugin_enabled -ne 0 ] && return 1
+
+	return $ALL
 }
 
 config_directory=$(pwd)
@@ -197,66 +204,67 @@ shift
 while [ $# -gt 0 ]
 do
 	key="$1"
+	ALL=0
 
 	case $key in
 		--vundle)
-			ALL=0
+			ENABLE_MODE=1
 			VUNDLE=1
 			;;
 		--no-vundle)
-			NONE=1
+			DISABLE_MODE=1
 			VUNDLE=0
 			;;
 		--vim-plugins)
-			ALL=0
+			ENABLE_MODE=1
 			VIM_PLUGINS=1
 			;;
 		--no-vim-plugins)
-			NONE=1
+			DISABLE_MODE=1
 			VIM_PLUGINS=0
 			;;
 		--oh-my-zsh)
-			ALL=0
+			ENABLE_MODE=1
 			OH_MY_ZSH=1
 			;;
 		--no-oh-my-zsh)
-			NONE=1
+			DISABLE_MODE=1
 			OH_MY_ZSH=0
 			;;
 		--oh-my-zsh-plugins)
-			ALL=0
+			ENABLE_MODE=1
 			OH_MY_ZSH_PLUGINS=1
 			;;
 		--no-oh-my-zsh-plugins)
-			NONE=1
+			DISABLE_MODE=1
 			OH_MY_ZSH_PLUGINS=0
 			;;
 		--rc-link)
-			ALL=0
+			ENABLE_MODE=1
 			RC_LINK=1
 			;;
 		--no-rc-link)
-			NONE=1
+			DISABLE_MODE=1
 			RC_LINK=0
 			;;
 		--powerline)
-			ALL=0
+			ENABLE_MODE=1
 			POWERLINE=1
 			;;
 		--no-powerline)
-			NONE=1
+			DISABLE_MODE=1
 			POWERLINE=0
 			;;
 		--you-complete-me)
-			ALL=0
+			ENABLE_MODE=1
 			YOU_COMPLETE_ME=1
 			;;
 		--no-you-complete-me)
-			NONE=1
+			DISABLE_MODE=1
 			YOU_COMPLETE_ME=0
 			;;
 		-h|--help)
-			help()
+			help
 			exit 0
 			;;
 		*)
@@ -267,19 +275,19 @@ do
 	shift # past argument or value
 done
 
-if [ $NONE -eq 1 ] && [ $ALL -eq 0 ]; then
+if [ $DISABLE_MODE -eq 1 ] && [ $ENABLE_MODE -eq 0 ]; then
 	# Both a --no-* and a --* option were used.
 	# That doesn't make much sense, so fail.
 	echo "Error: Both a --no-X and a --Y option were used"
 	exit 1
 fi
 
-( should_install $VUNDLE ) && vundle_install
-( should_install $VIM_PLUGINS ) && vim_plugins_install
-( should_install $OH_MY_ZSH ) && oh_my_zsh_install
-( should_install $OH_MY_ZSH_PLUGINS ) && oh_my_zsh_plugins_install
-( should_install $POWERLINE ) && powerline_install
-( should_install $RC_LINK ) && rc_link
-( should_install $YOU_COMPLETE_ME ) && you_complete_me_install
+( should_install $VUNDLE ) || vundle_install
+( should_install $VIM_PLUGINS ) || vim_plugins_install
+( should_install $OH_MY_ZSH ) || oh_my_zsh_install
+( should_install $OH_MY_ZSH_PLUGINS ) || oh_my_zsh_plugins_install
+( should_install $POWERLINE ) || powerline_install
+( should_install $RC_LINK ) || rc_link
+( should_install $YOU_COMPLETE_ME ) || you_complete_me_install
 
 echo "Done!"
