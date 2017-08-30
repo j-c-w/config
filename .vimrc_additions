@@ -25,8 +25,14 @@ Bundle 'vim-scripts/Solarized'
 Bundle 'vim-latex/vim-latex'
 " This is for multiple cursor support
 Bundle 'terryma/vim-multiple-cursors'
-" This is an asychronous linter
-Bundle 'w0rp/ale'
+" ALE requires this stuff.
+if  has('timers') && exists('*job_start') && exists('*ch_close_in')
+	" This is an asychronous linter
+	Bundle 'w0rp/ale'
+else
+	" Otherwise, use an old synchronous linter
+	Bundle 'vim-syntastic/syntastic'
+endif
 " Adds commenting out
 Bundle 'tpope/vim-commentary'
 " Also add a few language syntaxes that are bundled in
@@ -34,8 +40,12 @@ Bundle 'hdima/python-syntax'
 Bundle 'derekwyatt/vim-scala'
 " Adds a plugin for using the undo tree
 Bundle 'mbbill/undotree'
-" Adds auto completion
-Bundle 'Valloric/YouCompleteMe'
+" YCM Requires this:
+if (v:version > 704 || (v:version == 704 && has( 'patch1578' )))
+	\ && has('timers') && (has('python') || has('python3'))
+	" Adds auto completion
+	Bundle 'Valloric/YouCompleteMe'
+endif
 " Add airline for the status bar
 Bundle 'vim-airline/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
