@@ -94,6 +94,10 @@ function MathAbbrev()
     iabbrev mmd \begin{description}<CR><CR>\end{description}<++><Esc>==kS\item[]<++><Esc>F]i
     iabbrev mml \begin{lstlisting}[language=]<CR><++><CR>\end{lstlisting}<++><Esc>==kkf=a
     iabbrev mmt \begin{tabular}{<++>}<CR><++><CR>\end{tabular}<++><Esc>2k3==0
+
+	" This if to keep some of the latex-suite mappings that
+	" I liked.
+	inoremap $$ $$<++><Esc>F$i
 endfunction
 
 " This gives markdown the same commands for building and viewing that I
