@@ -16,7 +16,6 @@ call vundle#begin("$HOME/.vim/VundlePlugins")
 Plugin 'VundleVim/Vundle.vim'
 
 " Keep Plugin commands between vundle#begin/end.
-Bundle 'tpope/vim-fugitive'
 " GUIesq file manager
 Bundle 'scrooloose/nerdtree'
 " This is for a solarized theme
@@ -61,10 +60,6 @@ Bundle 'easymotion/vim-easymotion'
 " This is for running unit tests
 " And measuring code coverage
 Bundle 'junegunn/vader.vim'
-" This integrates fzf
-Bundle 'junegunn/fzf'
-" This provides some default wrapper commands
-Bundle 'junegunn/fzf.vim'
 " This provides git status on lines changed
 Bundle 'airblade/vim-gitgutter'
 " An alternative to FZF for fuzzy finding
@@ -121,6 +116,10 @@ augroup parens
     autocmd!
     autocmd FileType python,scala,html,java,c,cpp,sml,prolog :RainbowParentheses
 augroup END
+
+" Disable ALE for latex files. It is horrendously slow. Asking about it
+" upstream I was informed that this is really not a problem. Hmm.
+let g:ale_linters = {'tex': []}
 
 " Set the statusline theme:
 " Need the laststatus to make the thing work.
