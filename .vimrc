@@ -98,6 +98,8 @@ function MathAbbrev()
 	" This if to keep some of the latex-suite mappings that
 	" I liked.
 	inoremap $$ $$<++><Esc>F$i
+	inoremap ^^ ^{}<++><Esc>F}i
+	inoremap __ _{}<++><Esc>F}i
 endfunction
 
 " This gives markdown the same commands for building and viewing that I
