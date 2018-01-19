@@ -23,8 +23,6 @@ Bundle 'vim-scripts/Solarized'
 " This is for vim latex
 " Bundle 'vim-latex/vim-latex'
 Bundle 'lervag/vimtex'
-" This is for multiple cursor support
-Bundle 'terryma/vim-multiple-cursors'
 " ALE requires this stuff.
 if  has('timers') && exists('*job_start') && exists('*ch_close_in')
 	" This is an asychronous linter
@@ -99,14 +97,6 @@ nnoremap <leader>t :TagbarToggle<CR>
 
 " For CtrlP, map <C-O> to search all lines
 noremap <C-O> :CtrlPLine<CR>
-
-" Maps for multiple cursors. Avoid the default mapping
-" because <C-p> is already used by ctrl-p
-let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_next_key='<C-n>'
-let g:multi_cursor_prev_key='<C-c>'
-let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='jk'
 
 " Some stuff to set up the rainbow parens:
 let g:rainbow#max_level = 16
