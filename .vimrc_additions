@@ -179,4 +179,4 @@ let g:airline_powerline_fonts = 1
 nnoremap <leader>ll :VimtexCompileSS<CR>
 nnoremap <leader>lc :VimtexCompile<CR>
 nnoremap <leader>le :VimtexErrors<CR>
-nnoremap <leader>lv :VimtextView<CR>
+nnoremap <leader>lv :VimtexView<CR>
