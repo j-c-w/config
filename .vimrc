@@ -1,5 +1,4 @@
 let mapleader=" "
-"
 " For some reason, this is important here...
 colorscheme desert
 
@@ -15,22 +14,20 @@ else
     "     koehler (dark)
     "     peachpuff (light, but not good for sun)
     "     zeller (for bright bright sun)
-    " This is here so that it is loaded when solarized is not
-    " avaliable
+    " This is here so that it is loaded when solarized is not available
     colorscheme desert
 endif
 
 
-" This sets the font to a readable size when
-" the editor opens.
+" This sets the font to a readable size when the editor opens.
 set guifont=Monospace\ 14
 
 " This is for compiling languages.
 command SML !sml %
 command PSML !PolyML %
 command Python !python %
-command CPP !(clang++ % && ./a.out)
-command C !(clang % && ./a.out)
+command CPP !(g++ % && ./a.out)
+command C !(gcc % && ./a.out)
 " Note that for these two commands to work, there can't be a package
 " name, and also, autochdir needs to be set.
 command Haskell !(ghc % && echo Compile Successful && ./%:r )
@@ -41,17 +38,15 @@ command Ruby !ruby %
 command Xetex !xelatex %
 command Prolog !prolog %
 
-" These add commands to bring up the interactive shells for a
-" few languages
+" These add commands to bring up the interactive shells for a few languages.
 command PythonShell !python
 command ScalaREPL !scala
 command SMLREPL !sml
 
-" And set an alias for the spellang comment
+" And set an alias for the spellang command
 command Spell set spell spelllang=en_gb
 
-" This is an alternative to <Esc>, which is very
-" far away
+" These are alternatives to <Esc>.
 inoremap jk <Esc>
 inoremap JK <Esc>
 inoremap Jk <Esc>
@@ -109,8 +104,7 @@ function Markdown()
     nnoremap <leader>lv :!evince %:r.pdf &<CR>
 endfunction
 
-" This toggles between using relative numbers and
-" absolute numbering systems
+" This toggles between using relative numbers and absolute numbering systems.
 function ToggleRelativeNumbers()
 	if (&relativenumber == 1)
 		set norelativenumber
@@ -128,8 +122,8 @@ endfunction
 
 au FileType c,cpp call GNUIndent()
 
-" This checks for a take file all the way up to the root
-" rather than just in the current directory.
+" This checks for a tags file all the way up to the root rather than just in
+" the current directory.
 set tags=tags;/
 
 " These call the above functions that set up some
@@ -139,16 +133,14 @@ au FileType tex :call MathAbbrev()
 " Enable spelling by default on some file types.
 au FileType tex,markdown :Spell
 
-" This maps gl to toggle the line numberings from relative to
-" Absolute
+" This maps gl to toggle the line numberings from relative to absolute.
 nnoremap gl :call ToggleRelativeNumbers()<CR>
 
-" This is for slightly slower reset if I hesitate by accident
-" when writing or something
+" This is for slightly slower reset if I hesitate by accident when writing.
 set timeoutlen=1000
 
-" This is to make sure VIM is always centered on the current
-" directory rather than the home directory
+" This is to make sure VIM is always centered on the current directory rather
+" than the home directory.
 set autochdir
 
 " This is for solarized in particular, which requests it.
@@ -157,6 +149,7 @@ syntax enable
 " This is for keeping track of the cursor. WARNING: makes vim a
 " lot slower.
 set cursorline
+" Disabled due to performance issues.
 " set cursorcolumn
 " And this is for making the above a little bit faster
 set lazyredraw
@@ -167,17 +160,16 @@ set noexpandtab
 set tabstop=4
 set shiftwidth=4
 
-" This sets the search to search incrementally
-" sets the search to highlight all the results
+" This sets the search to search incrementally.
 set incsearch
+" Sets the search to highlight all the results.
 set hlsearch
 
-" Set number means that the focused line has the actual line number
+" Set number means that the focused line has the actual line number.
 set number
-" And this sets there to be line numbers
+" And this sets there to be line numbers.
 set relativenumber
 
-" This sets up the spelling file that lets me use
-" the spell command
+" This sets up the spelling file for the spelllang command.
 set spelllang=en_gb
 set spellfile=$HOME/Dropbox/VIM/vim/vimfiles/spell/en.utf-8.add
