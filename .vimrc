@@ -133,9 +133,11 @@ au FileType c,cpp call GNUIndent()
 set tags=tags;/
 
 " These call the above functions that set up some
-" default comands for that particular type of file
+" default commands for that particular type of file.
 au FileType markdown :call Markdown()
 au FileType tex :call MathAbbrev()
+" Enable spelling by default on some file types.
+au FileType tex,markdown :Spell
 
 " This maps gl to toggle the line numberings from relative to
 " Absolute
