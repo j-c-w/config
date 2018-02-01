@@ -130,8 +130,13 @@ set tags=tags;/
 " default commands for that particular type of file.
 au FileType markdown :call Markdown()
 au FileType tex :call MathAbbrev()
+" Set make program to latexmk for latex programs
+au FileType tex set makeprg='latexmk'
 " Enable spelling by default on some file types.
 au FileType tex,markdown :Spell
+
+" Map <leader>LM to make:
+nnoremap <leader>LM :make<CR>
 
 " This maps gl to toggle the line numberings from relative to absolute.
 nnoremap gl :call ToggleRelativeNumbers()<CR>
