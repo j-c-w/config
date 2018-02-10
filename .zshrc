@@ -11,7 +11,7 @@ export PATH=$PATH:$HOME/bin
 ZSH_THEME="duellj"
 
 # Set vi to be the default editor here
-bindkey -e
+bindkey -v
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
