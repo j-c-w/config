@@ -135,8 +135,8 @@ au FileType tex set makeprg='latexmk'
 " Enable spelling by default on some file types.
 au FileType tex,markdown :Spell
 
-" Map <leader>LM to make:
-nnoremap <leader>LM :make<CR>
+" Map <leader>lm to make:
+nnoremap <leader>lm :make<CR>
 
 " This maps gl to toggle the line numberings from relative to absolute.
 nnoremap gl :call ToggleRelativeNumbers()<CR>
