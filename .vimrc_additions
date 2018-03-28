@@ -49,8 +49,6 @@ Bundle 'vim-airline/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
 " Add commands like 'ys' to add surrounding characters
 Bundle 'tpope/vim-surround'
-" This adds a tag window to look at the ctags
-Bundle 'majutsushi/tagbar'
 " Add some rainbow parens
 Bundle 'junegunn/rainbow_parentheses.vim'
 " Adds some commands for ease of motion
@@ -60,8 +58,6 @@ Bundle 'easymotion/vim-easymotion'
 Bundle 'junegunn/vader.vim'
 " This provides git status on lines changed
 Bundle 'airblade/vim-gitgutter'
-" An alternative to FZF for fuzzy finding
-Bundle 'ctrlpvim/ctrlp.vim'
 " This is my plugin for pinning stuff
 Bundle 'j-c-w/vimpin'
 " All of your Plugins must be added before the following line
