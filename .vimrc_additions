@@ -16,12 +16,9 @@ call vundle#begin("$HOME/.vim/VundlePlugins")
 Plugin 'VundleVim/Vundle.vim'
 
 " Keep Plugin commands between vundle#begin/end.
-" GUIesq file manager
-Bundle 'scrooloose/nerdtree'
 " This is for a solarized theme
 Bundle 'vim-scripts/Solarized'
 " This is for vim latex
-" Bundle 'vim-latex/vim-latex'
 Bundle 'lervag/vimtex'
 " ALE requires this stuff.
 if  has('timers') && exists('*job_start') && exists('*ch_close_in')
@@ -82,17 +79,8 @@ endif
 " And map the undo thing to \u
 noremap <leader>u :UndotreeToggle<CR>
 
-" For nerd tree, map \n to toggle it
-noremap <leader>n :NERDTreeToggle<CR>
-
 " Maps for vimpin
 nnoremap <leader>o :<C-U>PinToggle(v:count)<CR>
-
-" Maps for tagbar
-nnoremap <leader>t :TagbarToggle<CR>
-
-" For CtrlP, map <C-O> to search all lines
-noremap <C-O> :CtrlPLine<CR>
 
 " Some stuff to set up the rainbow parens:
 let g:rainbow#max_level = 16
