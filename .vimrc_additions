@@ -84,7 +84,7 @@ nnoremap <leader>o :<C-U>PinToggle(v:count)<CR>
 
 " Some stuff to set up the rainbow parens:
 let g:rainbow#max_level = 16
-let g:rainbow#pairs = [['<', '>'], ['(', ')'], ['{', '}'], ['[', ']']]
+let g:rainbow#pairs = [['(', ')'], ['{', '}'], ['[', ']']]
 
 augroup parens
     autocmd!
