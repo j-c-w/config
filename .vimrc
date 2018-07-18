@@ -1,6 +1,4 @@
 let mapleader=" "
-" For some reason, this is important here...
-colorscheme desert
 
 if !empty(glob("~/.vimrc_additions"))
     so ~/.vimrc_additions
@@ -17,7 +15,6 @@ else
     " This is here so that it is loaded when solarized is not available
     colorscheme desert
 endif
-
 
 " This sets the font to a readable size when the editor opens.
 set guifont=Monospace\ 14
@@ -90,11 +87,11 @@ function MathAbbrev()
     iabbrev mml \begin{lstlisting}[language=]<CR><++><CR>\end{lstlisting}<++><Esc>==kkf=a
     iabbrev mmt \begin{tabular}{<++>}<CR><++><CR>\end{tabular}<++><Esc>2k3==0
 
-	" This if to keep some of the latex-suite mappings that
-	" I liked.
-	inoremap $$ $$<++><Esc>F$i
-	inoremap ^^ ^{}<++><Esc>F}i
-	inoremap __ _{}<++><Esc>F}i
+    " This if to keep some of the latex-suite mappings that
+    " I liked.
+    inoremap $$ $$<++><Esc>F$i
+    inoremap ^^ ^{}<++><Esc>F}i
+    inoremap __ _{}<++><Esc>F}i
 endfunction
 
 " This gives markdown the same commands for building and viewing that I
@@ -106,11 +103,11 @@ endfunction
 
 " This toggles between using relative numbers and absolute numbering systems.
 function ToggleRelativeNumbers()
-	if (&relativenumber == 1)
-		set norelativenumber
-	else
-		set relativenumber
-	endif
+    if (&relativenumber == 1)
+        set norelativenumber
+    else
+        set relativenumber
+    endif
 endfunction
 
 " Set the indent style to be GNU style compliant.
