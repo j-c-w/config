@@ -23,6 +23,13 @@ RC_LINK=0
 POWERLINE=0
 YOU_COMPLETE_ME=0
 
+# Import the script folder.
+LOAD_DIR="$(cd "$(dirname "$0")" && pwd)"
+# Checks that various required programs are installed.
+source "$LOAD_DIR/scripts/__installation_checks.sh"
+# Contains the locations for source programs to be installed
+# into.
+source "$LOAD_DIR/scripts/__source_locations.sh"
 
 usage() {
 	echo "Usage: $0 home_directory [options]"
@@ -60,39 +67,6 @@ help() {
 	By default, all plugins will then be installed, with vundle
 	(and any others specified) not installed.
 EOF
-}
-
-# Exit prematurely if pip is not installed.
-check_pip() {
-	if [ -x "$(command -v pip)" ]; then
-		echo "pip not installed. Run 'sudo apt-get install pip' "
-		exit 1
-	fi
-}
-
-# Exit prematurely if git is not installed.
-check_git() {
-	if [ -x "$(command -v git)" ]; then
-		echo "git not installed. Run 'sudo apt-get install git' "
-		exit 1
-	fi
-}
-
-# Exit prematurely if python is not installed.
-check_python() {
-	if [ -x "$(command -v python)" ]; then
-		echo "python not installed.  Run 'sudo apt install python'"
-		exit 1
-	fi
-}
-
-# Return true if we have sudo, false otherwise
-has_sudo() {
-	if [[ $(id -u) > 0 ]]; then
-		return 0
-	else
-		return 1
-	fi
 }
 
 oh_my_zsh_install() {
