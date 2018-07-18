@@ -30,40 +30,41 @@ usage() {
 }
 
 help() {
-	echo "Usage: $0 home_directory [options]"
-	echo "Default is to install everthing. To not install everything by default"
-	echo "and specify bits and peices to be installed, use the"
-	echo "following options:"
-	echo ""
-	echo "	--vundle: install vundle"
-	echo ""
-	echo "	--vim-plugins: install vim plugins"
-	echo ""
-	echo "	--oh-my-zsh: install oh-my-zsh"
-	echo ""
-	echo "	--oh-my-zsh-plugins: install oh-my-zsh-plugins"
-	echo ""
-	echo "	--rc-link: Link .vimrc to ~/.vimrc, .zshrc to ~/.zshrc,"
-	echo "				.vimrc_additions to ~/.vimrc_additions"
-	echo ""
-	echo "	--powerline: Install powerline font"
-	echo ""
-	echo "	--you-complete-me: Install you complete me."
-	echo ""
-	echo "Each option comes with a disable mode to selectively disable."
-	echo "These should not be used in conjunction with the enable mode!"
-	echo ""
-	echo "The disable mode is as above, but with a 'no-' prefixed i.e."
-	echo ""
-	echo "	--no-vundle"
-	echo ""
-	echo "By default, all plugins will then be installed, with vundle"
-	echo "(and any others specified) not installed."
+	cat <<EOF
+	Usage: $0 home_directory [options]
+	Default is to install everthing. To not install everything by default
+	and specify bits and peices to be installed, use the
+	following options:
+		--vundle: install vundle
+
+		--vim-plugins: install vim plugins
+
+		--oh-my-zsh: install oh-my-zsh
+
+		--oh-my-zsh-plugins: install oh-my-zsh-plugins
+
+		--rc-link: Link .vimrc to ~/.vimrc, .zshrc to ~/.zshrc,
+					.vimrc_additions to ~/.vimrc_additions
+
+		--powerline: Install powerline font
+
+		--you-complete-me: Install you complete me.
+
+	Each option comes with a disable mode to selectively disable.
+	These should not be used in conjunction with the enable mode!
+
+	The disable mode is as above, but with a 'no-' prefixed i.e.
+
+		--no-vundle
+
+	By default, all plugins will then be installed, with vundle
+	(and any others specified) not installed.
+EOF
 }
 
 # Exit prematurely if pip is not installed.
 check_pip() {
-	if [ command -v pip > /dev/null 2>&1 ]; then
+	if [ -x "$(command -v pip)" ]; then
 		echo "pip not installed. Run 'sudo apt-get install pip' "
 		exit 1
 	fi
@@ -71,8 +72,16 @@ check_pip() {
 
 # Exit prematurely if git is not installed.
 check_git() {
-	if [command -v git > /dev/null 2>&1 ]; then
+	if [ -x "$(command -v git)" ]; then
 		echo "git not installed. Run 'sudo apt-get install git' "
+		exit 1
+	fi
+}
+
+# Exit prematurely if python is not installed.
+check_python() {
+	if [ -x "$(command -v python)" ]; then
+		echo "python not installed.  Run 'sudo apt install python'"
 		exit 1
 	fi
 }
@@ -138,6 +147,7 @@ rc_link() {
 }
 
 you_complete_me_install() {
+	check_python
 	# Note that this must be run _after_ installing
 	# Vundle and running the vim install phase.
 
