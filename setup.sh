@@ -114,10 +114,36 @@ rc_link() {
 	ln -s $config_directory/.vimrc .vimrc 
 	ln -s $config_directory/.vimrc_additions .vimrc_additions 
 	ln -s $config_directory/.zshrc .zshrc
+	# Also link the local scripts.
+	ln -s $config_directory/scripts .scripts
 
 	echo "-------------------------------"
 	echo "Config files linked"
 	echo "-------------------------------"
+}
+
+vim_install() {
+	check_git
+	check_make
+
+	mkdir -p $VIM_SOURCE_LOCATION
+
+	# Checkout the source.
+	git clone https://github.com/git/git
+
+	# FIXME: would be nice to go to the last major release?
+
+	# Go there:
+	current_directory=$(pwd)
+	cd ~/.vim_install
+
+	# Make
+	make -j8
+	# Installs in /usr/local
+	sudo make install -j8
+
+	# Go back
+	cd $current_directory
 }
 
 you_complete_me_install() {
@@ -247,6 +273,13 @@ do
 			DISABLE_MODE=1
 			YOU_COMPLETE_ME=0
 			;;
+		--vim)
+			ENABLE_MODE=1
+			VIM=1
+			;;
+		--no-vim)
+			DISABLE_MODE=1
+			VIM=0
 		-h|--help)
 			help
 			exit 0
@@ -273,5 +306,6 @@ fi
 ( should_install $POWERLINE ) || powerline_install
 ( should_install $RC_LINK ) || rc_link
 ( should_install $YOU_COMPLETE_ME ) || you_complete_me_install
+( should_install $VIM ) || vim_install
 
 echo "Done!"
