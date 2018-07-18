@@ -117,7 +117,68 @@ function! GNUIndent()
     setlocal tabstop=8
 endfunction
 
-au FileType c,cpp call GNUIndent()
+function! LLVMBufferIndent()
+    " Constructed from /llvm/utils/vim/vimrc
+    setlocal softtabstop=2
+    setlocal shiftwidth=2
+    setlocal expandtab
+
+    " Highlight trailing whitespace and lines longer than 80 columns.
+    highlight LongLine ctermbg=DarkYellow guibg=DarkYellow
+    highlight WhitespaceEOL ctermbg=DarkYellow guibg=DarkYellow
+    if v:version >= 702
+      " Lines longer than 80 columns.
+      au BufWinEnter * let w:m0=matchadd('LongLine', '\%>80v.\+', -1)
+
+      " Whitespace at the end of a line.
+      " This little dance suppresses
+      " whitespace that has just been typed.
+      au BufWinEnter * let w:m1=matchadd('WhitespaceEOL', '\s\+$', -1)
+      au InsertEnter * call matchdelete(w:m1)
+      au InsertEnter * let w:m2=matchadd('WhitespaceEOL', '\s\+\%#\@<!$', -1)
+      au InsertLeave * call matchdelete(w:m2)
+      au InsertLeave * let w:m1=matchadd('WhitespaceEOL', '\s\+$', -1)
+    else
+      au BufRead,BufNewFile * syntax match LongLine /\%>80v.\+/
+      au InsertEnter * syntax match WhitespaceEOL /\s\+\%#\@<!$/
+      au InsertLeave * syntax match WhitespaceEOL /\s\+$/
+    endif
+
+    augroup csrc
+        au!
+        autocmd FileType * set nocindent smartindent
+        autocmd FileType c,cpp set cindent
+    augroup END
+
+    set cinoptions=:0,g0,(0,Ws,l1
+    set smarttab
+
+    augroup filetype
+      au! BufRead,BufNewFile *.ll     set filetype=llvm
+    augroup END
+
+    augroup filetype
+      au! BufRead,BufNewFile *.td     set filetype=tablegen
+    augroup END
+
+    augroup filetype
+     au! BufRead,BufNewFile *.rst     set filetype=rest
+    augroup END
+endfunction
+
+
+function! ProjectStyleLoad()
+    let l:BufferName=expand("%:p")
+
+    if l:BufferName =~? "gcc"
+        call GNUIndent()
+	elseif l:BufferName =~? "llvm"
+        call LLVMBufferIndent()
+    endif
+endfunction
+
+" If this is a GCC project, then use GNU Indent.
+au BufRead,BufNewFile * call ProjectStyleLoad()
 
 " This checks for a tags file all the way up to the root rather than just in
 " the current directory.
