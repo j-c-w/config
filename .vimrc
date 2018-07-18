@@ -236,3 +236,9 @@ set relativenumber
 " This sets up the spelling file for the spelllang command.
 set spelllang=en_gb
 set spellfile=$HOME/Dropbox/VIM/vim/vimfiles/spell/en.utf-8.add
+
+" Various VIM plugins that are enabled:
+if v:version >= 801
+	" termdebug is only in 8.1 an up.
+	packadd termdebug
+endif
