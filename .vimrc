@@ -16,6 +16,9 @@ else
     colorscheme desert
 endif
 
+" Local builds of VIM need this to have a working backspace.
+set backspace=2
+
 " This sets the font to a readable size when the editor opens.
 set guifont=Monospace\ 14
 
