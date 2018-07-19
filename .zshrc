@@ -1,3 +1,9 @@
+# Add local public keys.
+eval $(ssh-agent -s)
+
+# Add local scripts to the path.
+export PATH=$PATH:~/Dropbox/Processes
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$PATH:$HOME/bin
@@ -112,3 +118,5 @@ setopt list_ambiguous           # complete as much of a completion until it gets
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+eval `gnome-keyring-daemon --start`
