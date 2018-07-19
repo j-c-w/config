@@ -4,6 +4,8 @@
 # only that is installed. Multiple arguements may be specified and 
 # multiple things will be installed.
 
+set -u
+
 # Adding things to this file:
 #	1. Add an enabled variable for it at the top.
 #	2. Add a function to install it, making sure to check
@@ -22,6 +24,7 @@ OH_MY_ZSH_PLUGINS=0
 RC_LINK=0
 POWERLINE=0
 YOU_COMPLETE_ME=0
+VIM=0
 
 # Import the script folder.
 LOAD_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -107,15 +110,16 @@ vundle_install() {
 }
 
 rc_link() {
-	rm .vimrc
-	rm .vimrc_additions
-	rm .zshrc
+	rm -f ~/.vimrc
+	rm -f ~/.vimrc_additions
+	rm -f ~/.zshrc
+	rm -f ~/.scripts
 
-	ln -s $config_directory/.vimrc .vimrc 
-	ln -s $config_directory/.vimrc_additions .vimrc_additions 
-	ln -s $config_directory/.zshrc .zshrc
+	ln -s $config_directory/.vimrc ~/.vimrc 
+	ln -s $config_directory/.vimrc_additions ~/.vimrc_additions 
+	ln -s $config_directory/.zshrc ~/.zshrc
 	# Also link the local scripts.
-	ln -s $config_directory/scripts .scripts
+	ln -s $config_directory/scripts ~/.scripts
 
 	echo "-------------------------------"
 	echo "Config files linked"
@@ -280,6 +284,7 @@ do
 		--no-vim)
 			DISABLE_MODE=1
 			VIM=0
+			;;
 		-h|--help)
 			help
 			exit 0
