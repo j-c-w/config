@@ -25,6 +25,7 @@ RC_LINK=0
 POWERLINE=0
 YOU_COMPLETE_ME=0
 VIM=0
+RIPGREP=0
 
 # Import the script folder.
 LOAD_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -139,7 +140,7 @@ vim_install() {
 
 	# Go there:
 	current_directory=$(pwd)
-	cd ~/.vim_install
+	cd $VIM_SOURCE_LOCATION
 
 	# Make
 	make -j8
@@ -148,6 +149,20 @@ vim_install() {
 
 	# Go back
 	cd $current_directory
+}
+
+ripgrep_install() {
+	mkdir -p $RIPGREP_LOCATION
+
+	# FIXME: would be nice to get a recent release?
+	wget https://github.com/BurntSushi/ripgrep/releases/download/0.8.1/ripgrep-0.8.1-x86_64-unknown-linux-musl.tar.gz -O $RIPGREP_LOCATION/ripgrep.tar.gz || exit 1
+
+	pushd $RIPGREP_LOCATION
+	tar -xzf ripgrep.tar.gz
+	# Now, create a symlink:
+	sudo rm -f /usr/local/bin/rg
+	sudo ln -s $RIPGREP_LOCATION/ripgrep-0.8.1-x86_64-unknown-linux-musl/rg /usr/local/bin/rg
+	popd
 }
 
 you_complete_me_install() {
@@ -285,6 +300,14 @@ do
 			DISABLE_MODE=1
 			VIM=0
 			;;
+		--ripgrep)
+			ENABLE_MODE=1
+			RIPGREP=1
+			;;
+		--no-ripgrep)
+			DISABLE_MODE=1
+			RIPGREP=0
+			;;
 		-h|--help)
 			help
 			exit 0
@@ -312,5 +335,6 @@ fi
 ( should_install $RC_LINK ) || rc_link
 ( should_install $YOU_COMPLETE_ME ) || you_complete_me_install
 ( should_install $VIM ) || vim_install
+( should_install $RIPGREP ) || ripgrep_install
 
 echo "Done!"

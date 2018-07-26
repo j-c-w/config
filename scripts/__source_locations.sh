@@ -4,3 +4,4 @@
 # all self-managed code repositories.
 
 export VIM_SOURCE_LOCATION=~/.vim_install
+export RIPGREP_LOCATION=~/.ripgrep_install
