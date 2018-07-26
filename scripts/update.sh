@@ -40,6 +40,8 @@ fi
 # right now, but could ideally be ammended.
 sudo apt-get update && yes | sudo apt-get upgrade
 
+sudo apt-get autoremove
+
 # Update all the vim plugins.
 vim -E -c BundleUpdate -c qall
 
