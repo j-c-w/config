@@ -134,18 +134,6 @@ function! LLVMBufferIndent()
 
     set cinoptions=:0,g0,(0,Ws,l1
     set smarttab
-
-    augroup filetype
-      au! BufRead,BufNewFile *.ll     set filetype=llvm
-    augroup END
-
-    augroup filetype
-      au! BufRead,BufNewFile *.td     set filetype=tablegen
-    augroup END
-
-    augroup filetype
-     au! BufRead,BufNewFile *.rst     set filetype=rest
-    augroup END
 endfunction
 
 
@@ -159,9 +147,23 @@ function! ProjectStyleLoad()
     endif
 endfunction
 
-" If this is a GCC project, then use GNU Indent.
+" Load the appropriate style of indentation.
 au BufRead,BufNewFile * call ProjectStyleLoad()
 
+" LLVM specific filetype highlighting.  If this is not
+" highlighting anything, there are some style files to copy
+" into the syntax folder.
+augroup filetype
+  au! BufRead,BufNewFile *.ll     set filetype=llvm
+augroup END
+
+augroup filetype
+  au! BufRead,BufNewFile *.td     set filetype=tablegen
+augroup END
+
+augroup filetype
+ au! BufRead,BufNewFile *.rst     set filetype=rest
+augroup END
 
 
 " This sets an error highlighting at the end of a long line.  Taken
