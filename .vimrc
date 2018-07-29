@@ -165,37 +165,6 @@ augroup filetype
  au! BufRead,BufNewFile *.rst     set filetype=rest
 augroup END
 
-
-" This sets an error highlighting at the end of a long line.  Taken
-" from the LLVM vimrc.
-function! SetLongLineHighlight()
-    " Highlight trailing whitespace and lines longer than 80 columns.
-    highlight LongLine ctermbg=DarkYellow guibg=DarkYellow
-    highlight WhitespaceEOL ctermbg=DarkRed guibg=DarkRed
-    if v:version >= 702
-      " Lines longer than 80 columns.
-      au BufWinEnter * let b:m0=matchadd('LongLine', '\%>80v.\+', -1)
-
-      " Whitespace at the end of a line.
-      " This little dance suppresses
-      " whitespace that has just been typed.
-	  " Unfortunately, this is broken.  It works for a single buffer
-	  " provided no buffer changing is done.
-      " au BufWinEnter * let b:m1=matchadd('WhitespaceEOL', '\s\+$', -1)
-      " au InsertEnter * call matchdelete(b:m1)
-      " au InsertEnter * let b:m2=matchadd('WhitespaceEOL', '\s\+\%#\@<!$', -1)
-      " au InsertLeave * call matchdelete(b:m2)
-      " au InsertLeave * let b:m1=matchadd('WhitespaceEOL', '\s\+$', -1)
-    else
-      au BufRead,BufNewFile * syntax match LongLine /\%>80v.\+/
-      au InsertEnter * syntax match WhitespaceEOL /\s\+\%#\@<!$/
-      au InsertLeave * syntax match WhitespaceEOL /\s\+$/
-    endif
-endfunction
-
-au FileType c,cpp,td,python,scala,java,ml call SetLongLineHighlight()
-
-
 " This checks for a tags file all the way up to the root rather than just in
 " the current directory.
 set tags=tags;/
