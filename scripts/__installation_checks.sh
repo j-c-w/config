@@ -48,3 +48,14 @@ has_sudo() {
 	fi
 }
 export -f has_sudo
+
+check_sudo() {
+	if [ ! has_sudo ]; then
+		echo "Need sudo. "
+		exit 1
+	fi
+}
+export -f check_sudo
+
+# Export a flag to show this is loaded:
+export __INSTALLATION_CHECKS=1
