@@ -8,28 +8,9 @@ LOAD_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$LOAD_DIR/__installation_checks.sh"
 # Locations for various source files.
 source "$LOAD_DIR/__source_locations.sh"
+source "$LOAD_DIR/update_functions.sh"
 
 check_git
-
-update_vim() {
-	# Go to the vim source directory:
-	current_dir=$(pwd)
-
-	cd "$VIM_SOURCE_LOCATION/vim"
-	git pull origin master:master
-	make -j8
-	# Backup the old vim if it still exists.
-	# Only keep one version, the idea is that if something
-	# is really wrong, vim.old can be used for a while
-	# until it is fixed.
-	if [ -f /usr/local/bin/vim ]; then
-		sudo mv /usr/local/bin/vim /usr/local/bin/vim.old
-	fi
-
-	sudo make install -j8
-
-	cd $current_dir
-}
 
 if [ ! has_sudo ]; then
 	echo "Need sudo to update"
