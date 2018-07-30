@@ -34,6 +34,8 @@ source "$LOAD_DIR/scripts/__installation_checks.sh"
 # Contains the locations for source programs to be installed
 # into.
 source "$LOAD_DIR/scripts/__source_locations.sh"
+# Stores some functions to install things (eg. vim).
+source "$LOAD_DIR/scripts/update_functions.sh"
 
 usage() {
 	echo "Usage: $0 home_directory [options]"
@@ -133,22 +135,8 @@ vim_install() {
 
 	mkdir -p $VIM_SOURCE_LOCATION
 
-	# Checkout the source.
-	git clone https://github.com/git/git
-
 	# FIXME: would be nice to go to the last major release?
-
-	# Go there:
-	current_directory=$(pwd)
-	cd $VIM_SOURCE_LOCATION
-
-	# Make
-	make -j8
-	# Installs in /usr/local
-	sudo make install -j8
-
-	# Go back
-	cd $current_directory
+	update_vim
 }
 
 ripgrep_install() {
@@ -170,16 +158,10 @@ you_complete_me_install() {
 	# Note that this must be run _after_ installing
 	# Vundle and running the vim install phase.
 
-	cd ~/.vim/VundlePlugins/YouCompleteMe || (echo "Error -- install vim plugins first"; exit 1)
-	./install.py --clang-completer
+	pushd ~/.vim/VundlePlugins/YouCompleteMe || (echo "Error -- install vim plugins first"; exit 1)
+	./install.py --clang-completer --java-completer
 
-	if has_sudo; then
-		./install.py --tern-completer
-	else
-		echo "Rerun with 'sudo' to install javascript semantic support"
-	fi
-
-	cd -
+	popd
 }
 
 powerline_install() {
