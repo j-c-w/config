@@ -65,10 +65,6 @@ nnoremap <leader>Y "+Y
 nnoremap <leader>p "+gp
 nnoremap <leader>P "+gP
 
-" Add some mappings to move between tabs
-nnoremap <leader>s :tabn<CR>
-nnoremap <leader>a :tabp<CR>
-
 " Map gV to select the text inserted in the last insert
 nnoremap gV `[V`]
 
