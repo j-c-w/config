@@ -1,6 +1,10 @@
 #!/bin/bash
 
-set -eux
+set -ux
+
+if [[ $* != *--ignore-errors* ]]; then
+	set -e
+fi
 
 # Load the installation checks.
 LOAD_DIR="$(cd "$(dirname "$0")" && pwd)"
