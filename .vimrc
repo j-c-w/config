@@ -216,7 +216,9 @@ set relativenumber
 
 " This sets up the spelling file for the spelllang command.
 set spelllang=en_gb
-set spellfile=$HOME/Dropbox/VIM/vim/vimfiles/spell/en.utf-8.add
+set spellfile=$HOME/.vimdict.add
+" Spelling mistakes underlined:
+hi SpellBad cterm=underline,bold
 
 " Various VIM plugins that are enabled:
 if v:version >= 801
