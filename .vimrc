@@ -43,8 +43,23 @@ command PythonShell !python
 command ScalaREPL !scala
 command SMLREPL !sml
 
+function ToggleSpell()
+    if !exists("g:jcw_spell_on")
+        " Assume spell check is off by default.
+        let g:jcw_spell_on = 0
+    endif
+
+    if g:jcw_spell_on
+		let g:jcw_spell_on = 0
+		set nospell
+    else
+		let g:jcw_spell_on = 1
+        set spell spelllang=en_gb
+    endif
+endfunction
+
 " And set an alias for the spellang command
-command Spell set spell spelllang=en_gb
+command Spell call ToggleSpell()
 
 " These are alternatives to <Esc>.
 inoremap jk <Esc>
