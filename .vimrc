@@ -87,6 +87,12 @@ nnoremap gV `[V`]
 nnoremap j gj
 nnoremap k gk
 
+" Make cw cut the space after the word too, just like dw.
+nnoremap cw dwi
+
+" Map Y to yank until the end of the line.
+nnoremap Y y$
+
 " Map 'z,' to move the current line to about 10 from the top
 nnoremap z, zt10<C-y>
 
@@ -191,12 +197,6 @@ au FileType tex,markdown :Spell
 
 " Map <leader>lm to make:
 nnoremap <leader>lm :make<CR>
-
-" This maps gl to toggle the line numberings from relative to absolute.
-nnoremap gl :call ToggleRelativeNumbers()<CR>
-
-" This is for slightly slower reset if I hesitate by accident when writing.
-set timeoutlen=1000
 
 " This is to make sure VIM is always centered on the current directory rather
 " than the home directory.
