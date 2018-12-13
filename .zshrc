@@ -118,15 +118,17 @@ setopt list_ambiguous           # complete as much of a completion until it gets
 
 # Just set the theme to duelj manually.  The colors' don't work well with a plain background, so fix that.
 # Get the hostname and hash it to a color.
-DEVICE_COLOR=$(( $(( 0x$(sha1sum <<< "$(whoami)$(hostname)" | cut -c1-10) )) % 30 ))
+DEVICE_COLOR=$(( $(( 0x$(sha1sum <<< "$(whoami)$(hostname)" | cut -c1-10) )) % (256 * 256 * 256) ))
 
 echo $DEVICE_COLOR
-# There are some values that are a pain because they are too light or too dark:
-if [[ $value == 36 ]]; then
-	DEVICE_COLOR=$((DEVICE_COLOR + 1))
-fi
+DEVICE_RED=$(( $DEVICE_COLOR % 256 ))
+DEVICE_GREEN=$(( ($DEVICE_COLOR / 256) % 256 ))
+DEVICE_BLUE=$(( ($DEVICE_COLOR / (256 * 256)) % 256 ))
 
-export PROMPT=$'%{\e[0;34m%}%B┌─[%b%{\e[0m%}%{\e[1;32m%}%n%{\e[1;34m%}@%{\e[0m%}%{\e[2;${DEVICE_COLOR}m%}%m%{\e[0;${DEVICE_COLOR}m%}%B]%b%{\e[0m%} - %b%{\e[0;34m%}%B[%b%{\e[2;28m%}%~%{\e[0;34m%}%B]%b%{\e[0m%} - %{\e[0;34m%}%B[%b%{\e[0;33m%}%!%{\e[0;34m%}%B]%b%{\e[0m%}
+# Any bad color combos from servers this hits should be fixed
+# here.
+
+export PROMPT=$'%{\e[0;34m%}%B┌─[%b%{\e[0m%}%{\e[1;32m%}%n%{\e[1;34m%}@%{\e[0m%}%{\x1b[38;2;${DEVICE_RED};${DEVICE_GREEN};${DEVICE_BLUE}m%}%m%{\e[0;34m%}%B]%b%{\e[0m%} - %b%{\e[0;34m%}%B[%b%{\e[2;28m%}%~%{\e[0;34m%}%B]%b%{\e[0m%} - %{\e[0;34m%}%B[%b%{\e[0;33m%}%!%{\e[0;34m%}%B]%b%{\e[0m%}
 %{\e[0;34m%}%B└─%B[%{\e[1;35m%}$%{\e[0;34m%}%B]%{\e[0m%}%b '
 export RPROMPT='[%*]'
 export PS2=$' \e[0;34m%}%B>%{\e[0m%}%b '
