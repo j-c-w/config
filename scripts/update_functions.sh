@@ -38,15 +38,17 @@ update_vim() {
 		popd
 	fi
 
-	python2_config_dir=/usr/lib/python2.7/config-x86_64-linux-gnu
-	python3_config_dir=/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu 
+	# Expect these to have one result.  They will fail
+	# the next test if there is more than one result.
+	python2_config_dir=(/usr/lib/python2.*/config*)
+	python3_config_dir=(/usr/lib/python3.*/config*)
 
-	if [[ ! -d $python2_config_dir ]]; then
+	if [[ ! -d "$python2_config_dir" ]]; then
 		echo "Python directory $python2_config_dir doesn't exist... Can you fix me?"
 		exit 1
 	fi
 
-	if [[ ! -d $python3_config_dir ]]; then
+	if [[ ! -d "$python3_config_dir" ]]; then
 		echo "Python directory $python3_config_dir doens't exist... Can you fix me?"
 		exit 1
 	fi
@@ -54,6 +56,7 @@ update_vim() {
 	# Go to the vim source directory:
 	pushd "$VIM_SOURCE_LOCATION/vim"
 	git pull origin master:master
+	make distclean
 	./configure --with-features=huge \
 		--enable-multibyte \
 		--enable-rubyinterp=yes \
