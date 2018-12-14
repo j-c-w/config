@@ -63,6 +63,8 @@ help() {
 
 		--you-complete-me: Install you complete me.
 
+		--ripgrep: Install ripgrep
+
 	Each option comes with a disable mode to selectively disable.
 	These should not be used in conjunction with the enable mode!
 
