@@ -27,6 +27,10 @@ sudo apt-get update && yes | sudo apt-get upgrade
 
 sudo apt-get autoremove
 
+# Update all the python things:
+# This, perhaps unsurprisingly, caused problems with python packages.
+# pip list --outdated | cut -d ' ' -f 1 | xargs -n 1 sudo pip install --upgrade
+
 # Update all the vim plugins.
 vim -E -c BundleUpdate -c qall
 
