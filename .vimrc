@@ -106,6 +106,8 @@ function MathAbbrev()
     iabbrev mmd \begin{description}<CR><CR>\end{description}<++><Esc>==kS\item[]<++><Esc>F]i
     iabbrev mml \begin{lstlisting}[language=]<CR><++><CR>\end{lstlisting}<++><Esc>==kkf=a
     iabbrev mmt \begin{tabular}{<++>}<CR><++><CR>\end{tabular}<++><Esc>2k3==0
+	iabbrev mmf \begin{frame}<CR>\frametitle{<++>}<CR>\end{frame}<++><Esc>kk<C-J>
+	iabbrev mmc \begin{columns}<CR>\begin{column}{0.5\textwidth}<CR><++><CR>\end{column}<CR>\begin{column}{0.5\textwidth}<CR><++><CR>\end{column}<CR>\end{columns}<++><Esc>^%<C-j>
 
     " This if to keep some of the latex-suite mappings that
     " I liked.
