@@ -31,16 +31,11 @@ endif
 " Adds commenting out
 Bundle 'tpope/vim-commentary'
 " Also add a few language syntaxes that are bundled in
+Bundle 'rightson/vim-p4-syntax'
 Bundle 'hdima/python-syntax'
 Bundle 'derekwyatt/vim-scala'
 " Adds a plugin for using the undo tree
 Bundle 'mbbill/undotree'
-" YCM Requires this:
-if (v:version > 704 || (v:version == 704 && has( 'patch1578' )))
-	\ && has('timers') && (has('python') || has('python3'))
-	" Adds auto completion
-	Bundle 'Valloric/YouCompleteMe'
-endif
 " Add airline for the status bar
 Bundle 'vim-airline/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
