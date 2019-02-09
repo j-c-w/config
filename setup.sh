@@ -187,7 +187,7 @@ vim_plugins_install() {
 	# Now install the vim plugins:
 	check_git
 
-	vim -E -c VundleInstall -c qall
+	vim -E -c BundleInstall -c qall
 }
 
 should_install() {
