@@ -22,6 +22,10 @@ set backspace=2
 " This sets the font to a readable size when the editor opens.
 set guifont=Monospace\ 14
 
+" Make the timeout len very small.  It helps with typing
+" of 'j' followed by k (and keeps the fingers quick :).
+set timeout timeoutlen=200
+
 " This is for compiling languages.
 command SML !sml %
 command PSML !PolyML %
