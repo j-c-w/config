@@ -21,6 +21,14 @@ check_git() {
 }
 export -f check_git
 
+check_zsh() {
+	if [ ! -x "$(command -v zsh)" ]; then
+		echo "zsh not installed.  Run 'sudo apt install zsh'"
+		exit 1
+	fi
+}
+export -f check_zsh
+
 # Exit prematurely if python is not installed.
 check_python() {
 	if [ ! -x "$(command -v python)" ]; then

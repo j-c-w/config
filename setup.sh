@@ -79,6 +79,7 @@ EOF
 
 oh_my_zsh_install() {
 	check_git
+	check_zsh
 	cd $home_directory
 	sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 	cd .oh-my-zsh/plugins
