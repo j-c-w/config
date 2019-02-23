@@ -94,8 +94,10 @@ oh_my_zsh_install() {
 oh_my_zsh_plugins_install() {
 	# Pull the plugins
 	check_git
+	pushd $home_directory/.oh-my-zsh/plugins
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting
 	git clone https://github.com/zsh-users/zsh-autosuggestions
+	popd
 
 	echo $(pwd)
 
