@@ -52,6 +52,8 @@ help() {
 
 		--vim-plugins: install vim plugins
 
+		--vim: Build a local vim installation.
+
 		--oh-my-zsh: install oh-my-zsh
 
 		--oh-my-zsh-plugins: install oh-my-zsh-plugins
@@ -148,13 +150,13 @@ ripgrep_install() {
 	mkdir -p $RIPGREP_LOCATION
 
 	# FIXME: would be nice to get a recent release?
-	wget https://github.com/BurntSushi/ripgrep/releases/download/0.8.1/ripgrep-0.8.1-x86_64-unknown-linux-musl.tar.gz -O $RIPGREP_LOCATION/ripgrep.tar.gz || exit 1
+	wget https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep-0.10.0-x86_64-unknown-linux-musl.tar.gz -O $RIPGREP_LOCATION/ripgrep.tar.gz || exit 1
 
 	pushd $RIPGREP_LOCATION
 	tar -xzf ripgrep.tar.gz
 	# Now, create a symlink:
 	sudo rm -f /usr/local/bin/rg
-	sudo ln -s $RIPGREP_LOCATION/ripgrep-0.8.1-x86_64-unknown-linux-musl/rg /usr/local/bin/rg
+	sudo ln -s $RIPGREP_LOCATION/ripgrep-0.10.0-x86_64-unknown-linux-musl/rg /usr/local/bin/rg
 	popd
 }
 
@@ -315,13 +317,13 @@ if [ $DISABLE_MODE -eq 1 ] && [ $ENABLE_MODE -eq 0 ]; then
 fi
 
 ( should_install $VUNDLE ) || vundle_install
-( should_install $VIM_PLUGINS ) || vim_plugins_install
 ( should_install $OH_MY_ZSH ) || oh_my_zsh_install
 ( should_install $OH_MY_ZSH_PLUGINS ) || oh_my_zsh_plugins_install
 ( should_install $POWERLINE ) || powerline_install
 ( should_install $RC_LINK ) || rc_link
-( should_install $YOU_COMPLETE_ME ) || you_complete_me_install
 ( should_install $VIM ) || vim_install
+( should_install $VIM_PLUGINS ) || vim_plugins_install
+( should_install $YOU_COMPLETE_ME ) || you_complete_me_install
 ( should_install $RIPGREP ) || ripgrep_install
 
 echo "Done!"
