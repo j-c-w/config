@@ -23,7 +23,7 @@ fi
 
 # This is a script to do updating.  It works for an aptitude-based system only
 # right now, but could ideally be ammended.
-sudo apt-get update && yes | sudo apt-get upgrade
+sudo apt-get update && sudo apt-get upgrade -y
 
 sudo apt-get autoremove
 
