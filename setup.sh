@@ -211,6 +211,11 @@ if [ "$#" -lt 1 ]; then
 	exit 1
 fi
 
+if [[ $1 =~ "-h|--help" ]]; then
+	help
+	exit 0
+fi
+
 if [ ! -d "$1" ]; then
 	usage
 	exit 1
