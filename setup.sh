@@ -124,12 +124,18 @@ rc_link() {
 	rm -f ~/.vimrc_additions
 	rm -f ~/.zshrc
 	rm -f ~/.scripts
+	rm -f ~/.config/i3/config
 
 	ln -s $config_directory/.vimrc ~/.vimrc 
 	ln -s $config_directory/.vimrc_additions ~/.vimrc_additions 
 	ln -s $config_directory/.zshrc ~/.zshrc
 	# Also link the local scripts.
 	ln -s $config_directory/scripts ~/.scripts
+	# Also link the i3 config.  If i3 isn't installed
+	# that should be OK, although this might have to be
+	# re-run after it is installed (and presumably overwritten)
+	mkdir -p ~/.config/i3
+	ln -s $config_directory/i3_config ~/.config/i3/config
 
 	echo "-------------------------------"
 	echo "Config files linked"
