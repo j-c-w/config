@@ -7,6 +7,7 @@
 check_pip() {
 	if [ ! -x "$(command -v pip)" ]; then
 		echo "pip not installed. Run 'sudo apt install pip' "
+		echo "Try running install_prereqs.sh"
 		exit 1
 	fi
 }
@@ -16,6 +17,7 @@ export  check_pip
 check_git() {
 	if [ ! -x "$(command -v git)" ]; then
 		echo "git not installed. Run 'sudo apt install git' "
+		echo "Try running install_prereqs.sh"
 		exit 1
 	fi
 }
@@ -24,6 +26,7 @@ export -f check_git
 check_zsh() {
 	if [ ! -x "$(command -v zsh)" ]; then
 		echo "zsh not installed.  Run 'sudo apt install zsh'"
+		echo "Try running install_prereqs.sh"
 		exit 1
 	fi
 }
@@ -33,6 +36,7 @@ export -f check_zsh
 check_python() {
 	if [ ! -x "$(command -v python)" ]; then
 		echo "python not installed.  Run 'sudo apt install python'"
+		echo "Try running install_prereqs.sh"
 		exit 1
 	fi
 }
@@ -42,6 +46,7 @@ export -f check_python
 check_make() {
 	if [ ! -x "$(command -v make)" ]; then
 		echo "make not installed.  Run sudo apt install make"
+		echo "Try running install_prereqs.sh"
 		exit 1
 	fi
 }
