@@ -8,6 +8,9 @@ export PATH=$PATH:$HOME/bin:$HOME/.scripts
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
+# Make it clear that nested TMUXes support 256 colors
+export TERM=xterm-256color
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -134,3 +137,32 @@ export RPROMPT='[%*]'
 export PS2=$' \e[0;34m%}%B>%{\e[0m%}%b '
 
 eval `gnome-keyring-daemon --start`
+
+# Only try to start tmux if this is an interactive session.
+# Also don't try to start tmux if we are already in a tmux.
+if [[ $- == *i* ]] && [[ -z $TMUX ]]; then
+	# Start tmux with a name.  If nothing is entered then we use the default tmux numbering.
+	read 'tmux_name?Window name (<CR> for autonumber, "0<CR>" for no tmux)?'
+	if [[ $tmux_name == "" ]]; then
+		tmux
+	elif [[ $tmux_name != "0" ]]; then
+		current_sessions=($(tmux list-sessions -F '#{session_name}'))
+
+		matched=False
+		for session in $current_sessions; do
+			if [[ $session == $tmux_name ]]; then
+				echo "Existing tmux session ($tmux_name) found.  Attaching..."
+				tmux attach-session -t $tmux_name
+				matched=True
+				break
+			fi
+		done
+
+		if [[ $matched == False ]]; then
+			echo "No tmux session found, making a new session ($tmux_name)!"
+			tmux new-session -s $tmux_name
+		fi
+	else
+		echo "No tmux session started"
+	fi
+fi
