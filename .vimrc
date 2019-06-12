@@ -241,6 +241,9 @@ set spellfile=$HOME/.vimdict.add
 " Spelling mistakes underlined:
 hi SpellBad cterm=underline,bold
 
+" Make 'J' preserve formatting when joining.
+set formatoptions+=j
+
 " Various VIM plugins that are enabled:
 if v:version >= 801
 	" termdebug is only in 8.1 an up.
