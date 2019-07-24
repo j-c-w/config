@@ -1,5 +1,5 @@
 # Add local public keys.
-eval $(ssh-agent -s)
+eval $(ssh-agent -s) > /dev/null
 
 # Add local scripts to the path.
 export PATH=$PATH:~/Dropbox/Processes
@@ -123,7 +123,6 @@ setopt list_ambiguous           # complete as much of a completion until it gets
 # Get the hostname and hash it to a color.
 DEVICE_COLOR=$(( $(( 0x$(sha1sum <<< "$(whoami)$(hostname)" | cut -c1-10) )) % (256 * 256 * 256) ))
 
-echo $DEVICE_COLOR
 DEVICE_RED=$(( $DEVICE_COLOR % 256 ))
 DEVICE_GREEN=$(( ($DEVICE_COLOR / 256) % 256 ))
 DEVICE_BLUE=$(( ($DEVICE_COLOR / (256 * 256)) % 256 ))
