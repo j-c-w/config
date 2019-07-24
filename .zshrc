@@ -136,32 +136,84 @@ export RPROMPT='[%*]'
 export PS2=$' \e[0;34m%}%B>%{\e[0m%}%b '
 
 eval `gnome-keyring-daemon --start`
+rename() {
+	local new_name=$1
+	tmux rename-session $new_name
+}
 
+view() {
+	local name=$1
+	tmux switch-client -t $name
+}
+
+is_session() {
+	local tmux_name=$1
+	matched=False
+	current_sessions=($(tmux list-sessions -F '#{session_name}'))
+	for session in $current_sessions; do
+		if [[ $session == $tmux_name ]]; then
+			matched=True
+			break
+		fi
+	done
+
+	echo $matched
+}
+
+# If we are starting a TMUX session, then print out the
+# the TMUX name.
+if [[ -n $TMUX ]]; then
+	echo -n "You are in shell "
+	tmux display-message -p '#S'
+fi
+
+# An array of names for TMUX to choose from.
+tmux_names=( Tahoe Reno NewReno Westwood Hybla Vegas BIC CUBIC BBR Peach SACK FACK RBP Asym FAST Illinois HTCP Ledbat DCTCP Remy Sprout PRR PCC TIMELY Proprate Vivace Copa )
 # Only try to start tmux if this is an interactive session.
 # Also don't try to start tmux if we are already in a tmux.
 if [[ $- == *i* ]] && [[ -z $TMUX ]]; then
 	# Start tmux with a name.  If nothing is entered then we use the default tmux numbering.
 	read 'tmux_name?Window name (<CR> for autonumber, "0<CR>" for no tmux)?'
 	if [[ $tmux_name == "" ]]; then
-		tmux
-	elif [[ $tmux_name != "0" ]]; then
-		current_sessions=($(tmux list-sessions -F '#{session_name}'))
+		made=True
+		failed_count=0
+		while [[ $made == True ]]; do
+			date=$$$(date +%N)
+			index=$(( date % ${#tmux_names[@]} + 1 ))
+			name=${tmux_names[$index]}
+			made=$(is_session $name)
+			if [[ $name == "" ]]; then
+				echo "Failed to get a name from the list! Debug information is below:"
+				echo $index
+				echo $name
+				echo ${#tmux_name[@]}
+			fi
+			if [[ $made == False  ]]; then
+				tmux new-session -s $name
+			fi
 
-		matched=False
-		for session in $current_sessions; do
-			if [[ $session == $tmux_name ]]; then
-				echo "Existing tmux session ($tmux_name) found.  Attaching..."
-				tmux attach-session -t $tmux_name
-				matched=True
-				break
+			failed_count=$(( failed_count + 1 ))
+			if [[ $failed_count -gt 100 ]]; then
+				echo "Couldn't find a name for the new terminal"
 			fi
 		done
+		unset name
+		unset index
+		unset failed_count
+		unset made
+	elif [[ $tmux_name != "0" ]]; then
+		matched=$(is_session $tmux_name)
 
 		if [[ $matched == False ]]; then
 			echo "No tmux session found, making a new session ($tmux_name)!"
 			tmux new-session -s $tmux_name
+		else
+			echo "Existing tmux session ($tmux_name) found.  Attaching..."
+			tmux attach-session -t $tmux_name
 		fi
+		unset matched
 	else
 		echo "No tmux session started"
 	fi
 fi
+unset tmux_names
