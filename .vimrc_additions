@@ -150,6 +150,12 @@ endfunction
 " ------------------------- Vimtex settings ------j-----------
 " -----------------------------------------------------------
 let g:vimtex_fold_enabled = 1
+let g:tex_flavor = 'latex'
+if has("patch-8.0.475") && empty(v:servername) && exists('*remove_startserver')
+	" Then we would like to start the server to we can do callbacks from a PDF
+	" viewer into vimtex.
+	call remote_startserver('VIM')
+endif
 function VimtexLoadShortcuts()
 	nnoremap <leader>ll :VimtexCompileSS<CR>
 	nnoremap <leader>lc :VimtexCompile<CR>
