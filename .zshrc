@@ -21,8 +21,6 @@ if [ -d "/usr/local/systemc-2.3/" ]; then
 	export LD_LIBRARY_PATH="/usr/local/systemc-2.3/lib-linux64:$LD_LIBRARY_PATH"
 fi
 
-# Set vi to be the default editor here
-bindkey -v
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -119,6 +117,24 @@ setopt list_ambiguous           # complete as much of a completion until it gets
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Set vi to be the default editor here
+bindkey -v
+
+# These keep track of new lines and key presses.  They update
+# the prompt depending on whether we are in vi mode or not.
+prompt_header="$"
+function zle-line-init zle-keymap-select() {
+	if [[ $KEYMAP == *vicmd* ]]; then
+		# In VI mode:
+		prompt_header="V"
+	else
+		prompt_header="$"
+	fi
+	zle reset-prompt
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
+
 # Just set the theme to duelj manually.  The colors' don't work well with a plain background, so fix that.
 # Get the hostname and hash it to a color.
 DEVICE_COLOR=$(( $(( 0x$(sha1sum <<< "$(whoami)$(hostname)" | cut -c1-10) )) % (256 * 256 * 256) ))
@@ -131,7 +147,7 @@ DEVICE_BLUE=$(( ($DEVICE_COLOR / (256 * 256)) % 256 ))
 # here.
 
 export PROMPT=$'%{\e[0;34m%}%B┌─[%b%{\e[0m%}%{\e[1;32m%}%n%{\e[1;34m%}@%{\e[0m%}%{\x1b[38;2;${DEVICE_RED};${DEVICE_GREEN};${DEVICE_BLUE}m%}%m%{\e[0;34m%}%B]%b%{\e[0m%} - %b%{\e[0;34m%}%B[%b%{\e[2;28m%}%~%{\e[0;34m%}%B]%b%{\e[0m%} - %{\e[0;34m%}%B[%b%{\e[0;33m%}%!%{\e[0;34m%}%B]%b%{\e[0m%}
-%{\e[0;34m%}%B└─%B[%{\e[1;35m%}$%{\e[0;34m%}%B]%{\e[0m%}%b '
+%{\e[0;34m%}%B└─%B[%{\e[1;35m%}${prompt_header}%{\e[0;34m%}%B]%{\e[0m%}%b '
 export RPROMPT='[%*]'
 export PS2=$' \e[0;34m%}%B>%{\e[0m%}%b '
 
