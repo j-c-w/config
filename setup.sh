@@ -126,10 +126,13 @@ rc_link() {
 	rm -f ~/.zshrc
 	rm -f ~/.scripts
 	rm -f ~/.config/i3/config
+	rm -f ~/.tmux.conf
+	rm -f ~/.config/papis/config
 
 	ln -s $config_directory/.vimrc ~/.vimrc 
 	ln -s $config_directory/.vimrc_additions ~/.vimrc_additions 
 	ln -s $config_directory/.zshrc ~/.zshrc
+	ln -s $config_directory/.tmux.conf ~/.tmux.conf
 	# Also link the local scripts.
 	ln -s $config_directory/scripts ~/.scripts
 	# Also link the i3 config.  If i3 isn't installed
