@@ -134,15 +134,6 @@ function Markdown()
     nnoremap <leader>lv :!evince %:r.pdf &<CR>
 endfunction
 
-" This toggles between using relative numbers and absolute numbering systems.
-function ToggleRelativeNumbers()
-    if (&relativenumber == 1)
-        set norelativenumber
-    else
-        set relativenumber
-    endif
-endfunction
-
 " Set the indent style to be GNU style compliant.
 function! GNUIndent()
     setlocal cinoptions=>4,n-2,{2,^-2,:2,=2,g0,h2,p5,t0,+2,(0,u0,w1,m1
@@ -237,10 +228,8 @@ set incsearch
 " Sets the search to highlight all the results.
 set hlsearch
 
-" Set number means that the focused line has the actual line number.
+" Set line numbers
 set number
-" And this sets there to be line numbers.
-set relativenumber
 
 " This sets up the spelling file for the spelllang command.
 set spelllang=en_gb
