@@ -26,6 +26,7 @@ POWERLINE=0
 YOU_COMPLETE_ME=0
 VIM=0
 RIPGREP=0
+PAPIS=0
 
 # Import the script folder.
 LOAD_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -137,6 +138,10 @@ rc_link() {
 	mkdir -p ~/.config/i3
 	ln -s $config_directory/i3_config ~/.config/i3/config
 
+	# A similar argument holds for the papis config file.
+	mkdir -p ~/.config/papis
+	ln -s $config_directory/papis_config ~/.config/papis/config
+
 	echo "-------------------------------"
 	echo "Config files linked"
 	echo "-------------------------------"
@@ -199,6 +204,28 @@ vim_plugins_install() {
 	check_git
 
 	vim -E -c BundleInstall -c qall
+}
+
+papis_install() {
+	pip3 install whoosh
+	sudo apt install qpdfview
+
+	# Build and install papis from my personal repo.
+	# If my requested changes get merged then I'll migrate
+	# to the main repo.
+	if [[ -d ~/.papis_install ]]; then
+		echo "Not installing papis because ~/.papis_install already exists."
+		echo "Delete this folder if you want to install papis again."
+		return
+	fi
+	git clone https://github.com/j-c-w/papis ~/.papis_install
+	pushd ~/.papis_install
+	sudo make && sudo make install
+	popd
+
+	# Init the papis git repository.
+	papis git init
+	papis git remote set-url git@github.com/j-c-w/papers
 }
 
 should_install() {
@@ -308,6 +335,14 @@ do
 			DISABLE_MODE=1
 			RIPGREP=0
 			;;
+		--papis)
+			ENABLE_MODE=1
+			PAPIS=1
+			;;
+		--no-papis)
+			DISABLE_MODE=1
+			PAPIS=0
+			;;
 		-h|--help)
 			help
 			exit 0
@@ -336,5 +371,6 @@ fi
 ( should_install $VIM_PLUGINS ) || vim_plugins_install
 ( should_install $YOU_COMPLETE_ME ) || you_complete_me_install
 ( should_install $RIPGREP ) || ripgrep_install
+( should_install $PAPIS ) || papis_install
 
 echo "Done!"
