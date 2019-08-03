@@ -28,6 +28,10 @@ fi
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
+# Make the timeout before going into vim mode 0.1ms.
+# Somewhere someone online said this might have side-effects.
+export KEYTIMEOUT=1
+
 # This is for aliases, themes, environment variables, etc.
 # that should only be set on a particular machine.
 if [ -f ~/.zshrc_local ]; then
