@@ -48,17 +48,19 @@ command ScalaREPL !scala
 command SMLREPL !sml
 
 function ToggleSpell()
-    if !exists("g:jcw_spell_on")
+    if !exists("b:jcw_spell_on")
         " Assume spell check is off by default.
-        let g:jcw_spell_on = 0
+        let b:jcw_spell_on = 0
     endif
 
-    if g:jcw_spell_on
-		let g:jcw_spell_on = 0
-		set nospell
+    if b:jcw_spell_on
+		let b:jcw_spell_on = 0
+		setlocal nospell
+		echo "Spell off"
     else
-		let g:jcw_spell_on = 1
-        set spell spelllang=en_gb
+		let b:jcw_spell_on = 1
+        setlocal spell spelllang=en_gb
+		echo "Spell on"
     endif
 endfunction
 
