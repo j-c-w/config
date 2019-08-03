@@ -1,0 +1,16 @@
+[papers]
+dir = ~/Documents/papers
+
+[running]
+dir = ~/Documents/running_papers
+
+[test]
+dir = ~/test/test2/test3
+
+[settings]
+default-library = papers
+database-backend = whoosh
+whoosh-schema-fields = ['year', 'author', 'publisher', 'journal', 'pages']
+opentool = qpdfview --unique
+opentool-txt = gvim
+editor = vim
