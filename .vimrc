@@ -80,14 +80,12 @@ inoremap KJ <Esc>
 " Write is a common action. Make it
 " nice and quick
 nnoremap <leader>w :w<CR>
-" These are for quick copy/paste to system clipboard
-nnoremap <leader>y "+y
-nnoremap <leader>Y "+Y
-nnoremap <leader>p "+gp
-nnoremap <leader>P "+gP
 
-" Map gV to select the text inserted in the last insert
+" Map gV to select the text inserted in the last insert.
 nnoremap gV `[V`]
+
+" List the buffers and open a buffer switch command.
+nnoremap gb :ls<CR>:b<Space>
 
 " Map j and k to go down a visual line rather than an actual line
 nnoremap j gj
@@ -101,6 +99,13 @@ nnoremap Y y$
 
 " Map 'z,' to move the current line to about 10 from the top
 nnoremap z, zt10<C-y>
+
+" indent-heuristic tries to keep diffs more sensible around
+" indents.  algorithm:patience does a better job
+" (supposedly) at blocking changes together.  This
+" likely comes at the cost of speed.
+set diffopt+=algorithm:patience
+set diffopt+=indent-heuristic
 
 " This is a function you can run when editing a mathematical document for
 " my math shortcuts.
