@@ -3,7 +3,7 @@ let mapleader=" "
 if !empty(glob("~/.vimrc_additions"))
     so ~/.vimrc_additions
     " To alternate between solarized 'dark' and 'light', use
-    set background=light
+    setlocal background=light
     colorscheme solarized
 else
     " Some good alternatives are:
@@ -17,14 +17,14 @@ else
 endif
 
 " Local builds of VIM need this to have a working backspace.
-set backspace=2
+setlocal backspace=2
 
 " This sets the font to a readable size when the editor opens.
-set guifont=Monospace\ 14
+setlocal guifont=Monospace\ 14
 
 " Make the timeout len very small.  It helps with typing
 " of 'j' followed by k (and keeps the fingers quick :).
-set timeout timeoutlen=200
+setlocal timeout timeoutlen=200
 
 " This is for compiling languages.
 command SML !sml %
@@ -104,34 +104,34 @@ nnoremap z, zt10<C-y>
 " indents.  algorithm:patience does a better job
 " (supposedly) at blocking changes together.  This
 " likely comes at the cost of speed.
-set diffopt+=algorithm:patience
-set diffopt+=indent-heuristic
+setlocal diffopt+=algorithm:patience
+setlocal diffopt+=indent-heuristic
 
 " This is a function you can run when editing a mathematical document for
 " my math shortcuts.
 function MathAbbrev()
-    iabbrev mms \begin{align*}<CR><CR>\end{align*}<++><Esc>==kS
-    iabbrev mma \begin{align}<CR><CR>\end{align}<++><Esc>==kS
-    iabbrev mmi \begin{itemize}<CR><CR>\end{itemize}<++><Esc>==kS\item
-    iabbrev mme \begin{enumerate}<CR><CR>\end{enumerate}<++><Esc>==kS\item
-    iabbrev mmd \begin{description}<CR><CR>\end{description}<++><Esc>==kS\item[]<++><Esc>F]i
-    iabbrev mml \begin{lstlisting}[language=]<CR><++><CR>\end{lstlisting}<++><Esc>==kkf=a
-    iabbrev mmt \begin{tabular}{<++>}<CR><++><CR>\end{tabular}<++><Esc>2k3==0
-	iabbrev mmf \begin{frame}<CR>\frametitle{<++>}<CR>\end{frame}<++><Esc>kk<C-J>
-	iabbrev mmc \begin{columns}<CR>\begin{column}{0.5\textwidth}<CR><++><CR>\end{column}<CR>\begin{column}{0.5\textwidth}<CR><++><CR>\end{column}<CR>\end{columns}<++><Esc>^%<C-j>
+    iabbrev <buffer> mms \begin{align*}<CR><CR>\end{align*}<++><Esc>==kS
+    iabbrev <buffer> mma \begin{align}<CR><CR>\end{align}<++><Esc>==kS
+    iabbrev <buffer> mmi \begin{itemize}<CR><CR>\end{itemize}<++><Esc>==kS\item
+    iabbrev <buffer> mme \begin{enumerate}<CR><CR>\end{enumerate}<++><Esc>==kS\item
+    iabbrev <buffer> mmd \begin{description}<CR><CR>\end{description}<++><Esc>==kS\item[]<++><Esc>F]i
+    iabbrev <buffer> mml \begin{lstlisting}[language=]<CR><++><CR>\end{lstlisting}<++><Esc>==kkf=a
+    iabbrev <buffer> mmt \begin{tabular}{<++>}<CR><++><CR>\end{tabular}<++><Esc>2k3==0
+	iabbrev <buffer> mmf \begin{frame}<CR>\frametitle{<++>}<CR>\end{frame}<++><Esc>kk<C-J>
+	iabbrev <buffer> mmc \begin{columns}<CR>\begin{column}{0.5\textwidth}<CR><++><CR>\end{column}<CR>\begin{column}{0.5\textwidth}<CR><++><CR>\end{column}<CR>\end{columns}<++><Esc>^%<C-j>
 
     " This if to keep some of the latex-suite mappings that
     " I liked.
-    inoremap $$ $$<++><Esc>F$i
-    inoremap ^^ ^{}<++><Esc>F}i
-    inoremap __ _{}<++><Esc>F}i
+    inoremap <buffer> $$ $$<++><Esc>F$i
+    inoremap <buffer> ^^ ^{}<++><Esc>F}i
+    inoremap <buffer> __ _{}<++><Esc>F}i
 endfunction
 
 " This gives markdown the same commands for building and viewing that I
 " use for latex.
 function Markdown()
-    nnoremap <leader>ll :!pandoc -V geometry:margin=1in -o %:r.pdf %<CR>
-    nnoremap <leader>lv :!evince %:r.pdf &<CR>
+    nnoremap <buffer> <leader>ll :!pandoc -V geometry:margin=1in -o %:r.pdf %<CR>
+    nnoremap <buffer> <leader>lv :!evince %:r.pdf &<CR>
 endfunction
 
 " Set the indent style to be GNU style compliant.
@@ -149,12 +149,12 @@ function! LLVMBufferIndent()
 
     augroup csrc
         au!
-        autocmd FileType * set nocindent smartindent
-        autocmd FileType c,cpp set cindent
+        autocmd FileType * setlocal nocindent smartindent
+        autocmd FileType c,cpp setlocal cindent
     augroup END
 
-    set cinoptions=:0,g0,(0,Ws,l1
-    set smarttab
+    setlocal cinoptions=:0,g0,(0,Ws,l1
+    setlocal smarttab
 endfunction
 
 
@@ -175,27 +175,27 @@ au BufRead,BufNewFile * call ProjectStyleLoad()
 " highlighting anything, there are some style files to copy
 " into the syntax folder.
 augroup filetype
-  au! BufRead,BufNewFile *.ll     set filetype=llvm
+  au! BufRead,BufNewFile *.ll     setlocal filetype=llvm
 augroup END
 
 augroup filetype
-  au! BufRead,BufNewFile *.td     set filetype=tablegen
+  au! BufRead,BufNewFile *.td     setlocal filetype=tablegen
 augroup END
 
 augroup filetype
- au! BufRead,BufNewFile *.rst     set filetype=rest
+ au! BufRead,BufNewFile *.rst     setlocal filetype=rest
 augroup END
 
 " This checks for a tags file all the way up to the root rather than just in
 " the current directory.
-set tags=tags;/
+setlocal tags=tags;/
 
 " These call the above functions that set up some
 " default commands for that particular type of file.
 au FileType markdown :call Markdown()
 au FileType tex :call MathAbbrev()
 " Set make program to latexmk for latex programs
-au FileType tex set makeprg='latexmk'
+au FileType tex setlocal makeprg='latexmk'
 " Enable spelling by default on some file types.
 au FileType tex,markdown :Spell
 
@@ -204,41 +204,41 @@ nnoremap <leader>lm :make<CR>
 
 " This is to make sure VIM is always centered on the current directory rather
 " than the home directory.
-set autochdir
+setlocal autochdir
 
 " This is for solarized in particular, which requests it.
 syntax enable
 
 " This is for keeping track of the cursor. WARNING: makes vim a
 " lot slower.
-set cursorline
+setlocal cursorline
 " Disabled due to performance issues.
 " set cursorcolumn
 " And this is for making the above a little bit faster
-set lazyredraw
+setlocal lazyredraw
 
 " This sets up tabs as I want
-set autoindent
-set noexpandtab
-set tabstop=4
-set shiftwidth=4
+setlocal autoindent
+setlocal noexpandtab
+setlocal tabstop=4
+setlocal shiftwidth=4
 
 " This sets the search to search incrementally.
-set incsearch
+setlocal incsearch
 " Sets the search to highlight all the results.
-set hlsearch
+setlocal hlsearch
 
 " Set line numbers
-set number
+setlocal number
 
 " This sets up the spelling file for the spelllang command.
-set spelllang=en_gb
-set spellfile=$HOME/.vimdict.add
+setlocal spelllang=en_gb
+setlocal spellfile=$HOME/.vimdict.add
 " Spelling mistakes underlined:
 hi SpellBad cterm=underline,bold
 
 " Make 'J' preserve formatting when joining.
-set formatoptions+=j
+setlocal formatoptions+=j
 
 " Various VIM plugins that are enabled:
 if v:version >= 801
