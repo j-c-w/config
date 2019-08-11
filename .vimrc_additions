@@ -40,6 +40,8 @@ Bundle 'vim-airline/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
 " Add commands like 'ys' to add surrounding characters
 Bundle 'tpope/vim-surround'
+" Allow repetition of plugin-maps
+Bundle 'tpope/vim-repeat'
 " Add some rainbow parens
 Bundle 'junegunn/rainbow_parentheses.vim'
 " Adds some commands for ease of motion
