@@ -123,6 +123,8 @@ setopt list_ambiguous           # complete as much of a completion until it gets
 
 # Set vi to be the default editor here
 bindkey -v
+# Keep ^R as back-i search.
+bindkey "^R" history-incremental-search-backward
 
 # These keep track of new lines and key presses.  They update
 # the prompt depending on whether we are in vi mode or not.
