@@ -4,8 +4,8 @@ dir = ~/Documents/papers
 [running]
 dir = ~/Documents/running_papers
 
-[test]
-dir = ~/test/test2/test3
+[software]
+dir = ~/Documents/software
 
 [settings]
 default-library = papers
