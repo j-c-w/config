@@ -32,6 +32,15 @@ check_zsh() {
 }
 export -f check_zsh
 
+check_offlineimap() {
+	if [ ! -x "$(command -v offlineimap)" ]; then
+		echo "offlineimap not installed.  Run 'sudo apt install offlineimap"
+		echo "Try running install_prereqs.sh"
+		exit 1
+	fi
+}
+export -f check_offlineimap
+
 # Exit prematurely if python is not installed.
 check_python() {
 	if [ ! -x "$(command -v python)" ]; then

@@ -12,6 +12,29 @@ if [[ -z $__SOURCE_LOCATIONS ]]; then
 	exit 1
 fi
 
+install_mu_prereqs() {
+	check_sudo
+	# Install deps
+	sudo apt install libgmime-3.0-0 libgmime-3.0-dev libxapian-dev
+}
+
+install_mu() {
+	# Get mu
+	if [[ ! -d $MU_LOCATION ]]; then
+		git clone git://github.com/djcb/mu.git $MU_LOCATION
+	else
+		pushd $MU_LOCATION
+		git pull
+		popd
+	fi
+
+	echo "Building Mu"
+	pushd $MU_LOCATION
+	./autogen.sh
+	make
+	sudo make install
+	popd
+}
 
 install_vim_prereqs() {
 	check_sudo
