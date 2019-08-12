@@ -204,7 +204,7 @@ au FileType tex :call MathAbbrev()
 " Set make program to latexmk for latex programs
 au FileType tex setlocal makeprg='latexmk'
 " Enable spelling by default on some file types.
-au FileType tex,markdown :call SetSpellOn
+au FileType tex,markdown :call SetSpellOn()
 
 " Map <leader>lm to make:
 nnoremap <leader>lm :make<CR>
