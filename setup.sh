@@ -68,10 +68,14 @@ help() {
 
 		--ripgrep: Install ripgrep
 
+		--papis: Install papis
+
+		--email: Install an email server and download all of my emails.
+
 	Each option comes with a disable mode to selectively disable.
 	These should not be used in conjunction with the enable mode!
 
-	The disable mode is as above, but with a 'no-' prefixed i.e.
+	The disable mode is as above, but with a 'no-' prefixed e.g.
 
 		--no-vundle
 
@@ -124,6 +128,11 @@ rc_link() {
 	rm -f ~/.vimrc
 	rm -f ~/.vimrc_additions
 	rm -f ~/.zshrc
+	rm -f ~/.emacs
+	rm -f ~/.offlineimaprc
+	rm -f ~/.offlineimap.py
+	# Note this is not recursive because a softlink is a file.
+	rm -f ~/.passwd/
 	rm -f ~/.scripts
 	rm -f ~/.config/i3/config
 	rm -f ~/.tmux.conf
@@ -133,6 +142,9 @@ rc_link() {
 	ln -s $config_directory/.vimrc_additions ~/.vimrc_additions 
 	ln -s $config_directory/.zshrc ~/.zshrc
 	ln -s $config_directory/.tmux.conf ~/.tmux.conf
+	ln -s $config_directory/.offlineimaprc ~/.offlineimaprc
+	ln -s $config_directory/.offlineimap.py ~/.offlineimap.py
+	ln -s $config_directory/.passwd ~/.passwd
 	# Also link the local scripts.
 	ln -s $config_directory/scripts ~/.scripts
 	# Also link the i3 config.  If i3 isn't installed
@@ -148,6 +160,20 @@ rc_link() {
 	echo "-------------------------------"
 	echo "Config files linked"
 	echo "-------------------------------"
+}
+
+email_install() {
+	check_git
+	check_make
+	check_offlineimap
+
+	# Get offlineimap and install it.  It needs to
+	# be run after linking the RCs, so also do that.
+	(nohup offlineimap &)
+	echo "Starting to run offlineimap.  This may take some time to complete but will be done in the background."
+	sleep 2
+
+	install_mu
 }
 
 vim_install() {
@@ -346,6 +372,14 @@ do
 			DISABLE_MODE=1
 			PAPIS=0
 			;;
+		--email)
+			ENABLE_MODE=1
+			EMAIL=1
+			;;
+		--no-email)
+			DISABLE_MODE=1
+			EMAIL=0
+			;;
 		-h|--help)
 			help
 			exit 0
@@ -375,5 +409,6 @@ fi
 ( should_install $YOU_COMPLETE_ME ) || you_complete_me_install
 ( should_install $RIPGREP ) || ripgrep_install
 ( should_install $PAPIS ) || papis_install
+( should_install $EMAIL ) || email_install
 
 echo "Done!"
