@@ -1,0 +1,42 @@
+[general]
+pythonfile = ~/.offlineimap.py
+accounts = Gmail,Edinburgh
+maxsyncaccounts = 3
+
+[Account Gmail]
+localrepository = GmailLocal
+remoterepository = GmailRemote
+
+[Repository GmailLocal]
+type = Maildir
+localfolders = ~/Mail/Gmail
+
+[Repository GmailRemote]
+type = IMAP
+folderfilter = lambda folder: folder not in ['[Gmail]/Trash']
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+remotehost = imap.gmail.com
+remoteuser = woodruff.jackson@gmail.com
+remotepasseval = mailpasswd('gmail')
+ssl = yes
+maxconnections = 1
+maxage=30
+
+[Account Edinburgh]
+localrepository = EdinburghLocal
+remoterepository = EdinburghRemote
+
+[Repository EdinburghLocal]
+type=Maildir
+localfolders=~/Mail/Edinburgh
+
+[Repository EdinburghRemote]
+type = IMAP
+ssl = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+auth_mechanisms = PLAIN
+remotehost = outlook.office365.com
+remoteuser = s1988171@ed.ac.uk
+remotepasseval = mailpasswd('edinburgh')
+# See http://www.offlineimap.org/doc/FAQ.html#exchange-and-office365
+folderfilter = lambda folder: folder not in [ 'Calendar', 'Calendar/Birthdays', 'Calendar/Sub Folder 1', 'Calendar/Sub Folder 2', 'Calendar/United States holidays', 'Contacts', 'Contacts/Sub Folder 1', 'Contacts/Sub Folder 2', 'Contacts/Skype for Business Contacts', 'Deleted Items', 'Drafts', 'Journal', 'Junk Email', 'Notes', 'Outbox', 'Sync Issues', 'Sync Issues/Conflicts', 'Sync Issues/Local Failures', 'Sync Issues/Server Failures', 'Tasks', 'Tasks/Sub Folder 1', 'Tasks/Sub Folder 2' ]
