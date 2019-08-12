@@ -64,6 +64,13 @@ function ToggleSpell()
     endif
 endfunction
 
+function SetSpellOn()
+	let b:jcw_spell_on = 1
+
+	setlocal spell spelllang=en_gb
+endfunction
+
+
 " And set an alias for the spellang command
 command Spell call ToggleSpell()
 
@@ -197,7 +204,7 @@ au FileType tex :call MathAbbrev()
 " Set make program to latexmk for latex programs
 au FileType tex setlocal makeprg='latexmk'
 " Enable spelling by default on some file types.
-au FileType tex,markdown :Spell
+au FileType tex,markdown :call SetSpellOn
 
 " Map <leader>lm to make:
 nnoremap <leader>lm :make<CR>
