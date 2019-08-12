@@ -15,6 +15,7 @@ set -u
 
 ALL=1
 
+SMALL_MODE=0
 ENABLE_MODE=0
 DISABLE_MODE=0
 VUNDLE=0
@@ -293,6 +294,9 @@ do
 	ALL=0
 
 	case $key in
+		--small)
+			SMALL_MODE=1
+			;;
 		--vundle)
 			ENABLE_MODE=1
 			VUNDLE=1
@@ -398,6 +402,26 @@ if [ $DISABLE_MODE -eq 1 ] && [ $ENABLE_MODE -eq 0 ]; then
 	# That doesn't make much sense, so fail.
 	echo "Error: Both a --no-X and a --Y option were used"
 	exit 1
+fi
+
+if [[ $SMALL_MODE == 1 ]] && ( [[ $DISABLE_MODE == 1 ]] || [[ $ENABLE_MODE == 1 ]] ); then
+	echo "Error: --small is a predefined set of installations.  It skips complicated"
+	echo "and long steps like installing the  email client and just quickly sets things up"
+	exit 1
+fi
+
+if [[ $SMALL_MODE == 1 ]]; then
+	# Install just the quicker things.
+	ENABLE_MODE=1
+	VUNDLE=1
+	OH_MY_ZSH=1
+	OH_MY_ZSH_PLUGINS=1
+	POWERLINE=1
+	RC_LINK=1
+	VIM=1
+	VIM_PLUGINS=1
+	RIPGREP=1
+	PAPIS=1
 fi
 
 ( should_install $VUNDLE ) || vundle_install
