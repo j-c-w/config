@@ -142,6 +142,7 @@ rc_link() {
 	ln -s $config_directory/.vimrc_additions ~/.vimrc_additions 
 	ln -s $config_directory/.zshrc ~/.zshrc
 	ln -s $config_directory/.tmux.conf ~/.tmux.conf
+	ln -s $config_directory/.emacs ~/.emacs
 	ln -s $config_directory/.offlineimaprc ~/.offlineimaprc
 	ln -s $config_directory/.offlineimap.py ~/.offlineimap.py
 	ln -s $config_directory/.passwd ~/.passwd
