@@ -28,6 +28,7 @@ YOU_COMPLETE_ME=0
 VIM=0
 RIPGREP=0
 PAPIS=0
+EMAIL=0
 
 # Import the script folder.
 LOAD_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -133,7 +134,7 @@ rc_link() {
 	rm -f ~/.offlineimaprc
 	rm -f ~/.offlineimap.py
 	# Note this is not recursive because a softlink is a file.
-	rm -f ~/.passwd/
+	rm -f ~/.passwd
 	rm -f ~/.scripts
 	rm -f ~/.config/i3/config
 	rm -f ~/.tmux.conf
