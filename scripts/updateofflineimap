@@ -1,0 +1,6 @@
+#!/bin/zsh
+
+# This is a timed out version of offline imap: sometimes the connection dies mid-update and that makes offlineimap freeze.  Since multiple versionf os offline imap can't be runningat the same time, this deals with that issue.
+# A 10 minute timeout seems like plenty to me.
+
+timeout -s KILL 600 offlineimap
