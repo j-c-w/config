@@ -17,7 +17,7 @@
     ("d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
  '(package-selected-packages
    (quote
-    (mu4e doom-modeline solarized-theme telephone-line evil-surround pdf-tools ##))))
+    (org-alert alert-termux evil-commentary evl-commentary mu4e-alert mu4e doom-modeline solarized-theme telephone-line evil-surround pdf-tools ##))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -27,7 +27,7 @@
  )
 
 ;; Install packages automatically.
-(setq package-list '(evil evil-surround pdf-tools key-chord telephone-line solarized-theme doom-modeline))
+(setq package-list '(evil evil-surround pdf-tools key-chord telephone-line solarized-theme doom-modeline mu4e-alert all-the-icons evil-commentary org-alert alert))
 
 (unless package-archive-contents
   (package-refresh-contents))
@@ -37,14 +37,18 @@
 	(package-install package)))
 
 ;; Load solarized.  Alternative is 'solarized-dark.
-(load-theme 'solarized-dark t)
+(load-theme 'solarized-light t)
 
+;; Allows things to show alerts.
+(require 'alert)
 (add-to-list 'load-path "~/.emacs.d/evil")
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 (require 'evil)
 (evil-mode 1)
 
 (require 'evil-surround)
+(require 'evil-commentary)
+(evil-commentary-mode)
 (require 'key-chord)
 (key-chord-mode 1)
 
@@ -119,22 +123,79 @@
 ;; Setup mu4e:
 (require 'mu4e)
 (setq mail-user-agent 'mu4e-user-agent)
-(setq mu4e-get-mail-command "offlineimap"
+(setq mu4e-get-mail-command "~/.scripts/updateofflineimap"
 	  mu4e-update-interval 300) ;; Update every 300 seconds.
-(setq mu4e-maildir "~/Mail/Gmail")
-(setq mu4e-drafts-folder "/[Gmail].Drafts")
-(setq mu4e-sent-folder "/[Gmail].Sent Mail")
-(setq mu4e-trash-folder "/[Gmail].Trash")
+(setq mu4e-user-mail-addresses '(("woodruff.jackson@gmail.com" "j.c.woodruff@sms.ed.ac.uk")))
+;; (setq mu4e-maildir "~/Mail/Gmail")
+;; (setq mu4e-drafts-folder "/[Gmail].Drafts")
+;; (setq mu4e-sent-folder "/[Gmail].Sent Mail")
+;; (setq mu4e-trash-folder "/[Gmail].Trash")
 
-(setq mu4e-sent-messages-behaviour 'delete)
-(setq user-mail-address "woodruff.jackson@gmail.com"
-      user-full-name "Jackson Woodruff")
+;; (setq mu4e-sent-messages-behaviour 'delete)
+;; (setq user-mail-address "woodruff.jackson@gmail.com"
+      ;; user-full-name "Jackson Woodruff")
+;; (setq message-send-mail-function 'smtpmail-send-it
+      ;; starttls-use-gnutls t
+      ;; smtpmail-starttls-credentials '(("smtp.gmail.com" 587 "woodruff.jackson@gmail.com" nil))
+	  ;; smtpmail-auth-credentials '(("smtp.gmail.com" 587 "woodruff.jackson@gmail.com" nil))
+      ;; smtpmail-smtp-server "smtp.gmail.com"
+      ;; smtpmail-smtp-service 587)
 (setq message-send-mail-function 'smtpmail-send-it
-      starttls-use-gnutls t
-      smtpmail-starttls-credentials '(("smtp.gmail.com" 587 "woodruff.jackson@gmail.com" nil))
-	  smtpmail-auth-credentials '(("smtp.gmail.com" 587 "woodruff.jackson@gmail.com" nil))
-      smtpmail-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-service 587)
+	starttls-use-gnutls t
+	smtpmail-starttls-credentials '(("smtp.gmail.com" 587 "woodruff.jackson@gmail.com" nil))
+	smtpmail-auth-credentials '(("smtp.gmail.com" 587 "woodruff.jackson@gmail.com" nil))
+	smtpmail-smtp-server "smtp.gmail.com"
+	smtpmail-smtp-service 587)
+(setq mu4e-context-policy 'always-ask
+      mu4e-compose-context-policy 'always-ask)
+
+(setq mu4e-maildir "~/Mail"
+      message-send-mail-function 'smtpmail-send-it
+      mu4e-contexts
+      `( ,(make-mu4e-context
+	   :name "Edinburgh"
+	   ;; :enter-func (lambda() (color-theme-buffer-local 'color-theme-robin-hood (current-buffer)))
+	   :leave-func (lambda() (mu4e-message "Leaving Edinburgh"))
+	   :match-func (lambda (msg) t)
+	   :vars '(( user-mail-address . "J.C.Woodruff@sms.ed.ac.uk")
+		   (user-full-name . "Jackson Woodruff")
+		   (setq mu4e-drafts-folder "Edinburgh/Drafts")
+		   (setq mu4e-sent-folder "Edinburgh/Sent Items")
+		   (setq mu4e-trash-folder "Edinburgh/Archive")
+		   (setq message-send-mail-function 'smtpmail-send-it
+			 smtpmail-stream-type 'starttls
+			 smtpmail-default-smtp-server "smtp.office365.com"
+			 smtpmail-smtp-server "smtp.office365.com"
+			 smtpmail-smtp-service 587
+			 smtpmail-smtp-user "J.C.Woodruff@sms.ed.ac.uk")
+		   )
+	   )
+	 ,(make-mu4e-context
+	   :name "Gmail"
+	   ;; :enter-func (lambda() (mu4e-message (color-theme-buffer-local 'color-theme-dark-blue2 (current-buffer))))
+	   :leave-func (lambda() (mu4e-message "Leaving Gmail"))
+	   :match-func (lambda (msg) t)
+	   		 ;; (when msg
+	   		 ;;   (mu4e-message-contact-field-matches msg (:from :to :cc :bcc) "woodruff.jackson@gmail.com")))
+	   :vars '(( user-mail-address . "woodruff.jackson@gmail.com" )
+		   ( user-full-name . "Jackson Woodruff" )
+		   (setq mu4e-drafts-folder "Gmail/[Gmail].Drafts")
+		   (setq mu4e-sent-folder "Gmail/[Gmail].Sent Mail")
+		   (setq mu4e-trash-folder "Gmail/[Gmail].Trash")
+		   (setq mu4e-sent-messages-behaviour 'delete)
+		   (setq user-mail-address "woodruff.jackson@gmail.com"
+		         user-full-name "Jackson Woodruff")
+		   (setq message-send-mail-function 'smtpmail-send-it
+			 starttls-use-gnutls t
+			 smtpmail-starttls-credentials '(("smtp.gmail.com" 587 "woodruff.jackson@gmail.com" nil))
+			 smtpmail-auth-credentials '(("smtp.gmail.com" 587 "woodruff.jackson@gmail.com" nil))
+			 smtpmail-smtp-server "smtp.gmail.com"
+			 smtpmail-smtp-service 587)
+		   )
+	   )
+	 
+	 )
+      )
 
 ;; Make Chromium the default browswer that opens
 (setq browse-url-browser-function 'browse-url-generic
@@ -142,3 +203,15 @@
 
 ;; Make the font a bit bigger by default.  The size is the last element / 10.
 (set-face-attribute 'default nil :height 140)
+
+;; Setup mu4e alerts.
+(require 'mu4e-alert)
+(mu4e-alert-set-default-style 'libnotify)
+(add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)
+
+;; Get all the icons:
+(require 'all-the-icons)
+
+;; Alerts for org mode
+(require 'org-alert)
+(setq alert-default-style 'libnotify)
