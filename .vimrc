@@ -111,8 +111,10 @@ nnoremap z, zt10<C-y>
 " indents.  algorithm:patience does a better job
 " (supposedly) at blocking changes together.  This
 " likely comes at the cost of speed.
-setlocal diffopt+=algorithm:patience
-setlocal diffopt+=indent-heuristic
+if has('diff') && (version > 801 || (version == 801 && has('patch360')))
+	setlocal diffopt+=algorithm:patience
+	setlocal diffopt+=indent-heuristic
+endif
 
 " This is a function you can run when editing a mathematical document for
 " my math shortcuts.
