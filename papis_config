@@ -7,6 +7,9 @@ dir = ~/Documents/running_papers
 [software]
 dir = ~/Documents/software
 
+[latex]
+dir = ~/Documents/latex
+
 [settings]
 default-library = papers
 database-backend = whoosh
