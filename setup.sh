@@ -257,7 +257,16 @@ papis_install() {
 
 	# Init the papis git repository.
 	papis git init
-	papis git remote set-url git@github.com/j-c-w/papers
+	papis git remote add origin git@github.com/j-c-w/papers
+	papis -l running git init
+	papis -l software git init
+	papis -l latex git init
+	papis -l recipes git init
+
+	papis -l running git remote add origin git@github.com/j-c-w/running_papers
+	papis -l software git remote add origin git@github.com/j-c-w/sofware_documentation
+	papis -l latex git remote add origin git@github.com/j-c-w/latex_documentation
+	papis -l recipies git remote add origin git@github.com/j-c-w/recipes
 }
 
 should_install() {

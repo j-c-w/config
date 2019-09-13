@@ -10,6 +10,9 @@ dir = ~/Documents/software
 [latex]
 dir = ~/Documents/latex
 
+[recipes]
+dir = ~/Documents/recipes
+
 [settings]
 default-library = papers
 database-backend = whoosh
