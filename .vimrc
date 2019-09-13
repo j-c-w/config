@@ -19,6 +19,9 @@ endif
 " Local builds of VIM need this to have a working backspace.
 setlocal backspace=2
 
+" Set extra colors
+set t_Co=256
+
 " This sets the font to a readable size when the editor opens.
 setlocal guifont=Monospace\ 14
 
