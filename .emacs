@@ -4,7 +4,7 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(require 'package)
+
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 (custom-set-variables
@@ -147,7 +147,8 @@
 	smtpmail-smtp-server "smtp.gmail.com"
 	smtpmail-smtp-service 587)
 (setq mu4e-context-policy 'always-ask
-      mu4e-compose-context-policy 'always-ask)
+      mu4e-compose-context-policy 'always-ask
+      mu4e-compose-dont-reply-to-self t)
 
 (setq mu4e-maildir "~/Mail"
       message-send-mail-function 'smtpmail-send-it
