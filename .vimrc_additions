@@ -146,6 +146,7 @@ let g:airline_powerline_fonts = 1
 function DotLoadShortcuts()
 	nnoremap <buffer> <leader>ll :GraphvizCompile pdf<CR>
 	nnoremap <buffer> <leader>lv :Graphviz pdf<CR>
+	nnoremap <buffer> <leader>le :GraphvizCompile eps<CR>
 endfunction
 
 " -----------------------------------------------------------
