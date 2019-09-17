@@ -261,18 +261,21 @@ papis_install() {
 	sudo make && sudo make install
 	popd
 
+	# Make all the papis folders
+	mkdir -p ~/Documents/papers ~/Documents/software ~/Documents/latex  ~/Documents/latex ~/Documents/recipes ~/Documents/running_papers
+
 	# Init the papis git repository.
 	papis git init
-	papis git remote add origin git@github.com/j-c-w/papers
+	papis git remote add origin git@github.com:j-c-w/papers
 	papis -l running git init
 	papis -l software git init
 	papis -l latex git init
 	papis -l recipes git init
 
-	papis -l running git remote add origin git@github.com/j-c-w/running_papers
-	papis -l software git remote add origin git@github.com/j-c-w/sofware_documentation
-	papis -l latex git remote add origin git@github.com/j-c-w/latex_documentation
-	papis -l recipies git remote add origin git@github.com/j-c-w/recipes
+	papis -l running git remote add origin git@github.com:j-c-w/running_papers
+	papis -l software git remote add origin git@github.com:j-c-w/software_documentation
+	papis -l latex git remote add origin git@github.com:j-c-w/latex
+	papis -l recipes git remote add origin git@github.com:j-c-w/recipes
 }
 
 should_install() {
