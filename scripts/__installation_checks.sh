@@ -11,7 +11,16 @@ check_pip() {
 		exit 1
 	fi
 }
-export  check_pip
+export -f check_pip
+
+check_python3() {
+	if [ ! -x "$(command -v python3)" ]; then
+		echo "python3 not install. Run 'sudo apt install python3'"
+		echo "Try running install_prereqs.sh"
+		exit 1
+	fi
+}
+export -f check_python3
 
 # Exit prematurely if git is not installed.
 check_git() {
@@ -31,6 +40,14 @@ check_zsh() {
 	fi
 }
 export -f check_zsh
+
+check_pip3() {
+	if [ ! -x "$(command -v pip3)" ]; then
+		echo "pip3 not installed.  Run 'sudo apt install python3-pip'"
+		echo "Try running install_prereqs.sh"
+		exit 1
+	fi
+}
 
 check_offlineimap() {
 	if [ ! -x "$(command -v offlineimap)" ]; then

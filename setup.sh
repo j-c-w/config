@@ -170,6 +170,8 @@ email_install() {
 	check_make
 	check_offlineimap
 
+	sudo apt install libgmime-3.0-dev libxapian-dev texinfo
+
 	# Get offlineimap and install it.  It needs to
 	# be run after linking the RCs, so also do that.
 	(nohup offlineimap &)
@@ -239,7 +241,10 @@ vim_plugins_install() {
 }
 
 papis_install() {
-	pip3 install whoosh
+	check_pip3
+	check_python3
+	sudo pip3 install whoosh
+	sudo pip3 install setuptools
 	sudo apt install qpdfview
 
 	# Build and install papis from my personal repo.
@@ -252,6 +257,7 @@ papis_install() {
 	fi
 	git clone https://github.com/j-c-w/papis ~/.papis_install
 	pushd ~/.papis_install
+	sudo python3 setup.py install
 	sudo make && sudo make install
 	popd
 
