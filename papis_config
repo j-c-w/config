@@ -16,7 +16,7 @@ dir = ~/Documents/recipes
 [settings]
 default-library = papers
 database-backend = whoosh
-whoosh-schema-fields = ['year', 'author', 'publisher', 'journal', 'pages']
+whoosh-schema-fields = ['year', 'author', 'publisher', 'journal', 'pages', 'group']
 opentool = qpdfview --unique
 opentool-txt = gvim
 editor = vim
