@@ -1,0 +1,113 @@
+#!/usr/bin/python3
+
+import argparse
+import os
+import re
+import sys
+import yaml
+
+
+def to_alpha(n):
+	alphabet = 'abcdefghijklmnopqrstuvwxyz'
+	if n < 26:
+		return alphabet[n]
+	else:
+		return to_alpha(n // 26) + alphabet[n % 26]
+
+def extract_first_author(author_list):
+	if ',' in author_list:
+		# This is likely in LastName, First names and ... format
+		return author_list.split(',')[0]
+	elif ' and ' in author_list:
+		# This is likely in First Name Last Name format, but
+		# has more than one author:
+		first_auth = author_list.split(' and ')[0]
+		names = first_auth.split(' ')
+		# So return the last name
+		return names[-1]
+	else:
+		# This paper likely has a single author:
+		names = author_list.split(' ')
+		return names[-1]
+
+
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser(description="A tool to generate non-conflicting papis bibtex entries")
+
+	parser.add_argument('library_directories',
+						nargs='+')
+
+	args = parser.parse_args()
+	papis_lib_dirs = args.library_directories
+
+	# Get all the document folders from each directory
+	# and put them into one list.
+	folders = []
+	for lib_dir in papis_lib_dirs:
+		for paper in os.listdir(lib_dir):
+			full_path = os.path.join(lib_dir, paper, 'info.yaml')
+			if os.path.exists(full_path):
+				folders.append(full_path)
+
+	# Now, go through each 'info.yaml' file and grab
+	# any existing reference-names
+
+	used_names = {}
+	to_build = []
+	for folder in folders:
+		with open(folder, 'r') as stream:
+			try:
+				doc_dict = yaml.safe_load(stream)
+				if doc_dict is None:
+					continue
+				if 'author' in doc_dict:
+					author = extract_first_author(doc_dict['author'])
+				else:
+					author = ''
+
+				if 'year' in doc_dict:
+					year = doc_dict['year']
+				else:
+					year = '-'
+
+				if 'reference-name' in doc_dict:
+					# Check if the reference corresponds
+					# to the expected format:
+					existing_ref = doc_dict['reference-name']
+					if re.match(author + str(year) + '[a-z]*', existing_ref):
+						# This is the expected format: we don't want to update
+						# this document, and we should add to the used_names.
+						used_names[existing_ref] = True
+					else:
+						# This doesn't match the existing
+						# format, so it needs to be updated.
+						to_build.append((folder, doc_dict, author, year))
+				else:
+					# No existing reference name, so build
+					# this one too.
+					to_build.append((folder, doc_dict, author, year))
+			except yaml.YAMLError as exc:
+				print(exc)
+				sys.exit(1)
+
+
+	# Build the new names, ensuring that no old names
+	# are reused.
+	for (folder, doc_dict, author, year) in to_build:
+		# Build the new reference name:
+		base_reference_name = author + str(year)
+		reference_name = base_reference_name
+		n = 0
+		while reference_name in used_names:
+			reference_name = base_reference_name + to_alpha(n)
+			n += 1
+
+		# This is the name to use!
+		doc_title = doc_dict['title'] if 'title' in doc_dict else '<title-less>'
+		print("Assigning document " + doc_title + " ref " + reference_name)
+		used_names[reference_name] = True
+		doc_dict['reference-name'] = reference_name
+
+		with open(folder, 'w') as stream:
+			stream.write(yaml.dump(doc_dict, width=1000000, allow_unicode=True))
+
