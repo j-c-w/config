@@ -16,18 +16,76 @@ else
     colorscheme desert
 endif
 
-" Local builds of VIM need this to have a working backspace.
-setlocal backspace=2
+function LocalSettings()
+	let b:buffer_setup_complete = get(b:, 'buffer_setup_complete', 0)
+	if b:buffer_setup_complete == 1
+		" The buffer setup is already done, so we don't want to run it again.
+		return
+	endif
+	" Local builds of VIM need this to have a working backspace.
+	setlocal backspace=2
+	" This sets the font to a readable size when the editor opens.
+	setlocal guifont=Monospace\ 14
+	" Make the timeout len very small.  It helps with typing
+	" of 'j' followed by k (and keeps the fingers quick :).
+	setlocal timeout timeoutlen=200
+
+	" indent-heuristic tries to keep diffs more sensible around
+	" indents.  algorithm:patience does a better job
+	" (supposedly) at blocking changes together.  This
+	" likely comes at the cost of speed.
+	if has('diff') && (version > 801 || (version == 801 && has('patch360')))
+		setlocal diffopt+=algorithm:patience
+		setlocal diffopt+=indent-heuristic
+	endif
+
+	" This checks for a tags file all the way up to the root rather than just in
+	" the current directory.
+	setlocal tags=tags;/
+
+	" This is for keeping track of the cursor. WARNING: makes vim a
+	" lot slower.
+	setlocal cursorline
+	" Disabled due to performance issues.
+	" set cursorcolumn
+	" And this is for making the above a little bit faster
+	setlocal lazyredraw
+
+	" This sets up tabs as I want
+	setlocal autoindent
+	setlocal noexpandtab
+	setlocal tabstop=4
+	setlocal shiftwidth=4
+
+	" This sets the search to search incrementally.
+	setlocal incsearch
+	" Sets the search to highlight all the results.
+	setlocal hlsearch
+
+	" Set line numbers
+	setlocal number
+
+	" This sets up the spelling file for the spelllang command.
+	setlocal spelllang=en_gb
+	setlocal spellfile=$HOME/.vimdict.add
+	" Spelling mistakes underlined:
+	hi SpellBad cterm=underline,bold
+
+	" Make 'J' preserve formatting when joining.
+	setlocal formatoptions+=j
+
+	let b:buffer_setup_complete=1
+endfunction
+
+augroup LocalSettingsGroup
+	au!
+	autocmd BufNew * call LocalSettings()
+	autocmd BufNewFile * call LocalSettings()
+	autocmd BufRead * call LocalSettings()
+augroup END
 
 " Set extra colors
 set t_Co=256
-
-" This sets the font to a readable size when the editor opens.
-setlocal guifont=Monospace\ 14
-
-" Make the timeout len very small.  It helps with typing
-" of 'j' followed by k (and keeps the fingers quick :).
-setlocal timeout timeoutlen=200
 
 " This is for compiling languages.
 command SML !sml %
@@ -110,15 +168,6 @@ nnoremap Y y$
 " Map 'z,' to move the current line to about 10 from the top
 nnoremap z, zt10<C-y>
 
-" indent-heuristic tries to keep diffs more sensible around
-" indents.  algorithm:patience does a better job
-" (supposedly) at blocking changes together.  This
-" likely comes at the cost of speed.
-if has('diff') && (version > 801 || (version == 801 && has('patch360')))
-	setlocal diffopt+=algorithm:patience
-	setlocal diffopt+=indent-heuristic
-endif
-
 " This is a function you can run when editing a mathematical document for
 " my math shortcuts.
 function MathAbbrev()
@@ -198,10 +247,6 @@ augroup filetype
  au! BufRead,BufNewFile *.rst     setlocal filetype=rest
 augroup END
 
-" This checks for a tags file all the way up to the root rather than just in
-" the current directory.
-setlocal tags=tags;/
-
 " These call the above functions that set up some
 " default commands for that particular type of file.
 au FileType markdown :call Markdown()
@@ -220,37 +265,6 @@ setlocal autochdir
 
 " This is for solarized in particular, which requests it.
 syntax enable
-
-" This is for keeping track of the cursor. WARNING: makes vim a
-" lot slower.
-setlocal cursorline
-" Disabled due to performance issues.
-" set cursorcolumn
-" And this is for making the above a little bit faster
-setlocal lazyredraw
-
-" This sets up tabs as I want
-setlocal autoindent
-setlocal noexpandtab
-setlocal tabstop=4
-setlocal shiftwidth=4
-
-" This sets the search to search incrementally.
-setlocal incsearch
-" Sets the search to highlight all the results.
-setlocal hlsearch
-
-" Set line numbers
-setlocal number
-
-" This sets up the spelling file for the spelllang command.
-setlocal spelllang=en_gb
-setlocal spellfile=$HOME/.vimdict.add
-" Spelling mistakes underlined:
-hi SpellBad cterm=underline,bold
-
-" Make 'J' preserve formatting when joining.
-setlocal formatoptions+=j
 
 " Various VIM plugins that are enabled:
 if v:version >= 801
