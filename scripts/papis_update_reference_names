@@ -6,6 +6,7 @@ import re
 import sys
 import yaml
 
+REF_FIELD = 'ref'
 
 def to_alpha(n):
 	alphabet = 'abcdefghijklmnopqrstuvwxyz'
@@ -36,9 +37,11 @@ if __name__ == "__main__":
 
 	parser.add_argument('library_directories',
 						nargs='+')
+	parser.add_argument('--debug', default=False, dest='debug', action='store_true')
 
 	args = parser.parse_args()
 	papis_lib_dirs = args.library_directories
+	debug = args.debug
 
 	# Get all the document folders from each directory
 	# and put them into one list.
@@ -70,11 +73,16 @@ if __name__ == "__main__":
 				else:
 					year = '-'
 
-				if 'reference-name' in doc_dict:
+				if REF_FIELD in doc_dict:
 					# Check if the reference corresponds
 					# to the expected format:
-					existing_ref = doc_dict['reference-name']
+					existing_ref = doc_dict[REF_FIELD]
+					if debug:
+						print (" Matching " + author + str(year))
+						print ("Exisitn ref is " + existing_ref)
 					if re.match(author + str(year) + '[a-z]*', existing_ref):
+						if debug:
+							print ("Hit a match: not updating the name")
 						# This is the expected format: we don't want to update
 						# this document, and we should add to the used_names.
 						used_names[existing_ref] = True
@@ -106,7 +114,7 @@ if __name__ == "__main__":
 		doc_title = doc_dict['title'] if 'title' in doc_dict else '<title-less>'
 		print("Assigning document " + doc_title + " ref " + reference_name)
 		used_names[reference_name] = True
-		doc_dict['reference-name'] = reference_name
+		doc_dict[REF_FIELD] = reference_name
 
 		with open(folder, 'w') as stream:
 			stream.write(yaml.dump(doc_dict, width=1000000, allow_unicode=True))
