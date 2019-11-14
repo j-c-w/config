@@ -3,11 +3,10 @@
 " ------------------------------------------------------------
 "  ---------------------- Vundle Setup ---------------------
 " -----------------------------------------------------------
-setlocal nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-setlocal rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin("$HOME/.vim/VundlePlugins")
 
 " let Vundle manage Vundle, required
@@ -65,12 +64,22 @@ filetype plugin indent on    " required
 " ------------------ END OF VUNDLE SETTINGS ---------------------------
 "  ------------------------------------------------------------------
 
-" Adds a persistent undo file to the system:
-if has("persistent_undo")
-    call system('mkdir ' . ' ~/.undodir/')
-    setlocal undodir=~/.undodir/
-    setlocal undofile
-endif
+
+function LocalAdditions()
+	setlocal encoding=utf-8
+
+	" Adds a persistent undo file to the system:
+	if has("persistent_undo")
+		call system('mkdir ' . ' ~/.undodir/')
+		setlocal undodir=~/.undodir/
+		setlocal undofile
+	endif
+
+	setlocal laststatus=2
+	setlocal t_Co=256
+
+	setlocal nocompatible              " be iMproved, required
+endfunction
 
 " And map the undo thing to \u
 noremap <buffer> <leader>u :UndotreeToggle<CR>
@@ -94,8 +103,6 @@ let g:ale_linters = {'tex': []}
 " Set the statusline theme:
 " Need the laststatus to make the thing work.
 let g:airline_theme='base16'
-setlocal laststatus=2
-setlocal t_Co=256
 let g:airline_powerline_fonts = 1
 " This sets the buffer tabline
 let g:airline#extensions#tabline#enabled = 1
@@ -140,7 +147,6 @@ endfunction
 call PowerlineAirlineSymbols()
 
 " Needed for airline to work preperly:
-setlocal encoding=utf-8
 let g:airline_powerline_fonts = 1
 
 function DotLoadShortcuts()
@@ -169,4 +175,11 @@ endfunction
 augroup CompileCommands
 	autocmd FileType tex,latex,bibtex :call VimtexLoadShortcuts()
 	autocmd FileType dot :call DotLoadShortcuts()
+augroup END
+
+augroup AdditionalSettingsGroup
+	au!
+	autocmd BufNew * call LocalAdditions()
+	autocmd BufNewFile * call LocalAdditions()
+	autocmd BufRead * call LocalAdditions()
 augroup END
