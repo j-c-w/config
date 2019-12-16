@@ -1,0 +1,73 @@
+#!/bin/zsh
+
+set -eu
+
+typeset -a overwrite
+zparseopts -D -E -overwrite:=overwrite
+
+if [[ $# -lt 2 ]]; then
+	echo "Usage $0 <output refs file> <input files>"
+	echo "  --overwrite: overwrite the refs files"
+	exit 1
+fi
+
+output_file=$1
+typeset -a input_files
+shift
+
+while [[ $# -gt 0 ]]; do
+	input_files+=($1)
+	shift
+done
+
+if [[ $output_file == *.tex ]]; then
+	echo "Error: outputting into a .tex file, are your args the right way around?"
+	exit 1
+fi
+
+if [[ ${#overwrite} -gt 0 ]]; then
+	echo -n "" > $output_file
+fi
+
+typeset -a matches
+matches=( $(grep -e 'cite{[A-Za-z0-9\.-]*}' -o ${input_files[@]} | cut -c 6- | tr -d '}') )
+
+for match in $matches; do
+	echo "Looking for ref $match"
+	name=$(echo $match | sed -e 's/[[:digit:]][[:digit:]][[:digit:]][[:digit:]].*//')
+	year=$(echo $match | tr -d '[:alpha:]')
+
+	# Check if this is already in the refs file:
+	if [[ $(grep -e "$match" -c $output_file; true) -gt 0 ]]; then
+		echo "Already in the refs file"
+		continue
+	fi
+
+	num_matches=$(papis list "author:$name year:$year" | wc -l)
+	if [[ $num_matches -eq 0 ]]; then
+		echo "Error: no document found for $match"
+		echo "Context was:"
+		echo "---------"
+		grep -e $match ${input_files[@]}
+		read 'continue?Continue Anyway?[Y/n]'
+		if [[ $continue == (y|Y) ]]; then
+			continue
+		else
+			exit 1
+		fi
+	fi
+	if [[ $num_matches -gt 1 ]]; then
+		echo "Found more than one match for $match; context was:"
+		echo "--------------"
+		grep -e $match ${input_files[@]}
+		echo "--------------"
+		echo "Going to list all possibilities, select the best one <Enter to continue>:"
+		echo "s<Enter> to skip this"
+		read 'resp?'
+		if [[ ${#resp} -gt 0 ]]; then
+			echo "Skipping $match..."
+			continue
+		fi
+	fi
+	papis export "author:$name year:$year" -o $output_file 
+done
