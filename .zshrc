@@ -190,6 +190,7 @@ if [[ -n $TMUX ]]; then
 fi
 
 # An array of names for TMUX to choose from.
+tmux_names=( TPU FPGA CGRA KVS DCT FIR IIR FFT OuterSPACE NIC Needle )
 tmux_names=( Tahoe Reno NewReno Westwood Hybla Vegas BIC CUBIC BBR Peach SACK FACK RBP Asym FAST Illinois HTCP Ledbat DCTCP Remy Sprout PRR PCC TIMELY Proprate Vivace Copa )
 # Only try to start tmux if this is an interactive session.
 # Also don't try to start tmux if we are already in a tmux.
