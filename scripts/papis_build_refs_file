@@ -30,7 +30,7 @@ if [[ ${#overwrite} -gt 0 ]]; then
 fi
 
 typeset -a matches
-matches=( $(grep -e 'cite{[A-Za-z0-9\.-]*}' -o ${input_files[@]} | cut -c 6- | tr -d '}') )
+matches=( $(grep -e 'cite{[A-Za-z0-9\.,-]*}' -o ${input_files[@]} | cut -c 6- | tr -d '}' | tr ',' '\n' ) )
 
 for match in $matches; do
 	echo "Looking for ref $match"
