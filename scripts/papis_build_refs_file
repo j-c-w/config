@@ -34,16 +34,16 @@ matches=( $(grep -e 'cite{[A-Za-z0-9\.,-]*}' -o ${input_files[@]} | cut -c 6- | 
 
 for match in $matches; do
 	echo "Looking for ref $match"
-	name=$(echo $match | sed -e 's/[[:digit:]][[:digit:]][[:digit:]][[:digit:]].*//')
+	name=$(echo $match | sed -e 's/[[:digit:]][[:digit:]][[:digit:]][[:digit:]].*//' | sed -e 's/-.*//')
 	year=$(echo $match | tr -d '[:alpha:]')
 
 	# Check if this is already in the refs file:
-	if [[ $(grep -e "$match" -c $output_file; true) -gt 0 ]]; then
+	if [[ $(grep -e "$match," -c $output_file; true) -gt 0 ]]; then
 		echo "Already in the refs file"
 		continue
 	fi
 
-	num_matches=$(papis list "author:$name year:$year" | wc -l)
+	num_matches=$(papis list --all "author:$name year:$year" | wc -l)
 	if [[ $num_matches -eq 0 ]]; then
 		echo "Error: no document found for $match"
 		echo "Context was:"
