@@ -218,6 +218,11 @@ function! LLVMBufferIndent()
     setlocal smarttab
 endfunction
 
+function! PythonBufferIndent()
+	setlocal expandtab
+	setlocal tabstop=4
+endfunction
+
 
 function! ProjectStyleLoad()
     let l:BufferName=expand("%:p")
@@ -226,7 +231,9 @@ function! ProjectStyleLoad()
         call GNUIndent()
 	elseif l:BufferName =~? "llvm"
         call LLVMBufferIndent()
-    endif
+	elseif l:BufferName =~? ".py"
+		call PythonBufferIndent()
+	endif
 endfunction
 
 " Load the appropriate style of indentation.
