@@ -5,6 +5,7 @@ eval $(ssh-agent -s) > /dev/null
 export PATH=$PATH:~/Dropbox/Processes
 export PATH=$PATH:$HOME/bin:$HOME/.scripts
 export PATH=$PATH:$HOME/.scripts/AcceleratorCoverageScripts/
+export PATH=$PATH:$HOME/.scripts/Functions
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
