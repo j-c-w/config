@@ -1,0 +1,4 @@
+#!/bin/bash
+
+var=$(rg --files -g "*$@*" . 2> /dev/null | fzf)
+echo "$PWD/$var"

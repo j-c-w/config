@@ -1,0 +1,4 @@
+#!/bin/bash
+
+var=$(locate -r ".*$@.*$" 2> /dev/null | fzf)
+echo "$var"
