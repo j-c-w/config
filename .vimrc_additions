@@ -29,6 +29,7 @@ endif
 Bundle 'tpope/vim-commentary'
 " Also add a few language syntaxes that are bundled in
 Bundle 'rightson/vim-p4-syntax'
+Bundle 'LnL7/vim-nix'
 Bundle 'hdima/python-syntax'
 Bundle 'derekwyatt/vim-scala'
 Bundle 'liuchengxu/graphviz.vim'
@@ -37,6 +38,8 @@ Bundle 'mbbill/undotree'
 " Add airline for the status bar
 Bundle 'vim-airline/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
+Bundle 'junegunn/fzf'
+Bundle 'papis/papis-vim'
 " Add commands like 'ys' to add surrounding characters
 Bundle 'tpope/vim-surround'
 " Allow repetition of plugin-maps
