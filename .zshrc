@@ -128,6 +128,53 @@ bindkey -v
 # Keep ^R as back-i search.
 bindkey "^R" history-incremental-search-backward
 
+function c() {
+	cd $(c.sh $@)
+}
+
+function ch() {
+	cd ~/$(cd ~; c.sh $@)
+}
+
+function cs() {
+	cd /$(cd /; c.sh $@)
+}
+
+function cl() {
+	cd $(c_locate.sh $@)
+}
+
+function cd_and_open_in_vim() {
+	local file="$1"
+	if [[ -f "$file" ]]; then
+		cd $(dirname "$file")
+		vim $(basename "$file")
+	else
+		echo "File $file not found, not opening"
+		return 0
+	fi
+}
+
+function v() {
+	file=$(f $@)
+	cd_and_open_in_vim $file
+}
+
+function vs() {
+	file=$(fs $@)
+	cd_and_open_in_vim $file
+}
+
+function vh() {
+	file="$(fh $@)"
+	cd_and_open_in_vim $file
+}
+
+function vl() {
+	file="$(fl $@)"
+	cd_and_open_in_vim $file
+}
+
 # These keep track of new lines and key presses.  They update
 # the prompt depending on whether we are in vi mode or not.
 prompt_header="$"
@@ -183,6 +230,8 @@ is_session() {
 
 	echo $matched
 }
+
+if [ -e /home/jackson/.nix-profile/etc/profile.d/nix.sh ]; then . /home/jackson/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 # If we are starting a TMUX session, then print out the
 # the TMUX name.
