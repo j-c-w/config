@@ -10,7 +10,7 @@ llvm() {
 		flags=( -DLLVM_ENABLE_PROJECTS=clang)
 	fi
 	echo $flags
-	cmake ../llvm -G Ninja -DLLVM_ABI_BREAKING_CHECKS=FORCE_ON -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX="$PWD/../llvm-install" $flags
+	cmake ../llvm -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX="$PWD/../llvm-install" $flags
 }
 
 clang() {
