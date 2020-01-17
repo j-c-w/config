@@ -129,7 +129,10 @@ bindkey -v
 bindkey "^R" history-incremental-search-backward
 
 function c() {
-	cd $(c.sh $@)
+	dir=$(c.sh $@)
+	if [[ ! -z $dir && -d $dir ]]; then
+		cd $dir
+	fi
 }
 
 function ch() {
