@@ -1,7 +1,6 @@
 #!/bin/bash
 
 function is_dir() {
-	set -x
 	while read data; do
 		if [[ -d $data ]]; then
 			echo $data
