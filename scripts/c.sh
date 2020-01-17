@@ -1,3 +1,8 @@
 #!/bin/bash
 
-find -L -type d -wholename "*$@*" 2> /dev/null | fzf
+if [[ $# == 0 ]]; then
+	regex_str=".*"
+else
+	regex_str=".*$@.*" 
+fi
+fd -L --type d -p "$regex_str" | fzf
