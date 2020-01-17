@@ -1,4 +1,9 @@
 #!/bin/bash
 
-var=$(rg --files -g "*$@*" . 2> /dev/null | fzf)
+if [[ $# -gt 0 ]]; then
+	regex_string="*$@*" 
+else
+	regex_string="*"
+fi
+var=$(rg -L --files -g "$regex_string" . 2> /dev/null | fzf)
 echo "$PWD/$var"
