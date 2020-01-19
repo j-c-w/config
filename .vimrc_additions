@@ -39,6 +39,7 @@ Bundle 'mbbill/undotree'
 Bundle 'vim-airline/vim-airline'
 Bundle 'vim-airline/vim-airline-themes'
 Bundle 'junegunn/fzf'
+Bundle 'junegunn/fzf.vim'
 Bundle 'papis/papis-vim'
 " Add commands like 'ys' to add surrounding characters
 Bundle 'tpope/vim-surround'
