@@ -15,7 +15,7 @@ else
 fi
 
 if [[ ${#rec} -eq 0 ]]; then
-	grep -e "$search" -Hn * 2> /dev/null | fzf
+	grep -e "$search" --color=always -Hn * 2> /dev/null | fzf --ansi
 else
-	rg "$search" -n --no-heading . 2> /dev/null | fzf
+	rg "$search" -n --color always --no-heading . 2> /dev/null | fzf --ansi
 fi
