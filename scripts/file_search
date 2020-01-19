@@ -1,0 +1,21 @@
+#!/bin/zsh
+
+typeset -a rec
+zparseopts -D -E -- -recursion=rec r=rec
+
+if [[ $# -gt 1 ]]; then
+	echo "Usage: $0 [initial search term] [--recursion/-r]"
+	exit 1
+fi
+
+if [[ $# -gt 0 ]]; then
+	search="$1"
+else
+	search=''
+fi
+
+if [[ ${#rec} -eq 0 ]]; then
+	grep -e "$search" -Hn * 2> /dev/null | fzf
+else
+	rg "$search" -n --no-heading . 2> /dev/null | fzf
+fi

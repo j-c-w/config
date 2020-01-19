@@ -129,6 +129,7 @@ bindkey -v
 bindkey "^R" history-incremental-search-backward
 
 function c() {
+	local dir
 	dir=$(c.sh $@)
 	if [[ ! -z $dir && -d $dir ]]; then
 		cd $dir
@@ -158,24 +159,52 @@ function cd_and_open_in_vim() {
 	fi
 }
 
+function open_vim_from_line_match() {
+	local line="$1"
+	if [[ $line == '' ]]; then
+		echo "Line empty; not opening"
+		return 0
+	fi
+	local filename
+
+	filename="$(cut -d':' -f1 <<< "$line")"
+	cd "$(dirname $filename)"
+	lineno="$(cut -d':' -f2 <<< "$line")"
+	vim "$(basename $filename)" +$lineno
+}
+
 function v() {
+	local file
 	file=$(f $@)
 	cd_and_open_in_vim $file
 }
 
 function vs() {
+	local file
 	file=$(fs $@)
 	cd_and_open_in_vim $file
 }
 
 function vh() {
+	local file
 	file="$(fh $@)"
 	cd_and_open_in_vim $file
 }
 
 function vl() {
+	local file
 	file="$(fl $@)"
 	cd_and_open_in_vim $file
+}
+
+function vc() {
+	line="$(file_search $@)"
+	open_vim_from_line_match "$line"
+}
+
+function vcr() {
+	line="$(file_search -r $@)"
+	open_vim_from_line_match "$line"
 }
 
 # These keep track of new lines and key presses.  They update
