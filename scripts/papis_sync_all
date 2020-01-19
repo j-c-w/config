@@ -1,0 +1,35 @@
+#!/bin/bash
+set -eu
+
+# load all the libraries from the config file:
+config_file=~/.config/papis/config
+
+typeset -a doc_classes
+doc_classes=($(grep '^[[:space:]]*\[.*\][[:space:]]*$' $config_file | grep -v '\[settings\]' | tr -d '[]'))
+
+echo "Syncing the following classes: ${doc_classes[@]}"
+echo "Committing changes"
+parallel "(papis -l {} git add \"'*'\"; papis -l {} git commit -m \"'Auto-bump version at $(date) on $(hostname)'\") " ::: ${doc_classes[@]}
+
+echo "Pulling changes..."
+parallel 'papis -l {} git pull &> {}.update_tmp' ::: ${doc_classes[@]}
+
+echo "Looking for merge conflicts..."
+for class in ${doc_classes[@]}; do
+	if [[ $(grep -ce 'MERGE CONFLICT' ${class}.update_tmp || true) -gt 0 ]]; then
+		echo "Merge conflict found for library $class"
+		echo "Message was:"
+		cat ${class}.update_tmp
+		echo "Merge conflict found for library $class"
+		echo "Please resolve and commit the conflict."
+		echo "Press <Enter> after the merge conflict is resolved"
+		read -q 'tmp?'
+	fi
+
+	rm ${class}.update_tmp
+done
+
+echo "Pushing to repositories..."
+parallel 'papis -l {} git push' ::: ${doc_classes[@]}
+
+echo "Repositories synced! (${doc_classes[@]})"
