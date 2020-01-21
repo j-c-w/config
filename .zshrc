@@ -152,6 +152,7 @@ function cd_and_open_in_vim() {
 	local file="$1"
 	if [[ -f "$file" ]]; then
 		cd $(dirname "$file")
+		echo "Opening $(basename $file)"
 		vim $(basename "$file")
 	else
 		echo "File $file not found, not opening"
@@ -170,6 +171,7 @@ function open_vim_from_line_match() {
 	filename="$(cut -d':' -f1 <<< "$line")"
 	cd "$(dirname $filename)"
 	lineno="$(cut -d':' -f2 <<< "$line")"
+	echo "Opening $(basename $filename)"
 	vim "$(basename $filename)" +$lineno
 }
 
@@ -195,6 +197,21 @@ function vl() {
 	local file
 	file="$(fl $@)"
 	cd_and_open_in_vim $file
+}
+
+# Go up within the project; here specified by a git repo, but
+# a better check is possible.
+function vg() {
+	local initial_dir="$PWD"
+	while [[ "$PWD" != / ]] && [[ ! -e .git ]]; do
+		cd ..
+	done
+	if [[ $PWD == / ]]; then
+		echo "No project found"
+		cd $initial_dir
+	else
+		v "$@"
+	fi
 }
 
 function vc() {
