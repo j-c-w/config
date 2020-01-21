@@ -28,7 +28,11 @@ for class in ${doc_classes[@]}; do
 	popd
 done
 
+echo "Updating database... (in background, while pushing)"
+parallel 'papis -l {} --cc' ::: ${doc_classes[@]} &
+
 echo "Pushing to repositories..."
 parallel 'cd {}; git push' ::: ${doc_classes[@]}
 
+wait
 echo "Repositories synced! (${doc_classes[@]})"
