@@ -7,6 +7,28 @@ export PATH=$PATH:$HOME/bin:$HOME/.scripts
 export PATH=$PATH:$HOME/.scripts/AcceleratorCoverageScripts/
 export PATH=$PATH:$HOME/.scripts/Functions
 
+# For the cr and vr commands, which cd and open files
+# in vim from the folders in this path.
+# if files don't exist, it's not important.
+fzf_files_path=( ~/Dropbox ~/Projects ~/LocalProjects ~/mnt_ubuntu/Projects )
+FZF_FILES_PATH=${(j<:>)fzf_files_path}
+FZF_SYMLINK_DIR=~/.fzf_files_path_links
+
+# Takes the fzf_files_path variable and creates symlinks
+# to everything that exists.
+function update_fzf_symlinks_directory() {
+	local file
+	local symlink_name
+	mkdir -p $FZF_SYMLINK_DIR
+	for file in ${fzf_files_path[@]}; do
+		symlink_name=$FZF_SYMLINK_DIR/${file:gs/\//_}
+		if [[ -e $file ]] && [[ ! -e $symlink_name ]]; then
+			ln -s $file $symlink_name
+		fi
+	done
+}
+update_fzf_symlinks_directory
+
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
@@ -156,6 +178,12 @@ function cpd() {
 	cd $(cd $PREVIOUS_JUMP_DIRECTORY; c.sh $@)
 }
 
+# c restricted, uses the FZF_FILES_PATH variable.
+function cr() {
+	update_fzf_symlinks_directory
+	cd ~/$(cd $FZF_SYMLINK_DIR; c.sh $@)
+}
+
 function cd_and_open_in_vim() {
 	local file="$1"
 	if [[ -f "$file" ]]; then
@@ -190,6 +218,14 @@ function open_vim_from_line_match() {
 function v() {
 	local file
 	file=$(f $@)
+	cd_and_open_in_vim "$file"
+}
+
+# Open vim restricted, uses the FZF_SYMLINK_DIR variable
+function vr() {
+	local file
+	update_fzf_symlinks_directory
+	file=$(f --dir $FZF_SYMLINK_DIR $@)
 	cd_and_open_in_vim "$file"
 }
 
