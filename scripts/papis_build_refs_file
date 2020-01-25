@@ -48,7 +48,7 @@ for match in $matches; do
 		echo "Error: no document found for $match"
 		echo "Context was:"
 		echo "---------"
-		grep -e $match ${input_files[@]}
+		grep --color=always -A 3 -B 3 -e $match ${input_files[@]}
 		read 'continue?Continue Anyway?[Y/n]'
 		if [[ $continue == (y|Y) ]]; then
 			continue
@@ -59,7 +59,7 @@ for match in $matches; do
 	if [[ $num_matches -gt 1 ]]; then
 		echo "Found more than one match for $match; context was:"
 		echo "--------------"
-		grep -e $match ${input_files[@]}
+		grep  --color=always -A 3 -B 3 -e $match ${input_files[@]}
 		echo "--------------"
 		echo "Going to list all possibilities, select the best one <Enter to continue>:"
 		echo "s<Enter> to skip this"
