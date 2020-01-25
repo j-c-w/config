@@ -1,4 +1,13 @@
-#!/bin/bash
+#!/bin/zsh
+
+typeset -a dir
+zparseopts -D -E -- -dir:=dir d:=dir
+
+if [[ ${#dir} -gt 0 ]]; then
+	dirname="${dir[2]}"
+	echo "Running f command in $dirname" > /dev/stderr
+	cd "$dirname"
+fi
 
 if [[ $# -gt 0 ]]; then
 	regex_string="*$@*" 
@@ -6,4 +15,8 @@ else
 	regex_string="*"
 fi
 var=$(rg -L --files -g "$regex_string" . 2> /dev/null | fzf)
-echo "$PWD/$var"
+if [[ $PWD != / ]]; then
+	echo "$PWD/$var"
+else
+	echo "/$var"
+fi

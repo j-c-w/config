@@ -128,6 +128,10 @@ bindkey -v
 # Keep ^R as back-i search.
 bindkey "^R" history-incremental-search-backward
 
+# Enables the (v|c)Xpd commands which search from the
+# same directory as the last successful v or c command.
+PREVIOUS_JUMP_DIRECTORY=~
+
 function c() {
 	local dir
 	dir=$(c.sh $@)
@@ -148,9 +152,14 @@ function cl() {
 	cd $(c_locate.sh $@)
 }
 
+function cpd() {
+	cd $(cd $PREVIOUS_JUMP_DIRECTORY; c.sh $@)
+}
+
 function cd_and_open_in_vim() {
 	local file="$1"
 	if [[ -f "$file" ]]; then
+		PREVIOUS_JUMP_DIRECTORY=$PWD
 		cd $(dirname "$file")
 		echo "Opening $(basename $file)"
 		vim $(basename "$file")
@@ -169,34 +178,40 @@ function open_vim_from_line_match() {
 	local filename
 
 	filename="$(cut -d':' -f1 <<< "$line")"
+	PREVIOUS_JUMP_DIRECTORY=$PWD
 	cd "$(dirname $filename)"
 	lineno="$(cut -d':' -f2 <<< "$line")"
 	echo "Opening $(basename $filename)"
 	vim "$(basename $filename)" +$lineno
 }
 
+# Open vim from the filenames accessible from where
+# the pointer currently is.
 function v() {
 	local file
 	file=$(f $@)
-	cd_and_open_in_vim $file
+	cd_and_open_in_vim "$file"
 }
 
+# Open vim from the system-wide filenames.
 function vs() {
 	local file
 	file=$(fs $@)
-	cd_and_open_in_vim $file
+	cd_and_open_in_vim "$file"
 }
 
+# Open vim from the home directory file names.
 function vh() {
 	local file
 	file="$(fh $@)"
-	cd_and_open_in_vim $file
+	cd_and_open_in_vim "$file"
 }
 
+# Open vim based on file names in the locate-DB
 function vl() {
 	local file
 	file="$(fl $@)"
-	cd_and_open_in_vim $file
+	cd_and_open_in_vim "$file"
 }
 
 # Go up within the project; here specified by a git repo, but
@@ -214,11 +229,20 @@ function vg() {
 	fi
 }
 
+# Do a v-command in the previous directory where cX or vX was  used.
+function vpd() {
+	echo $PREVIOUS_JUMP_DIRECTORY
+	file="$(f --dir $PREVIOUS_JUMP_DIRECTORY $@)"
+	cd_and_open_in_vim "$file"
+}
+
+# Open vim based on file contents.
 function vc() {
 	line="$(file_search $@)"
 	open_vim_from_line_match "$line"
 }
 
+# Open vim based on file contents recursively.
 function vcr() {
 	line="$(file_search -r $@)"
 	open_vim_from_line_match "$line"
