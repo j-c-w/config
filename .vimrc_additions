@@ -31,6 +31,7 @@ Bundle 'tpope/vim-commentary'
 Bundle 'rightson/vim-p4-syntax'
 Bundle 'LnL7/vim-nix'
 Bundle 'hdima/python-syntax'
+Bundle 'j-c-w/IDLHighlighting'
 Bundle 'derekwyatt/vim-scala'
 Bundle 'liuchengxu/graphviz.vim'
 " Adds a plugin for using the undo tree
