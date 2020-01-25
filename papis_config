@@ -13,6 +13,9 @@ dir = ~/Documents/latex
 [recipes]
 dir = ~/Documents/recipes
 
+[cycling]
+dir = ~/Documents/cycling
+
 [settings]
 default-library = papers
 database-backend = whoosh
