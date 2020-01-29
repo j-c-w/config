@@ -2,14 +2,18 @@
 set -eu
 
 typeset -a doc_classes
-doc_classes=($(papis list --libraries | cut -d' ' -f 2))
+unexpanded_doc_classes=($(papis list --libraries | cut -d' ' -f 2))
+typeset -a doc_classes=()
+for doc in ${unexpanded_doc_classes[@]}; do
+	doc_classes+=($(eval echo $doc))
+done
 
 echo "Syncing the following classes: ${doc_classes[@]}"
 echo "Committing changes"
-parallel "(cd {}; git add '*'; git commit -m 'Auto-bump version at $(date) on $(hostname)') " ::: ${doc_classes[@]}
+parallel "(cd $(eval echo {}); git add '*'; git commit -m 'Auto-bump version at $(date) on $(hostname)') " ::: ${doc_classes[@]}
 
 echo "Pulling changes..."
-parallel 'cd {}; git pull &> git.update_tmp' ::: ${doc_classes[@]}
+parallel "cd $(eval echo {}); git pull &> git.update_tmp" ::: ${doc_classes[@]}
 
 echo "Looking for merge conflicts..."
 for class in ${doc_classes[@]}; do
@@ -32,7 +36,7 @@ echo "Updating database... (in background, while pushing)"
 parallel 'papis -l {} --cc' ::: ${doc_classes[@]} &
 
 echo "Pushing to repositories..."
-parallel 'cd {}; git push' ::: ${doc_classes[@]}
+parallel "cd $(eval echo {}); git push" ::: ${doc_classes[@]}
 
 wait
 echo "Repositories synced! (${doc_classes[@]})"
