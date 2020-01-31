@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -u
 
 typeset -a doc_classes
 unexpanded_doc_classes=($(papis list --libraries | cut -d' ' -f 2))
