@@ -52,6 +52,7 @@ NODE_TYPE=""
 # Load specific zshrcs for each machine
 # Load the eddie zshrc if required:
 if [[ $HOSTNAME == *.ecdf.ed.ac.uk ]]; then
+	echo "Using an EDDIE machine"
 	source ~/.scripts/EddieScripts/.eddie_zshrc
 fi
 
