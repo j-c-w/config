@@ -46,6 +46,22 @@ if [ -d "/usr/local/systemc-2.3/" ]; then
 	export LD_LIBRARY_PATH="/usr/local/systemc-2.3/lib-linux64:$LD_LIBRARY_PATH"
 fi
 
+# For the prompt, an optional extension used for compute cluster nodes right now.
+NODE_TYPE=""
+
+# Load specific zshrcs for each machine
+# Load the eddie zshrc if required:
+if [[ $HOSTNAME == *.ecdf.ed.ac.uk ]]; then
+	source ~/.scripts/EddieScripts/.eddie_zshrc
+fi
+
+# This is for aliases, themes, environment variables, etc.
+# that should only be set on a particular machine.
+if [ -f ~/.zshrc_local ]; then
+	# $HOSTNAME == ... should be prefered.
+	source ~/.zshrc_local
+fi
+
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -56,12 +72,6 @@ export EDITOR="$VISUAL"
 # Make the timeout before going into vim mode 0.1ms.
 # Somewhere someone online said this might have side-effects.
 export KEYTIMEOUT=1
-
-# This is for aliases, themes, environment variables, etc.
-# that should only be set on a particular machine.
-if [ -f ~/.zshrc_local ]; then
-	source ~/.zshrc_local
-fi
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
 # sensitive completion must be off. _ and - will be interchangeable.
@@ -310,8 +320,7 @@ DEVICE_BLUE=$(( ($DEVICE_COLOR / (256 * 256)) % 256 ))
 
 # Any bad color combos from servers this hits should be fixed
 # here.
-
-export PROMPT=$'%{\e[0;34m%}%B┌─[%b%{\e[0m%}%{\e[1;32m%}%n%{\e[1;34m%}@%{\e[0m%}%{\x1b[38;2;${DEVICE_RED};${DEVICE_GREEN};${DEVICE_BLUE}m%}%m%{\e[0;34m%}%B]%b%{\e[0m%} - %b%{\e[0;34m%}%B[%b%{\e[2;28m%}%~%{\e[0;34m%}%B]%b%{\e[0m%} - %{\e[0;34m%}%B[%b%{\e[0;33m%}%!%{\e[0;34m%}%B]%b%{\e[0m%}
+export PROMPT=$'%{\e[0;34m%}%B┌─[%b%{\e[0m%}%{\e[1;32m%}%n%{\e[1;34m%}@%{\e[0m%}%{\x1b[38;2;${DEVICE_RED};${DEVICE_GREEN};${DEVICE_BLUE}m%}%m%{\e[0;34m%}%B]%b%{\e[0m%} -${NODE_TYPE}%b%{\e[0;34m%}%B[%b%{\e[2;28m%}%~%{\e[0;34m%}%B]%b%{\e[0m%} - %{\e[0;34m%}%B[%b%{\e[0;33m%}%!%{\e[0;34m%}%B]%b%{\e[0m%}
 %{\e[0;34m%}%B└─%B[%{\e[1;35m%}${prompt_header}%{\e[0;34m%}%B]%{\e[0m%}%b '
 export RPROMPT='[%*]'
 export PS2=$' \e[0;34m%}%B>%{\e[0m%}%b '

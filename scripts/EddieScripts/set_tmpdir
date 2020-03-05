@@ -1,0 +1,4 @@
+#!/bin/echo "Command must be sourced"
+
+export TMPDIR=/local/$(ls -l /local | grep s1988171 | awk '{print $9}')
+export EXPORTSDIR=/exports/eddie/scratch/s1988171

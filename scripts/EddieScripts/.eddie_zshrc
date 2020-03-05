@@ -1,0 +1,9 @@
+#!/bin/echo "Eddie Zshrc should be sorced!"
+USE_TMUX=no
+
+if [[ $(hostname) == login* ]]; then
+	export NODE_TYPE=" (login) "
+else
+	export NODE_TYPE=" (compute) "
+fi
+
