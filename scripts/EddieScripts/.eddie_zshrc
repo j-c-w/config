@@ -1,5 +1,5 @@
 #!/bin/echo "Eddie Zshrc should be sorced!"
-USE_TMUX=no
+use_tmux=no
 
 if [[ $(hostname) == login* ]]; then
 	export NODE_TYPE=" (login) "
