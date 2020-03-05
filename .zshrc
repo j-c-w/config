@@ -1,5 +1,6 @@
 # Add local public keys.
 eval $(ssh-agent -s) > /dev/null
+use_tmux=yes
 
 # Add local scripts to the path.
 export PATH=$PATH:~/Dropbox/Processes
@@ -354,7 +355,7 @@ tmux_names=( TPU FPGA CGRA KVS DCT FIR IIR FFT OuterSPACE NIC Needle )
 tmux_names=( Tahoe Reno NewReno Westwood Hybla Vegas BIC CUBIC BBR Peach SACK FACK RBP Asym FAST Illinois HTCP Ledbat DCTCP Remy Sprout PRR PCC TIMELY Proprate Vivace Copa )
 # Only try to start tmux if this is an interactive session.
 # Also don't try to start tmux if we are already in a tmux.
-if [[ $- == *i* ]] && [[ -z $TMUX ]]; then
+if [[ $use_tmux == yes ]] && [[ $- == *i* ]] && [[ -z $TMUX ]]; then
 	# Start tmux with a name.  If nothing is entered then we use the default tmux numbering.
 	read 'tmux_name?Window name (<CR> for autonumber, "0<CR>" for no tmux)?'
 	if [[ $tmux_name == "" ]]; then
@@ -400,3 +401,4 @@ if [[ $- == *i* ]] && [[ -z $TMUX ]]; then
 	fi
 fi
 unset tmux_names
+unset use_tmux
