@@ -318,15 +318,21 @@ DEVICE_COLOR=$(( $(( 0x$(sha1sum <<< "$(whoami)$(hostname)" | cut -c1-10) )) % (
 DEVICE_RED=$(( $DEVICE_COLOR % 256 ))
 DEVICE_GREEN=$(( ($DEVICE_COLOR / 256) % 256 ))
 DEVICE_BLUE=$(( ($DEVICE_COLOR / (256 * 256)) % 256 ))
+VISIBLE_USER="$(whoami)"
+# USERCOLOR=
+
+if [[ ! -z $IN_NIX_SHELL ]]; then
+	VISIBLE_USER="nix-shell"
+fi
 
 # Any bad color combos from servers this hits should be fixed
 # here.
-export PROMPT=$'%{\e[0;34m%}%B┌─[%b%{\e[0m%}%{\e[1;32m%}%n%{\e[1;34m%}@%{\e[0m%}%{\x1b[38;2;${DEVICE_RED};${DEVICE_GREEN};${DEVICE_BLUE}m%}%m%{\e[0;34m%}%B]%b%{\e[0m%} -${NODE_TYPE}%b%{\e[0;34m%}%B[%b%{\e[2;28m%}%~%{\e[0;34m%}%B]%b%{\e[0m%} - %{\e[0;34m%}%B[%b%{\e[0;33m%}%!%{\e[0;34m%}%B]%b%{\e[0m%}
+export PROMPT=$'%{\e[0;34m%}%B┌─[%b%{\e[0m%}%{\e[1;32m%}${VISIBLE_USER}%{\e[1;34m%}@%{\e[0m%}%{\x1b[38;2;${DEVICE_RED};${DEVICE_GREEN};${DEVICE_BLUE}m%}%m%{\e[0;34m%}%B]%b%{\e[0m%} - ${NODE_TYPE}%b%{\e[0;34m%}%B[%b%{\e[2;28m%}%~%{\e[0;34m%}%B]%b%{\e[0m%} - %{\e[0;34m%}%B[%b%{\e[0;33m%}%!%{\e[0;34m%}%B]%b%{\e[0m%}
 %{\e[0;34m%}%B└─%B[%{\e[1;35m%}${prompt_header}%{\e[0;34m%}%B]%{\e[0m%}%b '
 export RPROMPT='[%*]'
 export PS2=$' \e[0;34m%}%B>%{\e[0m%}%b '
 
-eval `gnome-keyring-daemon --start`
+eval `ssh-agent`
 rename() {
 	local new_name=$1
 	tmux rename-session $new_name
