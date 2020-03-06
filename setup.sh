@@ -23,6 +23,7 @@ VIM_PLUGINS=0
 OH_MY_ZSH=0
 OH_MY_ZSH_PLUGINS=0
 RC_LINK=0
+NIXOS_FILES=0
 POWERLINE=0
 YOU_COMPLETE_ME=0
 VIM=0
@@ -63,6 +64,9 @@ help() {
 
 		--rc-link: Link .vimrc to ~/.vimrc, .zshrc to ~/.zshrc,
 					.vimrc_additions to ~/.vimrc_additions
+
+		--nixos-files: Gets the nixfiles repositories I use
+				and links them under /etc/nixos/nixfiles
 
 		--powerline: Install powerline font
 
@@ -163,6 +167,15 @@ rc_link() {
 	echo "-------------------------------"
 	echo "Config files linked"
 	echo "-------------------------------"
+}
+
+nixos_files() {
+	sudo mkdir -p /etc/nixos/nixfiles
+
+	git submodule init
+	git submodule update
+
+	sudo ln -s $PWD/nixos-hardware /etc/nixos/nixfiles
 }
 
 email_install() {
@@ -356,6 +369,14 @@ do
 			DISABLE_MODE=1
 			RC_LINK=0
 			;;
+		--nixos-files)
+			ENABLE_MODE=1
+			NIXOS_FILES=1
+			;;
+		--no-nixos-files)
+			DISABLE_MODE=1
+			NIXOS_FILES=0
+			;;
 		--powerline)
 			ENABLE_MODE=1
 			POWERLINE=1
@@ -437,6 +458,7 @@ if [[ $SMALL_MODE == 1 ]]; then
 	OH_MY_ZSH_PLUGINS=1
 	POWERLINE=1
 	RC_LINK=1
+	NIXOS_FILES=1
 	VIM=1
 	VIM_PLUGINS=1
 	RIPGREP=1
@@ -448,6 +470,7 @@ fi
 ( should_install $OH_MY_ZSH_PLUGINS ) || oh_my_zsh_plugins_install
 ( should_install $POWERLINE ) || powerline_install
 ( should_install $RC_LINK ) || rc_link
+( should_install $NIXOS_FILES ) || nixos_files
 ( should_install $VIM ) || vim_install
 ( should_install $VIM_PLUGINS ) || vim_plugins_install
 ( should_install $YOU_COMPLETE_ME ) || you_complete_me_install
