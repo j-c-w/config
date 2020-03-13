@@ -1,0 +1,13 @@
+#!/bin/echo "Should be sourced!"
+
+function eddie_mktmp() {
+	(
+		source ~/.scripts/EddieScripts/set_tmpdir
+		dir=$TMPDIR/$RANDOM
+		while [[ -d $dir ]]; do
+			dir=$TMPDIR/$RANDOM
+		done
+		mkdir $dir
+		echo $dir
+	)
+}

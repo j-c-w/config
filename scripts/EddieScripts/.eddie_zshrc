@@ -1,9 +1,15 @@
 #!/bin/echo "Eddie Zshrc should be sorced!"
-use_tmux=no
+source ~/.scripts/EddieScripts/set_tmpdir
 
 if [[ $(hostname) == login* ]]; then
 	export NODE_TYPE=" (login) "
+	unset TMPDIR
 else
 	export NODE_TYPE=" (compute) "
 fi
 
+# Start the ssh agent
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
+
+export PATH=/home/s1988171/.ripgrep_install/ripgrep-0.10.0-x86_64-unknown-linux-musl/:$PATH
