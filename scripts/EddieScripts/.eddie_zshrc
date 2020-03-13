@@ -3,9 +3,12 @@ source ~/.scripts/EddieScripts/set_tmpdir
 
 if [[ $(hostname) == login* ]]; then
 	export NODE_TYPE=" (login) "
+	use_tmux=yes
+	# TMPDIR is invalid on the login nodes anyway.  Tmux gets confused if this is set
 	unset TMPDIR
 else
 	export NODE_TYPE=" (compute) "
+	use_tmux=no
 fi
 
 # Start the ssh agent
