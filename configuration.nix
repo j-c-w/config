@@ -7,15 +7,20 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      /etc/nixos/hardware-configuration.nix
       # Hardware configuration settings for xps 13.
-      ./nixfiles/dell/xps/13-7390/default.nix
+      /etc/nixos/nixfiles/dell/xps/13-7390/default.nix
 	  # papis
-	  ./nixconfigs/programs/papis/papis.nix
+	  /etc/nixos/nixconfigs/programs/papis/papis.nix
+	  /etc/nixos/nixconfigs/computers/laptop.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
+  boot.extraModprobeConfig = ''
+	  options snd_mia index=0
+	  options snd_hda_intel index=1
+	  '';
  # remove later.
   # boot.loader.efi.canTouchEfiVariables = true;
 
@@ -47,19 +52,103 @@
            scipy
            matplotlib
            setuptools
-           whoosh
+		   mypy-extensions
 ];
         python3-with-packages = python3.withPackages install-python-packages;
    in
 	   [
-	     wget vim htop psmisc git tmux zsh python3-with-packages python2 fzf fd ripgrep networkmanager chromium networkmanagerapplet dejavu_fonts  powerline-fonts terminator rofi python37Packages.pip python27Packages.pip redshift dropbox qpdfview parallel xclip papis
+		   wget
+		   vim
+		   htop
+		   psmisc
+		   git
+		   calc
+		   bind
+		   traceroute
+		   busybox
+		   # terminal utils
+		   tmux
+		   terminator
+		   zsh
+		   fzf
+		   fd
+		   ripgrep
+		   unzip
+		   file
+		   # misc
+		   openvpn
+		   networkmanager
+		   networkmanagerapplet
+		   dejavu_fonts
+		   powerline-fonts
+		   vanilla-dmz
+		   # games
+		   nethack
+		   openttd
+		   steam
+		   pantheon.elementary-camera
+		   # programs
+		   chromium
+		   dropbox
+		   qpdfview
+		   evince
+		   gimp
+		   parallel
+		   papis
+		   spotify-tui
+		   spotifyd
+		   spotify
+		   zoom-us
+		   scrot
+		   # tex and paper writing utils
+		   texlive.combined.scheme-full
+		   graphviz
+		   inkscape
+		   # utils
+		   nethogs
+		   iotop
+		   wireshark
+		   tcpdump
+		   rofi
+		   xorg.xbacklight
+		   acpilight
+		   xclip
+		   redshift
+		   # Audio
+		   playerctl
+		   alsaTools
+		   alsaLib
+		   alsaUtils
+		   alsaPlugins
+		   # nix tools
+		   nix-index
+		   # Development tools
+		   python3-with-packages
+		   python2
+		   python37Packages.virtualenv
+		   python37Packages.pip
+		   python27Packages.pip
+		   gcc
 	   ];
 
    services.xserver.windowManager.i3.enable = true;
    services.xserver.libinput.enable = true;
    services.xserver.displayManager.defaultSession = "none+i3";
-   services.xserver.libinput.accelSpeed = "6";
-  
+   services.xserver.displayManager.sessionCommands = ''
+	   ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name ${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ/cursors/left_ptr 128 &disown
+	   '';
+   services.xserver.config = ''
+	 Section "Device"
+	  Identifier "Intel Graphics"
+	  Driver "intel"
+	  Option "Backlight" "intel_backlight"
+	 EndSection
+   '';
+
+   services.openvpn.servers = {
+	   UoEVPN = { config = '' config ~/config/nixos/ed.ovpn ''; };
+   };
+
    networking.networkmanager = {
      enable = true;
    };
@@ -69,6 +158,7 @@
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
+  programs.light.enable = true;
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
   #   enable = true;
@@ -110,7 +200,7 @@
     users.users.jackson = {
       isNormalUser = true;
       home = "/home/jackson";
-      extraGroups = [ "wheel" "plugdev" "networkmanager" ]; # Enable ‘sudo’ for the user.
+      extraGroups = [ "wheel" "plugdev" "networkmanager" "audio" ]; # Enable ‘sudo’ for the user.
       shell = "/run/current-system/sw/bin/zsh";
       uid = 1000;
     };
