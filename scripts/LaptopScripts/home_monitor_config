@@ -1,0 +1,57 @@
+#!/bin/zsh
+set -eu
+
+typeset -a flip
+zparseopts -D -E -- -flip=flip
+
+disconnected_monitors=( $(xrandr | grep disconnected | cut -f1 -d' ') )
+
+if [[ ${#flip} -gt 0 ]]; then
+	dp1=DP-2
+	dp2=DP-1
+else
+	dp1=DP-1
+	dp2=DP-2
+fi
+
+# Put the current configuration status into ~/.monitor_config
+if [[ " ${disconnected_monitors[@]} " =~ " $dp1 " ]]; then
+	left_monitor=eDP-1
+else
+	left_monitor=$dp1
+fi
+
+if [[ " ${disconnected_monitors[@]} " =~ " $dp2 " ]]; then
+	right_monitor=eDP-1
+else
+	right_monitor=$dp2
+fi
+
+echo -n "" > $MONITOR_CONF_FILE
+
+xrandr --output $dp1 --auto --left-of eDP-1 --output $dp2 --auto --right-of eDP-1 --output $dp1 --auto --primary
+
+# Move all the workspaces to the appropriate windows:
+workspaces=( $(seq 1 20) )
+
+for workspace in ${workspaces[@]}; do
+	if (( $workspace > 10 )) ; then
+		output=$left_monitor
+	elif (( $workspace % 2 == 0 )); then
+		output=$right_monitor
+	else
+		output=eDP-1
+	fi
+	i3-msg workspace $workspace
+	i3-msg move workspace to output $output >& /dev/null
+
+	# Put this in the monitor configuration file.
+	echo "$workspace: $output" >> $MONITOR_CONF_FILE
+done
+
+# load the appropriate workspaces on each screen.
+i3-msg workspace 2
+i3-msg workspace 11
+i3-msg workspace 1
+
+echo "External disconnected monitors were: ${disconnected_monitors[@]}"

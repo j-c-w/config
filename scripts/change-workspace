@@ -1,0 +1,22 @@
+#!/bin/zsh
+
+if [[ $# -ne 1 ]]; then
+	echo "Usage: change-workspace <ID>"
+	exit 1
+fi
+
+config_file=~/.monitor_configuration
+if [[ ! -f $config_file ]]; then
+	echo "$config_file doesn't exist: using normal workspace movement!"
+	workspace=$1
+	i3-msg workspace "$workspace"
+	exit 0
+fi
+
+set -eu
+
+workspace="$1"
+output=$(grep -e "^$workspace:" $config_file | cut -f2 -d':')
+
+i3-msg workspace "$workspace" >& /dev/null
+i3-msg move workspace to output $output >& /dev/null
