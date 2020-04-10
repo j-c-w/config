@@ -110,6 +110,8 @@ oh_my_zsh_plugins_install() {
 	pushd $home_directory/.oh-my-zsh/plugins
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting
 	git clone https://github.com/zsh-users/zsh-autosuggestions
+	git clone https://github.com/chisui/zsh-nix-shell.git nix-shell
+	git clone https://github.com/spwhitt/nix-zsh-completions
 	popd
 
 	echo $(pwd)

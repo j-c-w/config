@@ -48,12 +48,18 @@ fi
 
 # For the prompt, an optional extension used for compute cluster nodes right now.
 NODE_TYPE=""
+HOSTNAME=$(hostname)
 
 # Load specific zshrcs for each machine
 # Load the eddie zshrc if required:
 if [[ $HOSTNAME == *.ecdf.ed.ac.uk ]]; then
 	echo "Using an EDDIE machine"
 	source ~/.scripts/EddieScripts/.eddie_zshrc
+fi
+
+if [[ $HOSTNAME == jacksons-laptop ]]; then
+	echo "Using your LAPTOP"
+	source ~/.scripts/LaptopScripts/.laptop_zshrc
 fi
 
 # This is for aliases, themes, environment variables, etc.
@@ -114,7 +120,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git zsh-syntax-highlighting history z zsh-autosuggestions
- colored-man-pages extract web-search ssh-agent)
+ colored-man-pages extract web-search ssh-agent nix-shell nix-zsh-completions nix-zsh-completions)
 
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 
@@ -379,6 +385,8 @@ if [[ $use_tmux == yes ]] && [[ $- == *i* ]] && [[ -z $TMUX ]]; then
 		failed_count=0
 		while [[ $made == True ]]; do
 			date=$$$(date +%N)
+			echo ${#tmux_names[@]}
+			echo $date
 			index=$(( date % ${#tmux_names[@]} + 1 ))
 			name=${tmux_names[$index]}
 			made=$(is_session $name)
