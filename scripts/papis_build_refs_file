@@ -30,7 +30,7 @@ if [[ ${#overwrite} -gt 0 ]]; then
 fi
 
 typeset -a matches
-matches=( $(grep -e 'cite{[A-Za-z0-9\.,-]*}' -o ${input_files[@]} | cut -c 6- | tr -d '}' | tr ',' '\n' ) )
+matches=( $(grep -e 'cite{[A-Za-z0-9\.,-]*}' -o ${input_files[@]} | cut -c 6- | tr -d '}' | tr ',' '\n' | sort | uniq ) )
 
 for match in $matches; do
 	echo "Looking for ref $match"
@@ -49,9 +49,12 @@ for match in $matches; do
 		echo "Context was:"
 		echo "---------"
 		grep --color=always -A 3 -B 3 -e $match ${input_files[@]}
-		read 'continue?Continue Anyway?[Y/n]'
+		read 'continue?Continue Anyway (fixup?)?[Y/n/f]'
 		if [[ $continue == (y|Y) ]]; then
 			continue
+		elif [[ $continue == f ]]; then
+			read "query?Enter Papis Query to find ${name}$year: "
+			papis export "$query" -o $output_file
 		else
 			exit 1
 		fi
