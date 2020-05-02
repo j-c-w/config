@@ -379,6 +379,8 @@ tmux_names=( Tahoe Reno NewReno Westwood Hybla Vegas BIC CUBIC BBR Peach SACK FA
 # Also don't try to start tmux if we are already in a tmux.
 if [[ $use_tmux == yes ]] && [[ $- == *i* ]] && [[ -z $TMUX ]]; then
 	# Start tmux with a name.  If nothing is entered then we use the default tmux numbering.
+	echo "Existing TMUX sessions are: "
+	tmux list-session
 	read 'tmux_name?Window name (<CR> for autonumber, "0<CR>" for no tmux)?'
 	if [[ $tmux_name == "" ]]; then
 		made=True
