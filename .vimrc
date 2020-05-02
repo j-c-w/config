@@ -1,4 +1,5 @@
 let mapleader=" "
+set t_ut=
 
 if !empty(glob("~/.vimrc_additions"))
     so ~/.vimrc_additions
