@@ -1,0 +1,61 @@
+#!/bin/zsh
+
+set -eu
+
+# This is a script that lists the tags in papis in a useful
+# way.  It goes through sequences of tags in a 'folder-like'
+# way and prints them out.
+typeset -a library update
+zparseopts -D -E -- l:=library u=update -update=update -h=help -help=help
+tags_cache_file=~/.cache/.papis_tags_cache
+conferences_cache_file=~/.cache/.papis_conferences_cache
+
+if [[ ${#help} -gt 0 ]]; then
+	echo "An explorer for papis tags."
+	echo "-l <library>"
+	echo "--update/-u to update the tags cache"
+	echo "--help/-h to print this"
+	exit 0
+fi
+
+if [[ ${#library} == 0 ]]; then
+	library=( papers )
+fi
+
+if [[ ${#update} -gt 0 || ! -f $tags_cache_file ]]; then
+	echo "Updating cache..."
+	# Get all the tags out first and put them in a tmp file.
+	papis -l ${library[1]} list -a --format "{doc[tags]}" "*" > $tags_cache_file.tmp
+	# Get the conferences
+	cat $tags_cache_file.tmp | cut -f1 -d',' | sort > $conferences_cache_file
+	# And the not-conferences -- everything should have a conference,
+	# so this only considers things with one tag.
+	cat $tags_cache_file.tmp | grep , | cut -f2- -d ',' | sort > $tags_cache_file
+
+	rm $tags_cache_file.tmp
+	echo "Cache Updated!"
+fi
+
+nestingdepth=1
+lines=( $(cat $tags_cache_file) )
+while [[ $# -gt 0 ]]; do
+	search=$1
+	shift
+
+	typeset -a new_lines=()
+	for line in $(seq 1 ${#lines}); do
+		linecontents=${lines[line]}
+		matchval=$(echo $linecontents | cut -f$nestingdepth -d',')
+
+		if [[ $matchval == $search ]]; then
+			new_lines+=($linecontents)
+		fi
+	done
+
+	lines=( ${new_lines[@]} )
+
+	nestingdepth=$((nestingdepth + 1))
+done
+
+# Print all the tags at the nesting depth reached.
+echo ${lines[@]} | tr ' ' '\n' | cut -f$nestingdepth -d',' | sort | uniq -c
