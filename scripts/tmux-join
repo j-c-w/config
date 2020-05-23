@@ -1,0 +1,11 @@
+#!/bin/bash
+
+sessname=$(tmux list-sessions -F '#{session_name}: #T (#{session_attached})' | fzf | cut -d':' -f1)
+
+if [[ -z $TMUX ]]; then
+	# attach to tmux session
+	tmux attach-session -t $sessname
+else
+	# We are in a tmux session, so switch.
+	tmux switch -t $sessname
+fi
