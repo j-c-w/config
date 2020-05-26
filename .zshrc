@@ -287,6 +287,12 @@ function vg() {
 function vpd() {
 	echo $PREVIOUS_JUMP_DIRECTORY
 	file="$(f --dir $PREVIOUS_JUMP_DIRECTORY $@)"
+	# Pretend we were in the previous jump directory if
+	# we do the next step, so that the old jump directory
+	# isn't updated.
+	if [[ -f $file ]]; then
+		cd $PREVIOUS_JUMP_DIRECTORY
+	fi
 	cd_and_open_in_vim "$file"
 }
 
@@ -328,7 +334,11 @@ VISIBLE_USER="$(whoami)"
 # USERCOLOR=
 
 if [[ ! -z $IN_NIX_SHELL ]]; then
-	VISIBLE_USER="nix-shell"
+	if [[ -z $SHELL_NAME ]]; then
+		VISIBLE_USER="nix-shell"
+	else
+		VISIBLE_USER="$SHELL_NAME"
+	fi
 fi
 
 # Any bad color combos from servers this hits should be fixed
@@ -380,7 +390,7 @@ tmux_names=( Tahoe Reno NewReno Westwood Hybla Vegas BIC CUBIC BBR Peach SACK FA
 if [[ $use_tmux == yes ]] && [[ $- == *i* ]] && [[ -z $TMUX ]]; then
 	# Start tmux with a name.  If nothing is entered then we use the default tmux numbering.
 	echo "Existing TMUX sessions are: "
-	tmux list-session
+	tmux list-sessions -F '#{session_name}: #T (#{session_attached})'
 	read 'tmux_name?Window name (<CR> for autonumber, "0<CR>" for no tmux)?'
 	if [[ $tmux_name == "" ]]; then
 		made=True
