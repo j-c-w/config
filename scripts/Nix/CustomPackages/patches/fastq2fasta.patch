@@ -1,0 +1,15 @@
+diff --git a/bin/fastq2fasta b/bin/fastq2fasta
+new file mode 100644
+index 0000000..9c6e13f
+--- /dev/null
++++ b/bin/fastq2fasta
+@@ -0,0 +1,9 @@
++#!/usr/bin/env bash
++set -eu
++
++if [[ $# -ne 2 ]]; then
++	echo "Usage: $0 <input (.fastq)> <output (.fasta)>"
++	exit 1
++fi
++
++sed -n '1~4s/^@/>/p;2~4p' $1 > $2
