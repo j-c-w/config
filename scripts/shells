@@ -1,0 +1,21 @@
+#!/bin/zsh
+set -eu
+
+shellsdir=~/.scripts/Nix/Shells
+
+# Open a nix-shell by searching in ./scripts/Nix/Shells first.
+if [[ $# -eq 0 ]]; then
+	# Open a list of the nix-shells available in the 
+	ls $shellsdir | less
+	echo "Usage: $0 <shell>"
+	exit 0
+fi
+
+name=$1
+shift
+
+if [[ -f $shellsdir/$name ]]; then
+	nix-shell $shellsdir/$name $@
+else
+	nix-shell $name $@
+fi
