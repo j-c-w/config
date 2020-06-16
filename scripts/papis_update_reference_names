@@ -18,7 +18,7 @@ def to_alpha(n):
 def extract_first_author(author_list):
 	if ',' in author_list:
 		# This is likely in LastName, First names and ... format
-		return author_list.split(',')[0]
+		return author_list.split(',')[0].replace(' ', '')
 	elif ' and ' in author_list:
 		# This is likely in First Name Last Name format, but
 		# has more than one author:
