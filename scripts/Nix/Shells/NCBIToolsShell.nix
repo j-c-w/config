@@ -8,7 +8,7 @@
 	name = "simple-translator-env";
 	profile = ''
 		vdb-config --restore-defaults
-		SHELL_NAME="NCBITools";
+		export SHELL_NAME="NCBITools";
 		'';
 	runScript = "zsh";
 }).env
