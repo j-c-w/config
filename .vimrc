@@ -181,6 +181,7 @@ function MathAbbrev()
     iabbrev <buffer> mmt \begin{tabular}{<++>}<CR><++><CR>\end{tabular}<++><Esc>2k3==0
 	iabbrev <buffer> mmf \begin{frame}<CR>\frametitle{<++>}<CR>\end{frame}<++><Esc>kk<C-J>
 	iabbrev <buffer> mmc \begin{columns}<CR>\begin{column}{0.5\textwidth}<CR><++><CR>\end{column}<CR>\begin{column}{0.5\textwidth}<CR><++><CR>\end{column}<CR>\end{columns}<++><Esc>^%<C-j>
+	iabbrev <buffer> mmn <Esc>ggI\documentclass{article}<CR><CR>\begin{document}<CR><CR>\end{document}<Esc>ki
 
     " This if to keep some of the latex-suite mappings that
     " I liked.
