@@ -5,8 +5,8 @@ set -eu
 # This is a script that lists the tags in papis in a useful
 # way.  It goes through sequences of tags in a 'folder-like'
 # way and prints them out.
-typeset -a library update
-zparseopts -D -E -- l:=library u=update -update=update -h=help -help=help
+typeset -a library update papis
+zparseopts -D -E -- l:=library u=update -update=update -h=help -help=help p:=papis -papis:=papis
 tags_cache_file=~/.cache/.papis_tags_cache
 conferences_cache_file=~/.cache/.papis_conferences_cache
 
@@ -15,6 +15,7 @@ if [[ ${#help} -gt 0 ]]; then
 	echo "-l <library>"
 	echo "--update/-u to update the tags cache"
 	echo "--help/-h to print this"
+	echo "--papis/-p <operation> search documents in that folder in papis rathern than printing subfolders"
 	exit 0
 fi
 
@@ -34,6 +35,18 @@ if [[ ${#update} -gt 0 || ! -f $tags_cache_file ]]; then
 
 	rm $tags_cache_file.tmp
 	echo "Cache Updated!"
+fi
+
+if [[ ${#papis} -gt 0 ]]; then
+	action=${papis[2]}
+	query_string="$1"
+	while [[ $# -gt 0 ]]; do
+		query_string="$query_string,$1"
+		shift
+	done
+
+	papis -l ${library[1]} $action "$query_string"
+	exit 0
 fi
 
 nestingdepth=1
