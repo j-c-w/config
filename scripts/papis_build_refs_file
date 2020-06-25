@@ -43,44 +43,75 @@ typeset -a matches
 matches=( $(grep -he 'cite{[A-Za-z0-9\.,-]*}' -o ${input_files[@]} | cut -c 6- | tr -d '}' | tr ',' '\n' | sort | uniq ) )
 
 for match in $matches; do
-	echo "Looking for ref $match"
-	name=$(echo $match | sed -e 's/[[:digit:]][[:digit:]][[:digit:]][[:digit:]].*//' | sed -e 's/-.*//')
-	year=$(echo $match | tr -d '[:alpha:]')
+	editing=True
+	skiptonext=False
+	while [[ $editing == True ]]; do
+		echo "Looking for ref $match"
+		name=$(echo $match | sed -e 's/[[:digit:]][[:digit:]][[:digit:]][[:digit:]].*//' | sed -e 's/-.*//')
+		year=$(echo $match | tr -d '[:alpha:]')
 
-	# Check if this is already in the refs file:
-	if [[ $(grep -e "$match," -c $output_file; true) -gt 0 ]]; then
-		echo "Already in the refs file"
+		# Check if this is already in the refs file:
+		if [[ $(grep -e "$match," -c $output_file; true) -gt 0 ]]; then
+			echo "Already in the refs file"
+			skiptonext=True
+			break
+		fi
+
+		nameyear_string="author:$name year:$year"
+		refstring="ref:$match"
+
+		num_matches=$(papis list --all "$refstring" | wc -l)
+		if [[ $num_matches -eq 0 ]]; then
+			echo "Error: no document found for $match"
+			echo "Context was:"
+			echo "---------"
+			grep --color=always -A 3 -B 3 -e $match ${input_files[@]}
+			read 'continue?Continue Anyway (fixup?) (edit?)?[Y/n/f/e]'
+			if [[ $continue == (y|Y) ]]; then
+				# Break out of the editing loop and skip to
+				# the next once out.
+				skiptonext=True
+				editing=False
+				break
+			elif [[ $continue == f ]]; then
+				read "query?Enter Papis Query to find ${name}$year: "
+				papis export "$query" -o $output_file
+				editing=False
+			elif [[ $continue == e ]]; then
+				read "replace?Enter replacement citation:"
+				sed -i "s|$match|$replace|" ${input_files[@]}
+				match=$replace
+			else
+				exit 1
+			fi
+		else
+			# At least one match
+			editing=False
+		fi
+	done
+
+	if [[ $skiptonext == True ]]; then
 		continue
 	fi
 
-	num_matches=$(papis list --all "author:$name year:$year" | wc -l)
-	if [[ $num_matches -eq 0 ]]; then
-		echo "Error: no document found for $match"
-		echo "Context was:"
-		echo "---------"
-		grep --color=always -A 3 -B 3 -e $match ${input_files[@]}
-		read 'continue?Continue Anyway (fixup?)?[Y/n/f]'
-		if [[ $continue == (y|Y) ]]; then
-			continue
-		elif [[ $continue == f ]]; then
-			read "query?Enter Papis Query to find ${name}$year: "
-			papis export "$query" -o $output_file
-		else
-			exit 1
-		fi
-	fi
 	if [[ $num_matches -gt 1 ]]; then
 		echo "Found more than one match for $match; context was:"
 		echo "--------------"
 		grep  --color=always -A 3 -B 3 -e $match ${input_files[@]}
 		echo "--------------"
+		echo "Matches are "
+		papis list -a $refstring --format "{doc[title]} {doc[ref]}"
 		echo "Going to list all possibilities, select the best one <Enter to continue>:"
-		echo "s<Enter> to skip this"
+		echo "s<Enter> to skip this, a<Enter> to dump all."
 		read 'resp?'
-		if [[ ${#resp} -gt 0 ]]; then
+		if [[ ${resp} == "s" ]]; then
 			echo "Skipping $match..."
+			continue
+		elif [[ ${resp} == "a" ]]; then
+			echo "Dumping all..."
+			papis export "$refstring" -o $output_file -a
 			continue
 		fi
 	fi
-	papis export "author:$name year:$year" -o $output_file 
+	papis export "$refstring" -o $output_file 
 done
