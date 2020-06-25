@@ -10,8 +10,6 @@
       /etc/nixos/hardware-configuration.nix
       # Hardware configuration settings for xps 13.
       /etc/nixos/nixfiles/dell/xps/13-7390/default.nix
-	  # papis
-	  /etc/nixos/nixconfigs/programs/papis/papis.nix
 	  /etc/nixos/nixconfigs/computers/laptop.nix
     ];
 
@@ -42,6 +40,10 @@
     time.timeZone = "Europe/London";
     nixpkgs.config.allowUnfree = true;
 
+  nixpkgs.overlays = [
+	  (import /etc/nixos/nixconfigs/programs/papis/papis.nix )
+  ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
    environment.systemPackages = with pkgs; let
@@ -53,6 +55,7 @@
            matplotlib
            setuptools
 		   mypy-extensions
+		   pyyaml
 ];
         python3-with-packages = python3.withPackages install-python-packages;
    in
@@ -65,7 +68,6 @@
 		   calc
 		   bind
 		   traceroute
-		   busybox
 		   # terminal utils
 		   tmux
 		   terminator
@@ -82,24 +84,22 @@
 		   dejavu_fonts
 		   powerline-fonts
 		   vanilla-dmz
-		   # games
-		   nethack
-		   openttd
-		   steam
-		   pantheon.elementary-camera
 		   # programs
+		   libreoffice
+		   pdfsam-basic
 		   chromium
+		   firefox
 		   dropbox
 		   qpdfview
 		   evince
-		   gimp
 		   parallel
 		   papis
 		   spotify-tui
 		   spotifyd
 		   spotify
+		   mautrix-whatsapp
 		   zoom-us
-		   scrot
+		   feh
 		   # tex and paper writing utils
 		   texlive.combined.scheme-full
 		   graphviz
@@ -144,10 +144,12 @@
 	  Option "Backlight" "intel_backlight"
 	 EndSection
    '';
+   environment.variables.XCURSOR_SIZE = "32";
 
-   services.openvpn.servers = {
-	   UoEVPN = { config = '' config ~/config/nixos/ed.ovpn ''; };
-   };
+   # This isn't working right now, not sure why.
+   # services.openvpn.servers = {
+	   # UoEVPN = { config = '' config ~/config/nixos/ed.ovpn ''; };
+   # };
 
    networking.networkmanager = {
      enable = true;
@@ -155,6 +157,15 @@
    networking.hostId = "ac174b52";
 
   services.xserver.dpi = 210;
+
+  services.cron = {
+	  enable = true;
+	  systemCronJobs = [
+		#  m  h dom mon dow  command
+		  "* * * * * jackson ./etc/profile; /home/jackson/.scripts/randomize-backgrounds"
+	  ];
+  };
+
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

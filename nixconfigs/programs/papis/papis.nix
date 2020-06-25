@@ -1,20 +1,20 @@
-{ pkgs, ...}:
-{
-	  nixpkgs.config.packageOverrides = pkgs: {
-		  papis = pkgs.papis.overrideAttrs (old: {
-			  src = pkgs.fetchFromGitHub {
-				  owner = "papis";
-				  repo = "papis";
-				  rev = "b2de2520bfb57447d6f5343a95ab7aec37505dab";
-				  sha256 = "sha256:0aspz0izpbnw8hc991lj442p807p1w32mwslfy4n4nr31b7bx09v";
-			  };
-			  propagatedBuildInputs = old.propagatedBuildInputs ++ [
-				  pkgs.python37Packages.typing-extensions
-			  ];
+self: super:
 
-			  # Upstream papis fails these checks...
-			  doCheck = false;
-			  doInstallCheck = false;
-		  });
-	  };
+let pkgs = import<nixpkgs>{};
+in {
+	papis = super.papis.overrideAttrs (old: rec {
+		src = super.fetchFromGitHub {
+			owner = "j-c-w";
+			repo = "papis";
+			rev = "b597029c";
+			sha256 = "sha256:0w9hd41q2r817wa61bj4b916g4pg7b52g5nxd4l2agsw2k0gmcng";
+		};
+
+		propagatedBuildInputs = old.propagatedBuildInputs ++ [
+			super.python37Packages.typing-extensions
+		];
+
+		doCheck = false;
+		doInstallCheck = false;
+	});
 }
