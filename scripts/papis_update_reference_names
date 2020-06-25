@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import argparse
 import os
@@ -18,18 +18,28 @@ def to_alpha(n):
 def extract_first_author(author_list):
 	if ',' in author_list:
 		# This is likely in LastName, First names and ... format
-		return author_list.split(',')[0].replace(' ', '')
+		result = author_list.split(',')[0].replace(' ', '')
 	elif ' and ' in author_list:
 		# This is likely in First Name Last Name format, but
 		# has more than one author:
 		first_auth = author_list.split(' and ')[0]
 		names = first_auth.split(' ')
 		# So return the last name
-		return names[-1]
+		result = names[-1]
+	elif author_list.startswith('{{'):
+		# This is likely a company, or some shit that
+		# we espaced the hell out of anyway:
+		result = author_list
 	else:
 		# This paper likely has a single author:
 		names = author_list.split(' ')
-		return names[-1]
+		result = names[-1]
+
+	# Now, strip all the characters we definitely don't want:
+	result = result.replace(' ', '')
+	result = result.replace('}', '')
+	result = result.replace('{', '')
+	return result
 
 
 if __name__ == "__main__":
