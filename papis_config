@@ -19,8 +19,9 @@ dir = ~/Documents/cycling
 [settings]
 default-library = papers
 database-backend = whoosh
-whoosh-schema-fields = ['year', 'author', 'publisher', 'journal', 'pages', 'group']
+whoosh-schema-fields = ['year', 'author', 'publisher', 'journal', 'pages', 'group', 'ref']
 opentool = qpdfview --unique
 opentool-txt = gvim
 editor = vim
 sort-field = time-added
+bibtex-unicode = true
