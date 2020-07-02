@@ -1,0 +1,12 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index be4206e..b4f02f5 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -15,12 +15,12 @@ message(STATUS "Boost version: ${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${B
+ # set up Hyperscan sources
+ set(HS_SOURCE_DIR "" CACHE PATH "Path to Hyperscan source")
+ message(STATUS "Hyperscan source: ${HS_SOURCE_DIR}")
+-if((${HS_SOURCE_DIR} STREQUAL "") OR (NOT EXISTS "${HS_SOURCE_DIR}/CMakeLists.txt"))
++if((${HS_SOURCE_DIR} STREQUAL "") OR (NOT EXISTS "${HS_SOURCE_DIR}"))
+     message(FATAL_ERROR "HS_SOURCE_DIR isn't set properly! Be sure to set -DHS_SOURCE_DIR when you call cmake.")
+ endif()

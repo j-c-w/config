@@ -1,0 +1,24 @@
+diff --git a/C++/Makefile b/C++/Makefile
+index 5c2fb06..a55c66c 100644
+--- a/C++/Makefile
++++ b/C++/Makefile
+@@ -12,7 +12,7 @@ NAME = libmnrl
+ SNAME = $(NAME).a
+ DNAME = $(NAME).so
+ 
+-CXXFLAGS = -Wconversion -Wall -Werror -Wextra -pedantic 
++CXXFLAGS = -Wconversion -Wall -Wextra -pedantic 
+ CXXFLAGS += -I$(IDIR) -I $(RAPIDJSON) --std=c++11 -fPIC
+ LDFLAGS = -L.
+ ARFLAGS = rcs
+@@ -67,10 +67,6 @@ $(ODIR)/%.o: $(SRCDIR)/%.cpp $(DEPS)
+ $(ODIR)/%.o: $(SRCDIR)/%.asm
+ 	nasm $(NASMFLAGS) -o $@ $<
+ 
+-$(RAPIDJSON_LIC):
+-	git submodule init
+-	git submodule update	
+-
+ test: tests 
+ 	../tests/readwrite_test.sh tests/readwrite tests/
+ 
