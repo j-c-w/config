@@ -6,8 +6,8 @@ in {
 		src = super.fetchFromGitHub {
 			owner = "j-c-w";
 			repo = "papis";
-			rev = "b597029c";
-			sha256 = "sha256:0w9hd41q2r817wa61bj4b916g4pg7b52g5nxd4l2agsw2k0gmcng";
+			rev = "ff0ed8f300c";
+			sha256 = "sha256:06b1m99gy768w503zi13ia5gla30wb2s7yg12y8ddyawf5xa1myn";
 		};
 
 		propagatedBuildInputs = old.propagatedBuildInputs ++ [
