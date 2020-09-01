@@ -9,7 +9,7 @@ config_file=~/.monitor_configuration
 if [[ ! -f $config_file ]]; then
 	echo "$config_file doesn't exist: using normal workspace movement!"
 	workspace=$1
-	i3-msg move conatiner to workspace "$workspace"
+	i3-msg move container to workspace "$workspace"
 	exit 0
 fi
 
