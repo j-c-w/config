@@ -15,6 +15,9 @@
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
+  # Limit the number of configurations that live in boot
+  # to avoid it filling up.
+  boot.loader.grub.configurationLimit = 50;
   boot.extraModprobeConfig = ''
 	  options snd_mia index=0
 	  options snd_hda_intel index=1
@@ -48,7 +51,6 @@
   # $ nix search wget
    environment.systemPackages = with pkgs; let
         install-python-packages = python-packages: with python-packages; [
-	   pyyaml
            requests
            numpy
            scipy
@@ -75,6 +77,7 @@
 		   fzf
 		   fd
 		   ripgrep
+		   ripgrep-all
 		   unzip
 		   file
 		   # misc
@@ -85,6 +88,7 @@
 		   powerline-fonts
 		   vanilla-dmz
 		   # programs
+		   zoom
 		   libreoffice
 		   pdfsam-basic
 		   chromium
@@ -128,7 +132,7 @@
 		   python37Packages.virtualenv
 		   python37Packages.pip
 		   python27Packages.pip
-		   gcc
+		   gnome3.adwaita-icon-theme
 	   ];
 
    services.xserver.windowManager.i3.enable = true;
