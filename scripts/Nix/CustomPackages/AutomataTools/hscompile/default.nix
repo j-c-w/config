@@ -1,8 +1,16 @@
-with import<nixpkgs> { overlays = [ (import ../hyperscan-source/default.nix) ]; };
+# { pkgs, callPackage, stdenv, fetchFromGitHub, boost, hyperscan, cmake }:
+
+# This is obviously a dirty hack --- not sure how to get this into the args
+# while still passing the overlays.
+with import<nixpkgs> { overlays = [ (import ../hyperscan-source/default.nix  ) ]; };
 
 let
 	mnrl_package = (callPackage ../mnrl-1.0/default.nix {});
 	mnrl_deriv = (import ../mnrl-1.0/default.nix );
+
+	# overlayPkgs = pkgs.override {
+	# 	overlays = [  ];
+	# };
 in
 let
 	mnrl_outpath = mnrl_package.outPath;
