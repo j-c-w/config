@@ -6,9 +6,9 @@
 exec --no-startup-id feh --randomize --bg-fill ~/Pictures/background_options/*
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+
-bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%-
-bindsym XF86AudioMute exec --no-startup-id amixer -D pulse set Master 1+ toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D hw:1 sset Master 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D hw:1 sset Master 5%-
+bindsym XF86AudioMute exec --no-startup-id "amixer -D hw:1 set Master 1+ toggle; amixer -D hw:1 set Speaker 1+ toggle"
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
