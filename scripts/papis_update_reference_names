@@ -76,6 +76,10 @@ if __name__ == "__main__":
 					continue
 				if 'author' in doc_dict:
 					author = extract_first_author(doc_dict['author'])
+				elif 'institution' in doc_dict:
+					author = doc_dict['institution'].replace(' ', '')
+					author = author.replace('}', '')
+					author = author.replace('{', '')
 				else:
 					author = ''
 
