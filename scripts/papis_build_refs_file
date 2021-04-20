@@ -30,7 +30,7 @@ if [[ ${#overwrite} -gt 0 ]]; then
 fi
 
 # Extend the input files list to include any files that are '\input'.
-extra_matches=( $(grep -he '\\input{[A-Za-z0-9\.-]*}' -o ${input_files[@]} | cut -c 7- | tr -d '{}' | sort | uniq ) )
+extra_matches=( $(grep -he '\\input{[A-Za-z0-9\.-]*.tex}' -o ${input_files[@]} | cut -c 7- | tr -d '{}' | sort | uniq ) )
 for file in ${extra_matches[@]}; do
 	input_files+=($file)
 done
@@ -43,6 +43,9 @@ typeset -a matches
 matches=( $(grep -he 'cite{[A-Za-z0-9\.,-]*}' -o ${input_files[@]} | cut -c 6- | tr -d '}' | tr ',' '\n' | sort | uniq ) )
 
 for match in $matches; do
+	if [[ $match == "TODO" ]]; then
+		continue
+	fi
 	editing=True
 	skiptonext=False
 	while [[ $editing == True ]]; do
