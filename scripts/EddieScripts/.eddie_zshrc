@@ -15,4 +15,6 @@ fi
 eval $(ssh-agent -s)
 ssh-add ~/.ssh/id_rsa
 
-export PATH=/home/s1988171/.ripgrep_install/ripgrep-0.10.0-x86_64-unknown-linux-musl/:$PATH
+export PATH=/home/s1988171/.ripgrep_install/ripgrep-0.10.0-x86_64-unknown-linux-musl/:~/.scripts/EddieScripts/:$PATH
+
+export NIX_FILES=/home/s1988171/NixFiles

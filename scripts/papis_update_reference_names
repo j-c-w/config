@@ -40,6 +40,8 @@ def extract_first_author(author_list):
 	result = result.replace(' ', '')
 	result = result.replace('}', '')
 	result = result.replace('{', '')
+	# Avoid keeping special character markers.
+	result = result.replace('\"', '')
 	return result
 
 
@@ -75,6 +77,8 @@ if __name__ == "__main__":
 				if doc_dict is None:
 					continue
 				if 'author' in doc_dict:
+					if doc_dict['author'] is None:
+						print ("Author for doc" + folder + " is none")
 					author = extract_first_author(doc_dict['author'])
 				elif 'institution' in doc_dict:
 					author = doc_dict['institution'].replace(' ', '')
