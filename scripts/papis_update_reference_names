@@ -43,6 +43,7 @@ def extract_first_author(author_list):
 	# Avoid keeping special character markers.
 	result = result.replace('\"', '')
 	result = result.replace('\\', '')
+	result = result.replace('\'', '')
 	return result
 
 
@@ -86,6 +87,7 @@ if __name__ == "__main__":
 					author = author.replace('}', '')
 					author = author.replace('{', '')
 					author = author.replace('\\', '')
+					author = author.replace('\'', '')
 				else:
 					author = ''
 
