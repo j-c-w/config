@@ -31,6 +31,7 @@ stdenv.mkDerivation {
 		boost
 		(callPackage ../mnrl-1.0/default.nix {})
 		hyperscan
+		gcc9
 	];
 
 	cmakeFlags = [

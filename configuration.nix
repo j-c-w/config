@@ -27,6 +27,7 @@
 
   networking.hostName = "jacksons-laptop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  virtualisation.docker.enable = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -64,6 +65,7 @@
 	   [
 		   wget
 		   vim
+		   neovim
 		   htop
 		   psmisc
 		   git
@@ -87,6 +89,7 @@
 		   dejavu_fonts
 		   powerline-fonts
 		   vanilla-dmz
+		   docker
 		   # programs
 		   zoom
 		   libreoffice
@@ -137,6 +140,8 @@
 
    services.xserver.windowManager.i3.enable = true;
    services.xserver.libinput.enable = true;
+   services.xserver.synaptics.maxSpeed = "2.0";
+   services.xserver.synaptics.accelFactor = "0.1";
    services.xserver.displayManager.defaultSession = "none+i3";
    services.xserver.displayManager.sessionCommands = ''
 	   ${pkgs.xlibs.xsetroot}/bin/xsetroot -cursor_name ${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ/cursors/left_ptr 128 &disown
@@ -149,6 +154,7 @@
 	 EndSection
    '';
    environment.variables.XCURSOR_SIZE = "32";
+   hardware.opengl.driSupport32Bit = true;
 
    # This isn't working right now, not sure why.
    # services.openvpn.servers = {
@@ -215,7 +221,7 @@
     users.users.jackson = {
       isNormalUser = true;
       home = "/home/jackson";
-      extraGroups = [ "wheel" "plugdev" "networkmanager" "audio" ]; # Enable ‘sudo’ for the user.
+      extraGroups = [ "wheel" "plugdev" "networkmanager" "audio" "docker"]; # Enable ‘sudo’ for the user.
       shell = "/run/current-system/sw/bin/zsh";
       uid = 1000;
     };

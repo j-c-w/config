@@ -3,11 +3,13 @@
 set -eu
 
 typeset -a overwrite
-zparseopts -D -E -overwrite:=overwrite
+typeset -a skipfail
+zparseopts -D -E -overwrite=overwrite -skip-fail=skipfail
 
 if [[ $# -lt 2 ]]; then
 	echo "Usage $0 <output refs file> <input files>"
 	echo "  --overwrite: overwrite the refs files"
+	echo "  --skip-fail: silently skip on any sort of failure"
 	exit 1
 fi
 
@@ -22,6 +24,7 @@ done
 
 if [[ $output_file == *.tex ]]; then
 	echo "Error: outputting into a .tex file, are your args the right way around?"
+	echo "(Dumping into $output_file)"
 	exit 1
 fi
 
@@ -69,18 +72,23 @@ for match in $matches; do
 			echo "Context was:"
 			echo "---------"
 			grep --color=always -A 3 -B 3 -e $match ${input_files[@]}
-			read 'continue?Continue Anyway (fixup?) (edit?)?[Y/n/f/e]'
-			if [[ $continue == (y|Y) ]]; then
+			if [[ ${#skipfail} -eq 0 ]]; then
+				read 'cont?Continue Anyway (fixup?) (edit?)?[Y/n/f/e]'
+			else
+				cont=y
+			fi
+
+			if [[ $cont == (y|Y) ]]; then
 				# Break out of the editing loop and skip to
 				# the next once out.
 				skiptonext=True
 				editing=False
 				break
-			elif [[ $continue == f ]]; then
+			elif [[ $cont == f ]]; then
 				read "query?Enter Papis Query to find ${name}$year: "
 				papis export "$query" -o $output_file
 				editing=False
-			elif [[ $continue == e ]]; then
+			elif [[ $cont == e ]]; then
 				read "replace?Enter replacement citation:"
 				sed -i "s|$match|$replace|" ${input_files[@]}
 				match=$replace
@@ -106,7 +114,13 @@ for match in $matches; do
 		papis list -a $refstring --format "{doc[title]} {doc[ref]}"
 		echo "Going to list all possibilities, select the best one <Enter to continue>:"
 		echo "s<Enter> to skip this, a<Enter> to dump all."
-		read 'resp?'
+
+		if [[ ${#skipfail} -eq 0 ]]; then
+			read 'resp?'
+		else
+			resp=s
+		fi
+
 		if [[ ${resp} == "s" ]]; then
 			echo "Skipping $match..."
 			continue

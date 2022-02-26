@@ -35,6 +35,9 @@ Bundle 'fatih/vim-go'
 Bundle 'j-c-w/IDLHighlighting'
 Bundle 'derekwyatt/vim-scala'
 Bundle 'liuchengxu/graphviz.vim'
+Bundle 'OCamlPro/ocp-indent'
+Bundle 'bohlender/vim-smt2'
+Bundle 'JuliaEditorSupport/julia-vim'
 " Adds a plugin for using the undo tree
 Bundle 'mbbill/undotree'
 " Add airline for the status bar
@@ -58,6 +61,14 @@ Bundle 'junegunn/vader.vim'
 Bundle 'airblade/vim-gitgutter'
 " This is my plugin for pinning stuff
 Bundle 'j-c-w/vimpin'
+" Add peek at register contents before using.
+Bundle 'junegunn/vim-peekaboo'
+
+if has('nvim')
+	" nvim-specific config.
+	Bundle 'github/copilot.vim'
+endif
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required

@@ -46,6 +46,11 @@ if [ -d "/usr/local/systemc-2.3/" ]; then
 	export LD_LIBRARY_PATH="/usr/local/systemc-2.3/lib-linux64:$LD_LIBRARY_PATH"
 fi
 
+if [[ -n "${commands[fzf-share]}" ]]; then
+	source "$(fzf-share)/key-bindings.zsh"
+	source "$(fzf-share)/completion.zsh"
+fi
+
 # For the prompt, an optional extension used for compute cluster nodes right now.
 NODE_TYPE=""
 HOSTNAME=$(hostname)

@@ -148,6 +148,8 @@ rc_link() {
 
 	ln -s $config_directory/.vimrc ~/.vimrc 
 	ln -s $config_directory/.vimrc_additions ~/.vimrc_additions 
+	ln -s ~/.vim ~/.config/nvim
+	ln -s $config_directory/.vimrc ~/.config/nvim/init.vim
 	ln -s $config_directory/.zshrc ~/.zshrc
 	ln -s $config_directory/.tmux.conf ~/.tmux.conf
 	ln -s $config_directory/.emacs ~/.emacs
@@ -258,9 +260,9 @@ vim_plugins_install() {
 papis_install() {
 	check_pip3
 	check_python3
-	sudo pip3 install whoosh
-	sudo pip3 install setuptools
-	sudo apt install qpdfview
+	# sudo pip3 install whoosh
+	# sudo pip3 install setuptools
+	# sudo apt install qpdfview
 
 	# Build and install papis from my personal repo.
 	# If my requested changes get merged then I'll migrate

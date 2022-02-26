@@ -4,7 +4,7 @@ set t_ut=
 if !empty(glob("~/.vimrc_additions"))
     so ~/.vimrc_additions
     " To alternate between solarized 'dark' and 'light', use
-    setlocal background=light
+    setlocal background=dark
     colorscheme solarized
 else
     " Some good alternatives are:

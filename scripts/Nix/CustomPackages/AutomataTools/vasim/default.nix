@@ -1,4 +1,4 @@
-{ stdenvNoCC, gcc6, fetchFromGitHub, nasm, gnumake }:
+{ stdenvNoCC, gcc6, fetchFromGitHub, nasm, gnumake, python }:
 
 stdenvNoCC.mkDerivation {
 	version = "1.0";
@@ -10,7 +10,7 @@ stdenvNoCC.mkDerivation {
 		fetchSubmodules = true;
 		sha256 = "sha256:0m74lr4z59arvvflxn0x1kf91i6dljil4i05n03236ir6yg407zf";
 	};
-	nativeBuildInputs = [ gcc6 nasm gnumake ];
+	nativeBuildInputs = [ gcc6 nasm gnumake python ];
 
 	patches = [ ./noinit.patch ];
 

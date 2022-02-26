@@ -11,7 +11,7 @@ in {
 			sha256 = "sha256:15am0bsx92fmdlyw7byjhma4w9dcx7b7536ria7pr42nllmd7a2c";
 		};
 
-		nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.sqlite pkgs.pkg-config ];
+		nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.sqlite pkgs.pkg-config pkgs.gcc9 ];
 
 		outputs = [ "out" "lib" "dev" ];
 
