@@ -1,4 +1,4 @@
-{ pkgs, fetchFromGitHub, buildPythonPackage, pythonPkgs }:
+{ pkgs, fetchFromGitHub, buildPythonPackage, pythonPkgs, python }:
 
 buildPythonPackage {
     pname = "deap";
@@ -11,7 +11,8 @@ buildPythonPackage {
         sha256 = "sha256:0blcq10xm7vm4khikq5zfcr98ss3xaaz2i557mr9ax39gfahyj87";
     };
 
+    nativeBuildInputs = [python];
     propagatedBuildInputs = [
-        pythonPkgs.numpy
+        pythonPkgs.numpy python
     ];
 }

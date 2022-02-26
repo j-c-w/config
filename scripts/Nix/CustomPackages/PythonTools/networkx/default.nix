@@ -1,4 +1,4 @@
-{ pkgs, fetchFromGitHub, buildPythonPackage, pythonPkgs }:
+{ pkgs, fetchFromGitHub, buildPythonPackage, pythonPkgs, python}:
 
 buildPythonPackage {
     pname = "networkx";
@@ -12,6 +12,6 @@ buildPythonPackage {
     };
 
     propagatedBuildInputs = with pythonPkgs; [
-        decorator nose
+        decorator
     ];
 }
