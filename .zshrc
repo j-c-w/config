@@ -1,6 +1,9 @@
-# Add local public keys.
-eval $(ssh-agent -s) > /dev/null
+# Add local public keys. -- Do not do for eddie
+# eval $(ssh-agent -s) > /dev/null
 use_tmux=yes
+# Zsh error message told me to do this because the eddie
+# permissions aren't right.
+ZSH_DISABLE_COMPFIX=true
 
 # Add local scripts to the path.
 export PATH=$PATH:~/Dropbox/Processes
@@ -125,9 +128,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git zsh-syntax-highlighting history z zsh-autosuggestions
- colored-man-pages extract web-search ssh-agent nix-shell nix-zsh-completions nix-zsh-completions)
-
-zstyle :omz:plugins:ssh-agent agent-forwarding on
+ colored-man-pages extract web-search nix-shell nix-zsh-completions nix-zsh-completions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -354,7 +355,6 @@ export RPROMPT='[%*]'
 export PS2=$' \e[0;34m%}%B>%{\e[0m%}%b '
 setopt promptsubst
 
-eval `ssh-agent`
 rename() {
 	local new_name=$1
 	tmux rename-session $new_name
@@ -447,3 +447,4 @@ function tmux-new() {
 if [[ $use_tmux == yes ]] && [[ $- == *i* ]] && [[ -z $TMUX ]]; then
 	tmux-new
 fi
+if [ -e /home/s1988171/.nix-profile/etc/profile.d/nix.sh ]; then . /home/s1988171/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

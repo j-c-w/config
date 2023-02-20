@@ -38,6 +38,7 @@ Bundle 'liuchengxu/graphviz.vim'
 Bundle 'OCamlPro/ocp-indent'
 Bundle 'bohlender/vim-smt2'
 Bundle 'JuliaEditorSupport/julia-vim'
+Bundle 'rust-lang/rust.vim'
 " Adds a plugin for using the undo tree
 Bundle 'mbbill/undotree'
 " Add airline for the status bar
