@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#! nix-shell -i python2 -p python27Packages.pyyaml
+#! nix-shell -i python3 -p python3Packages.pyyaml
 
 import argparse
 import os
@@ -44,6 +44,9 @@ def extract_first_author(author_list):
 	result = result.replace('\"', '')
 	result = result.replace('\\', '')
 	result = result.replace('\'', '')
+
+	result = result.replace('é', 'e')
+	result = result.replace('œ', 'oe')
 	return result
 
 

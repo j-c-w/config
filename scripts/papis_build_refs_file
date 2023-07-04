@@ -71,7 +71,7 @@ for match in $matches; do
 			echo "Error: no document found for $match"
 			echo "Context was:"
 			echo "---------"
-			grep --color=always -A 3 -B 3 -e $match ${input_files[@]}
+			grep --color=always -A 3 -B 3 -e $match ${input_files[@]} || true
 			if [[ ${#skipfail} -eq 0 ]]; then
 				read 'cont?Continue Anyway (fixup?) (edit?)?[Y/n/f/e]'
 			else
