@@ -64,6 +64,15 @@ Bundle 'airblade/vim-gitgutter'
 Bundle 'j-c-w/vimpin'
 " Add peek at register contents before using.
 Bundle 'junegunn/vim-peekaboo'
+" chatgpt -- need to set OPENAI_API_KEY env variable or openai_api_key vim
+" variable.  Also need to install the openai pip module.
+Bundle 'madox2/vim-ai'
+
+let g:vim_ai_chat = {
+			\ "options": {
+				\ "model": "gpt-3.5-turb"
+				\ },
+				\ }
 
 if has('nvim')
 	" nvim-specific config.

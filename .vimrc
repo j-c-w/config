@@ -225,6 +225,11 @@ function! PythonBufferIndent()
 	setlocal tabstop=4
 endfunction
 
+function! RustBufferIndent()
+	setlocal expandtab
+	setlocal tabstop=4
+endfunction
+
 
 function! ProjectStyleLoad()
     let l:BufferName=expand("%:p")
@@ -256,6 +261,10 @@ augroup filetype
  au! BufRead,BufNewFile *.rst     setlocal filetype=rest
 augroup END
 
+augroup filetype
+ au! BufRead,BufNewFile *.rs      setlocal filetype=rust
+augroup END
+
 " These call the above functions that set up some
 " default commands for that particular type of file.
 au FileType markdown :call Markdown()
@@ -264,6 +273,7 @@ au FileType tex :call MathAbbrev()
 au FileType tex setlocal makeprg='latexmk'
 " Enable spelling by default on some file types.
 au FileType tex,markdown :call SetSpellOn()
+au FileType rust :call RustBufferIndent()
 
 " Map <leader>lm to make:
 nnoremap <leader>lm :make<CR>
