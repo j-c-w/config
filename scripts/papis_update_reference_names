@@ -46,7 +46,9 @@ def extract_first_author(author_list):
 	result = result.replace('\'', '')
 
 	result = result.replace('é', 'e')
+	result = result.replace('í', 'i')
 	result = result.replace('œ', 'oe')
+	result = result.replace('ã', 'a')
 	return result
 
 
@@ -95,7 +97,7 @@ if __name__ == "__main__":
 					author = ''
 
 				if 'year' in doc_dict:
-					year = doc_dict['year']
+					year = str(doc_dict['year']).replace(' ', '')
 				else:
 					year = '-'
 
