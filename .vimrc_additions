@@ -70,7 +70,7 @@ Bundle 'madox2/vim-ai'
 
 let g:vim_ai_chat = {
 			\ "options": {
-				\ "model": "gpt-3.5-turb"
+				\ "model": "gpt-4"
 				\ },
 				\ }
 
@@ -96,7 +96,15 @@ function LocalAdditions()
 	setlocal encoding=utf-8
 
 	" Adds a persistent undo file to the system:
-	if has("persistent_undo")
+	" nvim apparently has a different undodir format?
+	if has("persistent_undo") && has('nvim')
+		" setup nvim undodir
+		call system('mkdir ' . ' ~/.nvim_undodir/')
+		setlocal undodir=~/.undodir/
+		setlocal undofile
+	endif
+	if !has('nvim') && has("persistent_undo")
+		" Setup non-nvim undodir
 		call system('mkdir ' . ' ~/.undodir/')
 		setlocal undodir=~/.undodir/
 		setlocal undofile
@@ -186,7 +194,7 @@ endfunction
 " ------------------------- Vimtex settings ------j-----------
 " -----------------------------------------------------------
 let g:vimtex_fold_enabled = 1
-let g:vimtex_view_general_viewer = "qpdfview"
+let g:vimtex_view_general_viewer = "chromium"
 let g:tex_flavor = 'latex'
 if has("patch-8.0.475") && empty(v:servername) && exists('*remove_startserver')
 	" Then we would like to start the server to we can do callbacks from a PDF
