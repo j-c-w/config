@@ -90,7 +90,7 @@ for match in $matches; do
 				editing=False
 			elif [[ $cont == e ]]; then
 				read "replace?Enter replacement citation:"
-				sed -i "s|$match|$replace|" ${input_files[@]}
+				sed -i "s|$match|$replace|" ${input_files[@]} || true
 				match=$replace
 			else
 				exit 1
@@ -108,7 +108,7 @@ for match in $matches; do
 	if [[ $num_matches -gt 1 ]]; then
 		echo "Found more than one match for $match; context was:"
 		echo "--------------"
-		grep  --color=always -A 3 -B 3 -e $match ${input_files[@]}
+		grep  --color=always -A 3 -B 3 -e $match ${input_files[@]} || true
 		echo "--------------"
 		echo "Matches are "
 		papis list -a $refstring --format "{doc[title]} {doc[ref]}"
