@@ -10,6 +10,8 @@ export PATH=$PATH:~/Dropbox/Processes
 export PATH=$PATH:$HOME/bin:$HOME/.scripts
 export PATH=$PATH:$HOME/.scripts/AcceleratorCoverageScripts/
 export PATH=$PATH:$HOME/.scripts/Functions
+export PATH=$PATH:$HOME/.local/bin
+export OPENAI_API_KEY=$(cat ~/.open_ai_api)
 
 # For the cr and vr commands, which cd and open files
 # in vim from the folders in this path.
