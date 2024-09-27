@@ -286,7 +286,9 @@ setlocal autochdir
 syntax enable
 
 " Various VIM plugins that are enabled:
-if v:version >= 801
+if v:version >= 801 && v:version < 900
+	" I'm guessing that this is already enabled
+	" for 9.0 and up (or maybe just in vim mac?)
 	" termdebug is only in 8.1 an up.
 	packadd termdebug
 endif

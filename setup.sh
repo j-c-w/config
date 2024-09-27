@@ -94,7 +94,7 @@ oh_my_zsh_install() {
 	check_git
 	check_zsh
 	cd $home_directory
-	sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -o -)"
 	cd .oh-my-zsh/plugins
 	echo $(pwd)
 	cd ~
