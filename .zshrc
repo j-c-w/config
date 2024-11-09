@@ -351,13 +351,117 @@ if [[ ! -z $IN_NIX_SHELL ]]; then
 	fi
 fi
 
-# Any bad color combos from servers this hits should be fixed
-# here.
-export PROMPT=$'%{\e[0;34m%}%B┌─[%b%{\e[0m%}%{\e[1;32m%}${VISIBLE_USER}%{\e[1;34m%}@%{\e[0m%}%{\x1b[38;2;${DEVICE_RED};${DEVICE_GREEN};${DEVICE_BLUE}m%}%m%{\e[0;34m%}%B]%b%{\e[0m%} - ${NODE_TYPE}%b%{\e[0;34m%}%B[%b%{\e[2;28m%}%~%{\e[0;34m%}%B]%b%{\e[0m%} - %{\e[0;34m%}%B[%b%{\e[0;33m%}%!%{\e[0;34m%}%B]%b%{\e[0m%}
-%{\e[0;34m%}%B└─%B[%{\e[1;35m%}${prompt_header}%{\e[0;34m%}%B]%{\e[0m%}%b '
-export RPROMPT='[%*]'
-export PS2=$' \e[0;34m%}%B>%{\e[0m%}%b '
-setopt promptsubst
+export ZSH_PROMPT_GIT_STATUS=$(mktemp)
+export ZSH_PROMPT_GIT_UPDATER_RUNNING=$(mktemp)
+export CurrentPWDFile=$(mktemp)
+rm $ZSH_PROMPT_GIT_UPDATER_RUNNING
+
+function DrawNewPrompt {
+	# Any bad color combos from servers this hits should be fixed
+	# here.
+	# Read the contents of ZSH_PROMPT_GIT_STATUS: if we're in the directory
+	# it says, then use that --- otherwise spin on the git status.
+	if [[ "$(head -n 1 $ZSH_PROMPT_GIT_STATUS)" == "$(cat $CurrentPWDFile)" ]]; then
+		# Line 2 contains current status -- update as appropriate
+		g_status=$(sed -n '2p' $ZSH_PROMPT_GIT_STATUS)
+		git_status=""
+
+		if [[ $g_status == *'ahead'* ]]; then
+			git_status+="Ahead,"
+		fi
+		if [[ $g_status == *'behind'* ]]; then
+			git_status+="Behind,"
+		fi
+		if [[ $g_status == *'clean'* ]]; then
+			git_status+="Clean,"
+		else
+			git_status+="Dirty,"
+		fi
+		if [[ $g_status == *'staged'* ]]; then
+			git_status+="Staged"
+		fi
+
+		if [[ $g_status == *'nogit'* ]]; then
+			git_status="-"
+		fi
+	else
+		git_status="..."
+	fi
+	# echo "status; $git_status"
+	export PROMPT=$'%{\e[0;34m%}%B┌─[%b%{\e[0m%}%{\e[1;32m%}${VISIBLE_USER}%{\e[1;34m%}@%{\e[0m%}%{\x1b[38;2;${DEVICE_RED};${DEVICE_GREEN};${DEVICE_BLUE}m%}%m%{\e[0;34m%}%B]%b%{\e[0m%} - ${NODE_TYPE}%b%{\e[0;34m%}%B[%b%{\e[2;28m%}%~%{\e[0;34m%}%B]%b%{\e[0m%} - %{\e[0;34m%}%B[%b${git_status}%{\e[0;34m%}%B]%b%{\e[0m%}\n%{\e[0;34m%}%B└─[%{\e[1;35m%}${prompt_header}%{\e[0;34m%}%B]%{\e[0m%}%b '
+
+	export RPROMPT='[%*]'
+	export PS2=$' \e[0;34m%}%B>%{\e[0m%}%b '
+	#setopt promptsubst
+
+	# zle && zle reset-prompt
+}
+
+trap DrawNewPrompt SIGUSR1
+
+function UpdatePrompt {
+	if ! mkdir "$ZSH_PROMPT_GIT_UPDATER_RUNNING" 2>/dev/null; then
+		# only one running at once.
+		return 0
+	fi
+
+	cd $(cat $CurrentPWDFile) # make sure we are in the right location
+	local g_status=$(git status 2>&1)
+
+	local result=""
+	local out_of_sync="false"
+	if [[ "$g_status" == *"ahead"* ]]; then
+		result="$result,ahead"
+		out_of_sync="true"
+	fi
+	if [[ "$g_status" == *"bedhind"* ]]; then
+		result="$result,bedhind"
+		out_of_sync="true"
+	fi
+	if [[ $out_of_sync == "false" ]]; then
+		result="$result,synced"
+	fi
+	if [[ "$g_status" == *"Changes not staged"* || "$g_status" == *"Untracked f"* ]]; then
+		result="$result,dirty"
+	else
+		result="$result,clean"
+	fi
+	if [[ "$g_status" == *"Changes to be committed:"* ]]; then
+		result="$result,staged"
+	fi
+
+	if [[ "$g_status" == *"fatal: not a git repository"* ]]; then
+		result="$result,nogit"
+	fi
+
+	echo "$(cat $CurrentPWDFile)\n$result" > $ZSH_PROMPT_GIT_STATUS
+
+	# release lock
+	rmdir $ZSH_PROMPT_GIT_UPDATER_RUNNING
+	kill -SIGUSR1 $$
+}
+
+function UpdaterLoop {
+	sleep 5
+	while true; do
+		# echo "Running updater"
+		UpdatePrompt
+		sleep 5
+	done
+}
+
+# do the initial prompt update
+UpdatePrompt
+# lauch the updater loop --- note that
+# this currently causes issues with bacground
+# processes.
+UpdaterLoop &
+
+# auto triggered when the directory changes.
+chpwd() {
+	echo $PWD > $CurrentPWDFile
+	(UpdatePrompt &) &>/dev/null
+}
 
 rename() {
 	local new_name=$1
