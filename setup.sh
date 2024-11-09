@@ -107,6 +107,10 @@ oh_my_zsh_install() {
 oh_my_zsh_plugins_install() {
 	# Pull the plugins
 	check_git
+	if [[ ! -d $home_directory/.oh-my-zsh/plugins ]]; then
+		echo "You should install zsh before trying to install plugins"
+		exit 1
+	fi
 	pushd $home_directory/.oh-my-zsh/plugins
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting
 	git clone https://github.com/zsh-users/zsh-autosuggestions
