@@ -460,6 +460,10 @@ UpdaterLoop &
 # auto triggered when the directory changes.
 chpwd() {
 	echo $PWD > $CurrentPWDFile
+}
+
+# precmd comes after chpwd
+precmd() {
 	(UpdatePrompt &) &>/dev/null
 }
 
