@@ -394,7 +394,7 @@ function DrawNewPrompt {
 	export PS2=$' \e[0;34m%}%B>%{\e[0m%}%b '
 	#setopt promptsubst
 
-	# zle && zle reset-prompt
+	zle && zle reset-prompt
 }
 
 trap DrawNewPrompt SIGUSR1
