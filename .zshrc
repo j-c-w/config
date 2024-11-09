@@ -378,7 +378,12 @@ function DrawNewPrompt {
 			git_status+="Dirty,"
 		fi
 		if [[ $g_status == *'staged'* ]]; then
-			git_status+="Staged"
+			git_status+="Staged,"
+		fi
+		if [[ $g_status == *'branch:'* ]]; then
+			branch_string=${g_status##*branch:}
+			branch_string=${branch_string%%,*}
+			git_status+="Branch:$branch_string"
 		fi
 
 		if [[ $g_status == *'nogit'* ]]; then
@@ -407,6 +412,7 @@ function UpdatePrompt {
 
 	cd $(cat $CurrentPWDFile) # make sure we are in the right location
 	local g_status=$(git status 2>&1)
+	local g_branch=$(git branch --show-current 2>&1)
 
 	local result=""
 	local out_of_sync="false"
@@ -432,6 +438,8 @@ function UpdatePrompt {
 
 	if [[ "$g_status" == *"fatal: not a git repository"* ]]; then
 		result="$result,nogit"
+	else
+		result="$result,branch:$g_branch"
 	fi
 
 	echo "$(cat $CurrentPWDFile)\n$result" > $ZSH_PROMPT_GIT_STATUS
