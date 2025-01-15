@@ -146,6 +146,9 @@ inoremap Kj <Esc>
 inoremap kJ <Esc>
 inoremap KJ <Esc>
 
+" Fix last typo
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+
 " Write is a common action. Make it
 " nice and quick
 nnoremap <leader>w :w<CR>

@@ -67,6 +67,8 @@ Bundle 'junegunn/vim-peekaboo'
 " chatgpt -- need to set OPENAI_API_KEY env variable or openai_api_key vim
 " variable.  Also need to install the openai pip module.
 Bundle 'madox2/vim-ai'
+" Context 
+Bundle 'wellle/context.vim'
 
 let g:vim_ai_chat = {
 			\ "options": {
